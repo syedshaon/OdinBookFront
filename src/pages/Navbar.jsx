@@ -22,6 +22,7 @@ const Navbar = () => {
     try {
       const response = await fetch("http://localhost:3000/authorAPI/signout", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           authorization: authState.token,

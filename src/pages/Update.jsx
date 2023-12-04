@@ -26,11 +26,11 @@ function Update() {
   const [responseFromBackEnd, setResponseFromBackEnd] = useState(null);
   // Handle form input changes
   const handleInputChange = (e) => {
-    console.log(editorRef.current.getContent());
+    // console.log(editorRef.current.getContent());
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      text: editorRef.current.getContent(),
+      // text: editorRef.current.getContent(),
       [name]: value,
     });
   };
@@ -41,6 +41,7 @@ function Update() {
       try {
         const response = await fetch("http://localhost:3000/authorAPI/delete", {
           method: "DELETE",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
             authorization: authState.token,
@@ -73,6 +74,7 @@ function Update() {
     try {
       const response = await fetch("http://localhost:3000/authorAPI/update", {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           authorization: authState.token,

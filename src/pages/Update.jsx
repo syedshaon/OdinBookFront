@@ -138,6 +138,9 @@ function Update() {
 
       // Hide signup form
       setResponseFromBackEnd(responseData.message);
+      localStorage.removeItem("token");
+      localStorage.removeItem("expire");
+      dispatch(authActions.logout());
       // Redirect to
       // useEffect(() => {
       //   const timeoutId = setTimeout(() => {

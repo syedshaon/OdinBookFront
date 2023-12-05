@@ -118,7 +118,7 @@ function Home() {
     <>
       <Navbar />
 
-      <div className="container mx-auto mt-8 mb-16">
+      <div className="container mx-auto mt-8 mb-16 min-h-[800px]">
         <h1 className="text-3xl font-bold mb-4">{posts.length > 0 ? "Post List" : "You have no posts yet."}</h1>
         {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
         <div className="grid grid-cols-1  gap-4">

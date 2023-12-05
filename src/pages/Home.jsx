@@ -24,7 +24,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/authorAPI/posts", {
+      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function Home() {
     // console.log(`Delete post with id ${postId}`);
 
     try {
-      const response = await fetch("http://localhost:3000/authorAPI/posts/" + postId, {
+      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

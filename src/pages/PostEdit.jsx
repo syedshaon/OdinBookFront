@@ -43,7 +43,7 @@ function PostEdit() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/authorAPI/posts/" + postId, {
+      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function PostEdit() {
   const sendDataToBackend = async (data) => {
     console.log(data);
     try {
-      const response = await fetch("http://localhost:3000/authorAPI/posts/" + postId, {
+      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

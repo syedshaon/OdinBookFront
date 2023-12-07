@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+const apiUrl = import.meta.env.VITE_API_URL;
 const authSlice = createSlice({
   name: "auth",
-  initialState: { isLoggedIn: false, firstName: "", token: localStorage.getItem("token"), expire: localStorage.getItem("expire") },
+  initialState: { isLoggedIn: false, firstName: "", token: localStorage.getItem("token"), expire: localStorage.getItem("expire"), backendURL: apiUrl },
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = true;

@@ -19,8 +19,15 @@ function Create_Post() {
   // State to store form data
   const [formData, setFormData] = useState({
     title: "",
+    excerpt: "",
     published: "draft",
   });
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   const [responseFromBackEnd, setResponseFromBackEnd] = useState(null);
   // Handle form input changes
@@ -44,19 +51,24 @@ function Create_Post() {
     // console.log(formData);
 
     // Call a function to send data to the backend API
-    sendDataToBackend({ title: formData.title, text: editorContent, published: formData.published });
+    sendDataToBackend({ title: formData.title, excerpt: formData.excerpt, file: file, text: editorContent, published: formData.published });
   };
 
   // Function to send data to the backend API using fetch
   const sendDataToBackend = async (data) => {
+    const postData = new FormData();
+    // postData.append("file", file);
+    Object.entries(data).forEach(([key, value]) => {
+      postData.append(key, value);
+    });
     try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts", {
+      const response = await fetch(authState.backendURL + "authorAPI/posts", {
         method: "POST",
+        encType: "multipart/form-data",
         headers: {
-          "Content-Type": "application/json",
           authorization: authState.token,
         },
-        body: JSON.stringify(data),
+        body: postData,
       });
 
       if (!response.ok) {
@@ -86,6 +98,7 @@ function Create_Post() {
       // Reset the form after successful submission
       setFormData({
         title: "",
+        excerpt: "",
         published: "draft",
       });
     } catch (err) {
@@ -97,7 +110,7 @@ function Create_Post() {
   return (
     <>
       <Navbar />
-      <div className="bg-emerald-100 h-screen relative lg:py-20">
+      <div className="bg-emerald-100  relative lg:py-20">
         {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
         <div
           className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
@@ -127,6 +140,19 @@ function Create_Post() {
                     />
                   </div>
                   <div className="relative">
+                    <input
+                      value={formData.excerpt}
+                      onChange={handleInputChange}
+                      required
+                      name="excerpt"
+                      placeholder="Write Post Summary Here."
+                      type="text"
+                      className="border placeholder-gray-400 focus:outline-none
+                  focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                  border-gray-300 rounded-md"
+                    />
+                  </div>
+                  <div className="relative">
                     <Tiny_MCE initialValue={editorInitialValue} handleEditorChange={handleEditorChange} />
                   </div>
                   <div className="flex items-center space-x-2">
@@ -140,6 +166,12 @@ function Create_Post() {
                     <label htmlFor="option2" className="text-gray-700">
                       Save as Draft
                     </label>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">
+                      Post Thumbnail <span className="text-gray-500">(.JPEG/.PNG type, less than 512KB)</span>
+                    </label>
+                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg" className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm" id="thumbnail" name="thumbnail" required />
                   </div>
 
                   <div className="relative">

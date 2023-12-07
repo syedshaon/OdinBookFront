@@ -51,7 +51,7 @@ function Login() {
   // Function to send data to the backend API using fetch
   const sendDataToBackend = async (data) => {
     try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/signin", {
+      const response = await fetch(authState.backendURL + "authorAPI/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

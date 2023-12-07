@@ -14,7 +14,7 @@ function App() {
     // console.log("validation ran");
     if (localStorage.getItem("token")) {
       try {
-        const response = await fetch("https://good-news-backend.onrender.com/authorAPI/validateLoginStatus", {
+        const response = await fetch(authState.backendURL + "authorAPI/validateLoginStatus", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ function App() {
     if (authState.token && timeDifferenceMs < 1) {
       console.log("RefreshJwtToken ran");
       try {
-        const response = await fetch("https://good-news-backend.onrender.com/authorAPI/refresh", {
+        const response = await fetch(authState.backendURL + "authorAPI/refresh", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

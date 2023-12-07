@@ -26,10 +26,45 @@ function PostEdit() {
 
   const handleEditorChange = (content, editor) => {
     setEditorContent(content);
-    console.log(editorContent);
+    // console.log(editorContent);
   };
 
   const [responseFromBackEnd, setResponseFromBackEnd] = useState(null);
+  // Related to Image Start
+
+  function getImgURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      callback(xhr.response);
+    };
+    xhr.open("GET", url);
+    xhr.responseType = "blob";
+    xhr.send();
+  }
+
+  const [url, setURL] = useState(null);
+  useEffect(() => {
+    getImgURL(url, (imgBlob) => {
+      // Load img blob to input
+      // let fileName = 'hasFilename.jpg' // should .replace(/[/\\?%*:|"<>]/g, '-') for remove special char like / \
+
+      const string = url;
+      const regex = /^(.*?)~/;
+      // const regex =  /\W/;
+      const newImagePath = string.replace(regex, "");
+      // const newImagePath = "/"+url;
+      //  let fileName = "/"+newImagePath;
+      let fileName = newImagePath;
+
+      let file = new File([imgBlob], fileName, { type: "image/jpeg", lastModified: new Date().getTime() }, "utf-8");
+      let container = new DataTransfer();
+      container.items.add(file);
+      document.querySelector("#productImage").files = container.files;
+      document.querySelector("#status").files = container.files;
+    });
+  }, [url]);
+
+  //  Image End
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +78,7 @@ function PostEdit() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
+      const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +97,9 @@ function PostEdit() {
       setFormData({
         title: responseData.title,
         published: responseData.published,
+        excerpt: responseData.excerpt,
       });
+      setURL(responseData.thumbnail);
       //   setEditorContent(responseData.text);
       setEditorInitialValue(responseData.text);
       setEditorContent(responseData.text);
@@ -88,7 +125,7 @@ function PostEdit() {
   const sendDataToBackend = async (data) => {
     console.log(data);
     try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
+      const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +172,7 @@ function PostEdit() {
   return (
     <>
       <Navbar />
-      <div className="bg-emerald-100 h-screen relative lg:py-20">
+      <div className="bg-emerald-100   relative lg:py-20">
         {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
         <div
           className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
@@ -165,7 +202,26 @@ function PostEdit() {
                     />
                   </div>
                   <div className="relative">
+                    <input
+                      value={formData.excerpt}
+                      onChange={handleInputChange}
+                      required
+                      name="excerpt"
+                      placeholder="Write Post Summary Here."
+                      type="text"
+                      className="border placeholder-gray-400 focus:outline-none
+                  focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                  border-gray-300 rounded-md"
+                    />
+                  </div>
+                  <div className="relative">
                     <Tiny_MCE initialValue={editorInitialValue} handleEditorChange={handleEditorChange} />
+                  </div>
+                  <div className="flex   items-center  gap-4">
+                    <label htmlFor="productImage">
+                      Product Image <small>(.JPEG/.PNG type, less than 512KB)</small>
+                    </label>
+                    <input type="file" className="form-control-file" id="productImage" name="productImage" required />
                   </div>
                   <div className="flex items-center space-x-2">
                     <p className="text-lg">Ready to publish the post?</p>

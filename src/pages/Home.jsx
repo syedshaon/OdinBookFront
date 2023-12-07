@@ -24,7 +24,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts", {
+      const response = await fetch(authState.backendURL + "authorAPI/posts", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ function Home() {
       });
 
       const responseData = await response.json();
-      // console.log(responseData);
+      console.log(responseData.posts);
       if (!response.ok) {
         console.log(responseData.message);
         // Handle error if needed
@@ -61,50 +61,54 @@ function Home() {
     // Implement delete functionality
     // setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     // console.log(`Delete post with id ${postId}`);
+    const userConfirmed = confirm("Do you want to delete that post?");
+    if (userConfirmed) {
+      try {
+        const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authState.token,
+          },
+        });
 
-    try {
-      const response = await fetch("https://good-news-backend.onrender.com/authorAPI/posts/" + postId, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: authState.token,
-        },
-      });
+        const responseData = await response.json();
+        // console.log(responseData);
 
-      const responseData = await response.json();
-      // console.log(responseData);
+        if (!response.ok) {
+          // console.log("Response from backend:", responseData.message);
+          setResponseFromBackEnd(responseData.message);
+          // console.error("Error sending data to backend:", response);
+          // throw new Error("Network response was not ok");
+          return;
+        }
 
-      if (!response.ok) {
+        // Handle the successful response (if needed)
+
         // console.log("Response from backend:", responseData.message);
+
+        // Hide signup form
         setResponseFromBackEnd(responseData.message);
-        // console.error("Error sending data to backend:", response);
-        // throw new Error("Network response was not ok");
-        return;
+
+        // Redirect to "/login" after 1500 milliseconds (1.5 seconds)
+        const timeoutId = setTimeout(() => {
+          navigateTo(0);
+        }, 2500);
+
+        // Cleanup the timeout on component unmount or if the redirect happens
+        return () => clearTimeout(timeoutId);
+
+        // Reset the form after successful submission
+        setFormData({
+          title: "",
+          published: "draft",
+        });
+      } catch (err) {
+        // console.log("Error sending data to backend:", err.message);
+        setResponseFromBackEnd("Error sending data to backend: " + err.message);
       }
-
-      // Handle the successful response (if needed)
-
-      // console.log("Response from backend:", responseData.message);
-
-      // Hide signup form
-      setResponseFromBackEnd(responseData.message);
-
-      // Redirect to "/login" after 1500 milliseconds (1.5 seconds)
-      const timeoutId = setTimeout(() => {
-        navigateTo(0);
-      }, 2500);
-
-      // Cleanup the timeout on component unmount or if the redirect happens
-      return () => clearTimeout(timeoutId);
-
-      // Reset the form after successful submission
-      setFormData({
-        title: "",
-        published: "draft",
-      });
-    } catch (err) {
-      // console.log("Error sending data to backend:", err.message);
-      setResponseFromBackEnd("Error sending data to backend: " + err.message);
+    } else {
+      console.log("User Cancelled.");
     }
   };
 
@@ -125,12 +129,14 @@ function Home() {
           {posts.length > 0 &&
             posts.map((post) => (
               <div key={post._id} className="bg-white p-4 rounded shadow">
+                <img src={authState.backendURL + post.thumbnail} alt="post thumbnail"></img>
                 <h2 className="text-xl font-bold mb-2">
                   {post.title} -- <span className="italic">({post.published})</span>
                 </h2>
+                <p className="text-sm">{post.excerpt}</p>
 
                 <div className="mt-2 grid grid-cols-1 xl:grid-cols-4 gap-4  ">
-                  <div className="text col-span-3  " dangerouslySetInnerHTML={{ __html: post.text }}></div>
+                  {/* <div className="text col-span-3  " dangerouslySetInnerHTML={{ __html: post.text }}></div> */}
 
                   <div className="details flex gap-2 items-center  justify-between col-span-1">
                     <p className="ml-auto">Published On: {post.timestamp ? new Date(post.timestamp).toISOString().split("T")[0] : "N/A"}</p>

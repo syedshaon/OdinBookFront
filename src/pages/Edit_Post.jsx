@@ -228,7 +228,7 @@ function Edit_Post() {
                   </div>
                   <div className="flex   items-center  gap-4">
                     <label htmlFor="productImage">
-                      Product Image <small>(.JPEG/.PNG type, less than 512KB)</small>
+                      Product Image <small>(.JPEG/.PNG/.webp type, less than 512KB)</small>
                     </label>
                     <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" className="form-control-file" id="productImage" name="productImage" required />
                   </div>

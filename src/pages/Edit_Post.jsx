@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authReducer";
 import Tiny_MCE from "../contents/Tiny_MCE";
 
-function PostEdit() {
+function Edit_Post() {
   const navigateTo = useNavigate();
   const authState = useSelector((state) => state.auth);
 
@@ -18,6 +18,7 @@ function PostEdit() {
   // State to store form data
   const [formData, setFormData] = useState({
     title: "",
+    excerpt: "",
     published: "draft",
   });
 
@@ -51,7 +52,7 @@ function PostEdit() {
       const string = url;
       const regex = /^(.*?)~/;
       // const regex =  /\W/;
-      const newImagePath = string.replace(regex, "");
+      const newImagePath = string ? string.replace(regex, "") : "";
       // const newImagePath = "/"+url;
       //  let fileName = "/"+newImagePath;
       let fileName = newImagePath;
@@ -60,7 +61,7 @@ function PostEdit() {
       let container = new DataTransfer();
       container.items.add(file);
       document.querySelector("#productImage").files = container.files;
-      document.querySelector("#status").files = container.files;
+      // document.querySelector("#status").files = container.files;
     });
   }, [url]);
 
@@ -87,7 +88,7 @@ function PostEdit() {
       });
 
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       if (!response.ok) {
         console.log(responseData.message);
         // Handle error if needed
@@ -113,25 +114,33 @@ function PostEdit() {
     fetchData();
   }, []);
 
+  const handleFileChange = (event) => {
+    setURL(event.target.files[0]);
+  };
+
   const handlePostEditSubmit = (e) => {
     e.preventDefault();
     // console.log(formData);
 
     // Call a function to send data to the backend API
-    sendDataToBackend({ title: formData.title, text: editorContent, published: formData.published });
+    sendDataToBackend({ title: formData.title, text: editorContent, excerpt: formData.excerpt, file: url, published: formData.published });
   };
 
   // Function to send data to the backend API using fetch
   const sendDataToBackend = async (data) => {
-    console.log(data);
+    const postData = new FormData();
+    // postData.append("file", file);
+    Object.entries(data).forEach(([key, value]) => {
+      postData.append(key, value);
+    });
     try {
       const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
         method: "PUT",
+        encType: "multipart/form-data",
         headers: {
-          "Content-Type": "application/json",
           authorization: authState.token,
         },
-        body: JSON.stringify(data),
+        body: postData,
       });
 
       if (!response.ok) {
@@ -221,7 +230,7 @@ function PostEdit() {
                     <label htmlFor="productImage">
                       Product Image <small>(.JPEG/.PNG type, less than 512KB)</small>
                     </label>
-                    <input type="file" className="form-control-file" id="productImage" name="productImage" required />
+                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg" className="form-control-file" id="productImage" name="productImage" required />
                   </div>
                   <div className="flex items-center space-x-2">
                     <p className="text-lg">Ready to publish the post?</p>
@@ -440,4 +449,4 @@ function PostEdit() {
   );
 }
 
-export default PostEdit;
+export default Edit_Post;

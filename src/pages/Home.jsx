@@ -33,7 +33,7 @@ function Home() {
       });
 
       const responseData = await response.json();
-      console.log(responseData.posts);
+      // console.log(responseData.posts);
       if (!response.ok) {
         console.log(responseData.message);
         // Handle error if needed
@@ -129,21 +129,24 @@ function Home() {
           {posts.length > 0 &&
             posts.map((post) => (
               <div key={post._id} className="bg-white p-4 rounded shadow">
-                <img src={authState.backendURL + post.thumbnail} alt="post thumbnail"></img>
-                <h2 className="text-xl font-bold mb-2">
+                {post.thumbnail && <img src={authState.backendURL + post.thumbnail} alt="post thumbnail"></img>}
+                <h2 className="text-xl mb-1 font-bold ">
                   {post.title} -- <span className="italic">({post.published})</span>
                 </h2>
-                <p className="text-sm">{post.excerpt}</p>
+                <p className=" mb-5 ">Published On: {post.timestamp ? new Date(post.timestamp).toISOString().split("T")[0] : "N/A"}</p>
+                {post.excerpt && <p className="text-sm bg-emerald-50 p-2">{post.excerpt}</p>}
 
                 <div className="mt-2 grid grid-cols-1 xl:grid-cols-4 gap-4  ">
                   {/* <div className="text col-span-3  " dangerouslySetInnerHTML={{ __html: post.text }}></div> */}
 
-                  <div className="details flex gap-2 items-center  justify-between col-span-1">
-                    <p className="ml-auto">Published On: {post.timestamp ? new Date(post.timestamp).toISOString().split("T")[0] : "N/A"}</p>
-                    <NavLink to={`/editpost/${post._id}`}>
-                      <button className="  bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Edit</button>
+                  <div className="details flex   items-center  justify-between col-span-1">
+                    <NavLink to={`/post/${post._id}`}>
+                      <button className="    text-emerald-600 border border-emerald-600 px-4 py-2 rounded hover:text-orange-500 hover:border-orange-500    focus:border-orange-500 text-sm">Read</button>
                     </NavLink>
-                    <button onClick={() => handleDelete(post._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring focus:border-red-300">
+                    <NavLink to={`/editpost/${post._id}`}>
+                      <button className="    text-blue-600 border border-blue-600 px-4 py-2 rounded hover:text-orange-500 hover:border-orange-500    focus:border-orange-500 text-sm">Edit</button>
+                    </NavLink>
+                    <button onClick={() => handleDelete(post._id)} className="    text-red-500 border border-red-500 px-4 py-2 rounded hover:text-emerald-500 hover:border-emerald-500    focus:border-emerald-500 text-sm">
                       Delete
                     </button>
                   </div>

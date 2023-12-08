@@ -169,9 +169,9 @@ function Create_Post() {
                   </div>
                   <div className="form-group">
                     <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">
-                      Post Thumbnail <span className="text-gray-500">(.JPEG/.PNG type, less than 512KB)</span>
+                      Post Thumbnail <span className="text-gray-500">(.JPEG/.PNG/.webp type, less than 512KB)</span>
                     </label>
-                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg" className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm" id="thumbnail" name="thumbnail" required />
+                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg , image/webp" className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block w-full sm:text-sm" id="thumbnail" name="thumbnail" required />
                   </div>
 
                   <div className="relative">

@@ -28,7 +28,7 @@ function Read_Post() {
       });
 
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       if (!response.ok) {
         console.log(responseData.message);
         // Handle error if needed

@@ -230,7 +230,7 @@ function Edit_Post() {
                     <label htmlFor="productImage">
                       Product Image <small>(.JPEG/.PNG type, less than 512KB)</small>
                     </label>
-                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg" className="form-control-file" id="productImage" name="productImage" required />
+                    <input type="file" onChange={handleFileChange} accept="image/png, image/jpeg, image/webp" className="form-control-file" id="productImage" name="productImage" required />
                   </div>
                   <div className="flex items-center space-x-2">
                     <p className="text-lg">Ready to publish the post?</p>

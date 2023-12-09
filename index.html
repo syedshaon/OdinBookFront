@@ -5,9 +5,37 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Author Zone</title>
+    <style>
+      .svgLoader {
+        animation: spin 2s linear infinite;
+        margin: auto;
+        width: 200px;
+        height: 200px;
+      }
+      .divLoader {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="divLoader">
+        <img class="svgLoader" src="./public/spinner.svg" alt="Loading......" />
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

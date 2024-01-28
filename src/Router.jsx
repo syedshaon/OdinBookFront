@@ -2,8 +2,14 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Team from "./pages/Team";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/User/Login";
+import Signup from "./pages/User/Signup";
+import Verify_signup from "./pages/User/Verify_signup";
+import GetVerificationEmail from "./pages/User/GetVerificationEmail";
+
+import GetResetPw from "./pages/User/GetResetPw";
+import Reset_pw from "./pages/User/Reset_pw";
+
 // import Testimonials from "./pages/Testimonials";
 import ErrorPage from "./pages/ErrorPage";
 import Update from "./pages/Update";
@@ -22,6 +28,11 @@ const Router = () => {
         <Route path="/team" element={<Team />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify/:vtoken" element={<Verify_signup />} />
+        <Route path="/get-verification-email" element={<GetVerificationEmail />} />
+        <Route path="/get-reset-password" element={<GetResetPw />} />
+        <Route path="/reset-password/:vtoken" element={<Reset_pw />} />
+
         <Route path="/update" element={isLoggedIn ? <Update /> : <Home />} />
         {/* <Route path="/logout" element={<Testimonials />} /> */}
         <Route path="/new_post" element={isLoggedIn ? <Create_Post /> : <Login />} />

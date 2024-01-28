@@ -20,7 +20,7 @@ const Navbar = () => {
   };
   const Logout = async () => {
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/signout", {
+      const response = await fetch(authState.backendURL + "/signout", {
         method: "POST",
         credentials: "include",
         headers: {

@@ -41,8 +41,8 @@
 
 ## APIs
 
-- For Readers: https://the-good-news.onrender.com/blogsAPI on render.com, http://localhost:3000/blogsAPI on development
-- For Authors: https://the-good-news.onrender.com/authorAPI" on render.com, http://localhost:3000/authorAPI on development
+- For Readers: https://the-good-news.onrender.com/api on render.com, http://localhost:3000/api on development
+- For Authors: https://the-good-news.onrender.com/api" on render.com, http://localhost:3000/api on development
 
 ## Live Sites
 

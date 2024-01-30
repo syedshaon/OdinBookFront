@@ -79,7 +79,7 @@ function Edit_Post() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+      const response = await fetch(authState.backendURL + "/posts/" + postId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function Edit_Post() {
       postData.append(key, value);
     });
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+      const response = await fetch(authState.backendURL + "/posts/" + postId, {
         method: "PUT",
         encType: "multipart/form-data",
         headers: {

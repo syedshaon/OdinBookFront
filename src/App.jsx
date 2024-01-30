@@ -14,7 +14,7 @@ function App() {
     // console.log("validation ran");
     if (localStorage.getItem("token")) {
       try {
-        const response = await fetch(authState.backendURL + "authorAPI/validateLoginStatus", {
+        const response = await fetch(authState.backendURL + "/validateLoginStatus", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -24,8 +24,8 @@ function App() {
 
         const responseData = await response.json();
         // console.log(responseData);
-        if (responseData.firstName) {
-          dispatch(authActions.login({ firstName: responseData.firstName, token: localStorage.getItem("token"), expire: localStorage.getItem("expire") }));
+        if (responseData.user) {
+          dispatch(authActions.login({ user: responseData.user, token: localStorage.getItem("token"), expire: localStorage.getItem("expire") }));
         } else {
           localStorage.removeItem("token");
           dispatch(authActions.logout());
@@ -54,7 +54,7 @@ function App() {
     if (authState.token && timeDifferenceMs < 1) {
       console.log("RefreshJwtToken ran");
       try {
-        const response = await fetch(authState.backendURL + "authorAPI/refresh", {
+        const response = await fetch(authState.backendURL + "/refresh", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -64,8 +64,8 @@ function App() {
 
         const responseData = await response.json();
         // console.log(responseData);
-        if (responseData.firstName) {
-          dispatch(authActions.login({ firstName: responseData.firstName, token: responseData.token, expire: responseData.expire }));
+        if (responseData.user) {
+          dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
         } else {
           localStorage.removeItem("token");
           localStorage.removeItem("expire");

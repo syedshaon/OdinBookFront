@@ -1,22 +1,25 @@
+import Navbar from "../Navbar";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 
-function Reset_pw() {
-  const { vtoken } = useParams();
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/authReducer";
 
-  const [responseFromBackEnd, setResponseFromBackEnd] = useState(null);
+function Settings() {
+  const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+
   const navigateTo = useNavigate();
   const [pwError, setPWError] = useState(false);
 
   const [formData, setFormData] = useState({
-    token: vtoken,
+    currentPassword: "",
     newPassword: "",
     repeatPassword: "",
   });
 
+  const [responseFromBackEnd, setResponseFromBackEnd] = useState(null);
+  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -25,7 +28,7 @@ function Reset_pw() {
     });
   };
 
-  const handleResetSubmit = (e) => {
+  const handlePwChangeSubmit = (e) => {
     e.preventDefault();
 
     // Call a function to send data to the backend API
@@ -34,39 +37,43 @@ function Reset_pw() {
 
   // Function to send data to the backend API using fetch
   const sendDataToBackend = async (data) => {
+    console.log(JSON.stringify(data));
     try {
-      const response = await fetch(authState.backendURL + "/resetPass", {
+      const response = await fetch(authState.backendURL + "/changePass", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: authState.token,
         },
         body: JSON.stringify(data),
       });
 
-      // console.log(response);
-      // if (!response.ok) {
-      //   const responseData = await response.json();
-      //   // console.log("Response from backend:", responseData.message);
-      //   setResponseFromBackEnd(responseData.message);
-      //   return;
-      // }
+      if (!response.ok) {
+        const responseData = await response.json();
+        // console.log("Response from backend:", responseData.message);
+        setResponseFromBackEnd(responseData.message);
+        // console.error("Error sending data to backend:", response);
+        // throw new Error("Network response was not ok");
+        return;
+      }
 
       // Handle the successful response (if needed)
       const responseData = await response.json();
-      // console.log("Response from backend:", responseData.message);
-
-      // Hide signup form
       setResponseFromBackEnd(responseData.message);
+      //   console.log("Response from backend:", responseData);
 
       if (response.ok) {
-        // Redirect to "/login" after 1500 milliseconds (1.5 seconds)
+        // Redirect to "/home" after 1500 milliseconds (1.5 seconds)
         const timeoutId = setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("expire");
+          dispatch(authActions.logout());
           navigateTo("/signin");
-        }, 2500);
-      }
+        }, 1500);
 
-      // Cleanup the timeout on component unmount or if the redirect happens
-      return () => clearTimeout(timeoutId);
+        // // Cleanup the timeout on component unmount or if the redirect happens
+        return () => clearTimeout(timeoutId);
+      }
     } catch (err) {
       // console.log("Error sending data to backend:", err.message);
       setResponseFromBackEnd("Error sending data to backend: " + err.message);
@@ -75,14 +82,13 @@ function Reset_pw() {
 
   return (
     <>
+      <Navbar />
       <section className="text-gray-600 body-font bg-gray-100 h-screen flex items-center ">
-        <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center  ">
-          <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-bold lg:text-5xl text-6xl text-blue-600 text-center md:text-left ">Odinbook</h1>
-            <p className="leading-relaxed mt-4 lg:text-2xl text-xl lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
-          </div>
-          <form onSubmit={handleResetSubmit} className="lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8 flex flex-col items-center md:ml-auto w-full mt-10 md:mt-0">
+        <div className="container xl:px-32 px-5    md:w-1/2  mx-auto flex flex-wrap items-center  ">
+          <form onSubmit={handlePwChangeSubmit} className=" bg-white shadow-lg rounded-lg p-8 flex flex-col items-center md:ml-auto w-full mt-10 md:mt-0">
             {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
+
+            <input type="password" name="currentPassword" value={formData.currentPassword} onChange={handleInputChange} placeholder="Current Password" required className="w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
             <input
               type="password"
@@ -110,18 +116,12 @@ function Reset_pw() {
                 });
                 e.target.value === formData.newPassword ? setPWError(false) : setPWError(true);
               }}
-              placeholder="Repeat Password"
+              placeholder="Retype New Password"
               required
               className={pwError ? "border-orange-500 border-2 w-full mb-4  bg-white rounded   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" : "w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}
             />
 
-            <button className=" w-full mt-4 cursor-pointer  text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-blue-600 ">Reset</button>
-            <p className="text-sm text-blue-500 mt-3 text-center pt-4">Don't have an Account?</p>
-            <hr className="my-3" />
-
-            <button onClick={() => navigateTo("/signup")} className="w-full cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600 ">
-              Sign Up
-            </button>
+            <button className=" w-full mt-4 cursor-pointer  text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-blue-600 ">Change Password</button>
           </form>
         </div>
       </section>
@@ -129,4 +129,4 @@ function Reset_pw() {
   );
 }
 
-export default Reset_pw;
+export default Settings;

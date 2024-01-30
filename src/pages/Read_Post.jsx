@@ -19,7 +19,7 @@ function Read_Post() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+      const response = await fetch(authState.backendURL + "/posts/" + postId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ function Read_Post() {
     const userConfirmed = confirm("Do you want to delete that post?");
     if (userConfirmed) {
       try {
-        const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+        const response = await fetch(authState.backendURL + "/posts/" + postId, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

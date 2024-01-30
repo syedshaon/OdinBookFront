@@ -9,7 +9,7 @@ const validateLoginStatus = async () => {
 
   if (authState.token) {
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/validateLoginStatus", {
+      const response = await fetch(authState.backendURL + "/validateLoginStatus", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,8 +19,8 @@ const validateLoginStatus = async () => {
 
       const responseData = await response.json();
       // console.log(responseData);
-      if (responseData.firstName) {
-        dispatch(authActions.login({ firstName: responseData.firstName, token: authState.token }));
+      if (responseData.user) {
+        dispatch(authActions.login({ user: responseData.user, token: authState.token }));
       }
     } catch (error) {
       // console.error("Error in validateLoginStatus:", error);

@@ -4,7 +4,7 @@ const Logout = async () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   try {
-    const response = await fetch(authState.backendURL + "authorAPI/signout", {
+    const response = await fetch(authState.backendURL + "/signout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

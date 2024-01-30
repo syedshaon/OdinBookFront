@@ -64,7 +64,7 @@ function GetVerificationEmail() {
 
       // Redirect to "/login" after 1500 milliseconds (1.5 seconds)
       const timeoutId = setTimeout(() => {
-        navigateTo("/login");
+        navigateTo("/signin");
       }, 2500);
 
       // Cleanup the timeout on component unmount or if the redirect happens

@@ -1,23 +1,22 @@
-import NavElmnt from "../contents/NavElmnt";
-import Button, { Button3 } from "../contents/Button";
-
-import { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-// import Logout from "./Logout";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authReducer";
+import { useNavigate } from "react-router-dom";
+import { IoPersonSharp } from "react-icons/io5";
+
+import { MdHome } from "react-icons/md";
+import { FaUserGroup } from "react-icons/fa6";
+import { FaFacebookMessenger } from "react-icons/fa";
+import { FaRegBell } from "react-icons/fa6";
+import { FaCog } from "react-icons/fa";
+import { IoMdLogOut } from "react-icons/io";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const navigateTo = useNavigate();
 
-  const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
   const Logout = async () => {
     try {
       const response = await fetch(authState.backendURL + "/signout", {
@@ -43,108 +42,68 @@ const Navbar = () => {
       console.log(error);
     }
   };
-
   return (
-    <header className="bg-emerald-100 bg-gradient-to-r from-white to-emerald-200     py-5">
-      <div className="container  px-2 md:px-7  mx-auto    flex justify-between items-center">
-        <NavLink to="/">
-          <h1 className="flex items-start space-x-1">
-            <span className="text-black text-xl font-bold ">Author</span>
-            <span className="text-orange-600 text-xl font-bold ">Zone</span>
-          </h1>
+    <nav className="bg-white h-max   w-full shadow grid   items-center content-between   grid-cols-2  grid-rows-2 gap-2 md:gap-0 md:grid-rows-1 fixed top-0 left-0 z-50 border-b">
+      {/* LEFT NAV */}
+      <NavLink to="/" className="no-underline col-start-1 col-end-2 row-start-1 row-end-2 md:col-start-1 md:col-end-2 md:row-start-1 md:row-end-2 flex items-center justify-between w-full md:w-max px-4   min-w-[200px]">
+        <p className="mr-2 hidden md:flex no-underline text-white bg-blue-500 p-3 circle rounded-full w-[20px] h-[20px]  justify-center items-center text-2xl font-bold">O</p>
+        <p className="inline-block md:hidden  no-underline text-blue-500 text-2xl font-bold">OdinBook</p>
+      </NavLink>
+
+      {/* END LEFT NAV */}
+
+      {/* MAIN NAV */}
+      <ul className="  bg-gray-200 md:bg-white m-0 col-start-1 col-end-3 row-start-2 row-end-3 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2 flex w-full lg:w-max items-center justify-center list-none">
+        <li className="w-1/5 md:w-max text-center  ">
+          <NavLink to="/" className=" text-3xl py-2 px-3 xl:px-12 cursor-pointer text-blue-500 border-solid border-t-0 border-x-0 border-b-4 border-blue-500 flex items-center justify-center ">
+            <MdHome />
+          </NavLink>
+        </li>
+
+        <li className="w-1/5 md:w-max text-center">
+          <a href="#" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
+            <FaUserGroup />
+          </a>
+        </li>
+        <li className="w-1/5 md:w-max text-center">
+          <a href="#" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
+            <FaFacebookMessenger />
+            <span className="text-xs absolute top-0 right-1/4 bg-red-500 text-white font-semibold rounded-full px-1 text-center">9+</span>
+          </a>
+        </li>
+      </ul>
+      {/* END MAIN NAV */}
+
+      {/* RIGHT NAV */}
+      <ul className="m-0 col-start-2 col-end-3 row-start-1 row-end-2  md:col-start-3 md:col-end-4 md:row-start-1 md:row-end-2  flex mx-4 items-center justify-center">
+        <NavLink to={`/user/${authState.user.username}`} className="text-black">
+          <li className="h-full hidden md:flex">
+            <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-1 cursor-pointer hover:bg-gray-300 relative">{authState.user.profilePicture ? <img src={authState.backSiteURL + authState.user.profilePicture} alt="Profile picture" className="w-9 h-9 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}</div>
+          </li>
         </NavLink>
 
-        <nav className="lg:flex hidden items-center space-x-30">
-          {authState.isLoggedIn && <p className="mr-5">Hello {authState.firstName}!</p>}
+        <li className="h-full flex cursor-pointer" onClick={Logout}>
+          <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-3 cursor-pointer hover:bg-gray-300 relative">
+            <IoMdLogOut />
+          </div>
+        </li>
 
-          {authState.isLoggedIn && (
-            <NavLink to="/new_post">
-              <Button text="Create a new post" hoverBG="emerald" />
-            </NavLink>
-          )}
-          {authState.isLoggedIn && (
-            <NavLink to="/update">
-              <Button text="Update Profile" color="emerald" />
-            </NavLink>
-          )}
-
-          {!authState.isLoggedIn && (
-            <NavLink to="/login">
-              <Button text="Login" hoverBG="emerald" />
-            </NavLink>
-          )}
-          {!authState.isLoggedIn && (
-            <NavLink to="/signup">
-              <Button text="Sign Up" color="emerald" />
-            </NavLink>
-          )}
-
-          {authState.isLoggedIn && (
-            <NavLink onClick={Logout}>
-              <Button3 text="Logout" color="orange" />
-            </NavLink>
-          )}
-        </nav>
-
-        {/* Mobile Menu (Hamburger Icon) */}
-        <div className="lg:hidden flex items-center">
-          <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-black text-xl focus:outline-none transition-transform transform">
-            {isMenuOpen ? (
-              <span>&times;</span> // "X" icon
-            ) : (
-              <span>&#9776;</span> // Hamburger Icon
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Menu Content */}
-        {isMenuOpen && (
-          <nav className="lg:hidden fixed z-50 top-16 left-0 h-full w-full bg-fgreen bg-gradient-to-b from-emerald-100 to-emerald-100 ">
-            <ul className=" text-center p-4 flex flex-col items-center space-y-4">
-              {authState.isLoggedIn && <p className="mr-5">Hello {authState.firstName}!</p>}
-
-              {authState.isLoggedIn && (
-                <NavElmnt onClick={closeMenu}>
-                  <NavLink to="/new_post">
-                    <Button text="Create a new post" hoverBG="emerald" />
-                  </NavLink>
-                </NavElmnt>
-              )}
-              {authState.isLoggedIn && (
-                <NavElmnt onClick={closeMenu}>
-                  <NavLink to="/update">
-                    <Button text="Update Profile" color="emerald" />
-                  </NavLink>
-                </NavElmnt>
-              )}
-
-              {!authState.isLoggedIn && (
-                <NavElmnt onClick={closeMenu}>
-                  <NavLink to="/login">
-                    <Button text="Login" hoverBG="emerald" />
-                  </NavLink>
-                </NavElmnt>
-              )}
-              {!authState.isLoggedIn && (
-                <NavElmnt onClick={closeMenu}>
-                  <NavLink to="/signup">
-                    <Button text="Sign Up" color="emerald" />
-                  </NavLink>
-                </NavElmnt>
-              )}
-
-              {authState.isLoggedIn && (
-                <NavElmnt onClick={closeMenu}>
-                  <NavLink onClick={Logout}>
-                    <Button3 text="Logout" color="orange" />
-                  </NavLink>
-                </NavElmnt>
-              )}
-            </ul>
-          </nav>
-        )}
-      </div>
-    </header>
+        <li className="h-full flex">
+          <div className="text-xl grid place-items-center bg-gray-200 rounded-full mx-1 p-3 cursor-pointer hover:bg-gray-300 relative">
+            <FaRegBell />
+            <span className="text-xs absolute top-0 right-0 bg-red-500 text-white font-semibold rounded-full px-1 text-center">9</span>
+          </div>
+        </li>
+        <NavLink to="/settings" className="text-black">
+          <li className="h-full flex">
+            <div className="text-xl grid place-items-center bg-gray-200 rounded-full mx-1 p-3 cursor-pointer hover:bg-gray-300 relative">
+              <FaCog />
+            </div>
+          </li>
+        </NavLink>
+      </ul>
+      {/* END RIGHT NAV */}
+    </nav>
   );
 };
 

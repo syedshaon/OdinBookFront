@@ -1,4 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap") @tailwind base;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap") /* Import CSS reset */ @import "normalize.css";
+
+/* Import Tailwind CSS */
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 

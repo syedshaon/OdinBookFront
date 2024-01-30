@@ -62,7 +62,7 @@ function Create_Post() {
       postData.append(key, value);
     });
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/posts", {
+      const response = await fetch(authState.backendURL + "/posts", {
         method: "POST",
         encType: "multipart/form-data",
         headers: {

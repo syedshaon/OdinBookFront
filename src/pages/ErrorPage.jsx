@@ -5,7 +5,6 @@ import Footer from "./Footer";
 function ErrorPage() {
   return (
     <div>
-      <Navbar />
       <div className="teams container min-h-[800px] flex justify-center items-center px-2 md:px-7  ">
         <div class="text-center">
           <h1 class="mb-4 text-6xl font-semibold text-orange-600">404</h1>

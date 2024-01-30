@@ -24,7 +24,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(authState.backendURL + "authorAPI/posts", {
+      const response = await fetch(authState.backendURL + "/posts", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -53,9 +53,9 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const handleDelete = async (postId) => {
     // Implement delete functionality
@@ -64,7 +64,7 @@ function Home() {
     const userConfirmed = confirm("Do you want to delete that post?");
     if (userConfirmed) {
       try {
-        const response = await fetch(authState.backendURL + "authorAPI/posts/" + postId, {
+        const response = await fetch(authState.backendURL + "/posts/" + postId, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -122,7 +122,7 @@ function Home() {
     <>
       <Navbar />
 
-      <div className="container mx-auto mt-8 mb-16 min-h-[800px]">
+      <div className="container mx-auto mt-[70px] mb-16 min-h-[800px]">
         <h1 className="text-3xl font-bold mb-4">{posts.length > 0 ? "Post List" : "You have no posts yet."}</h1>
         {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
         <div className="grid grid-cols-1  gap-4">

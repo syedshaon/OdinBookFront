@@ -21,6 +21,8 @@ import Read_Post from "./pages/Read_Post";
 
 import Edit_Post from "./pages/Edit_Post";
 
+import PeopleDetails from "./pages/PeopleDetails";
+
 const Router = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
@@ -36,6 +38,7 @@ const Router = () => {
         <Route path="/reset-password/:vtoken" element={<Reset_pw />} />
         <Route path="/settings" element={isLoggedIn ? <Settings /> : <Login />} />
         <Route path="/user/:uid" element={isLoggedIn ? <ProfilePage /> : <Login />} />
+        <Route path="/allpeople" element={isLoggedIn ? <PeopleDetails /> : <Login />} />
 
         <Route path="/update" element={isLoggedIn ? <Update /> : <Home />} />
         {/* <Route path="/logout" element={<Testimonials />} /> */}

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import { NavLink, useNavigate } from "react-router-dom";
+import { IoPersonSharp } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
-import { ProfilePicUploadButton, CoverUploadButton } from "../../contents/ImageUploadButton";
-import { NameUpdateForm, BioUpdateForm } from "../../contents/NameUpdate";
+import { ProfilePicUploadButton, CoverUploadButton } from "../../services/ImageUploadButton";
+import { NameUpdateForm, BioUpdateForm } from "../../services/NameUpdate";
+
+import FollowFriend from "../../services/FollowFriend";
 
 function ProfilePage() {
   const { uid } = useParams();
@@ -17,6 +19,9 @@ function ProfilePage() {
   const [refresh, setRefresh] = useState(0);
   const [showEditName, SetShowEditName] = useState(false);
   const [showEditBio, SetShowEditBio] = useState(false);
+  const [showUnfollow, setShowUnfollow] = useState(false);
+  const [showUnfriend, setShowUnfriend] = useState(false);
+  const [showPendingfriend, setPendingfriend] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -37,8 +42,12 @@ function ProfilePage() {
       }
       if (responseData.searchedUser) {
         setSearchedUser(responseData.searchedUser);
-        console.log(responseData.searchedUser.username);
-        console.log(authState.user.username);
+        // console.log(responseData.searchedUser.username);
+        // console.log(authState.user.username);
+        setShowUnfollow(responseData.searchedUser && responseData.searchedUser.followers && responseData.searchedUser.followers.includes(authState.user.id));
+        setShowUnfriend(responseData.searchedUser && responseData.searchedUser.friends && responseData.searchedUser.friends.includes(authState.user.id));
+        setPendingfriend(responseData.searchedUser && responseData.searchedUser.pendingFriends && responseData.searchedUser.pendingFriends.includes(authState.user.id));
+
         // Handle error if needed
         if (responseData.searchedUser.username === authState.user.username) {
           setShowEditButton(true);
@@ -56,11 +65,12 @@ function ProfilePage() {
       setShowEditButton(true);
     }
     fetchData();
-  }, [refresh]);
+  }, [refresh, uid]);
 
+  const startsWithUploads = /^uploads/;
   const backgroundImageStyle = searchedUser.coverPicture
     ? {
-        backgroundImage: `url(${authState.backSiteURL + searchedUser.coverPicture})`,
+        backgroundImage: `url(${startsWithUploads.test(searchedUser.coverPicture) ? authState.backSiteURL + searchedUser.coverPicture : searchedUser.coverPicture})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }
@@ -70,16 +80,12 @@ function ProfilePage() {
     <>
       <Navbar />
       <div className="h-screen    ">
-        <div className="mt-14     shadow bg-white h-screen">
+        <div className="mt-[108px] md:mt-14     shadow bg-white h-screen">
           {/* PROFILE HEADER */}
           <div className="   bg-slate-200 mb-3 pb-3">
             <div className=" w-full flex justify-center h-[348px] ">
               <div className="flex flex-col container">
-                <div
-                  style={backgroundImageStyle}
-                  className="h-[348px] w-full   md:relative bg-gray-100 md:rounded-bl-lg md:rounded-br-lg
-                        bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400"
-                >
+                <div style={backgroundImageStyle} className="h-[348px] w-full   relative bg-gray-100 rounded-bl-lg rounded-br-lg                        bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400">
                   {showEditButton && (
                     <div className="cursor-pointer absolute top-1 right-1 text-white w-10 h-10 rounded bg-blue-500">
                       <CoverUploadButton setRefresh={setRefresh} />
@@ -87,9 +93,9 @@ function ProfilePage() {
                   )}
                   {/* // cover photo */}
 
-                  <div className=" rounded-full md:absolute top-48 inset-x-96 border-4 border-white bg-slate-500 w-40 h-40 flex justify-center items-center overflow-hidden" style={{ left: "calc(50% - 5rem)" }}>
+                  <div className=" rounded-full absolute  top-48 inset-x-96 border-4 border-white bg-slate-500 w-40 h-40 flex justify-center items-center overflow-hidden" style={{ left: "calc(50% - 5rem)" }}>
                     {/* profile photo */}
-                    {searchedUser.profilePicture && <img className="  w-40 h-40  " src={authState.backSiteURL + searchedUser.profilePicture} alt="Profile picture" />}
+                    {searchedUser.profilePicture && <img className="  w-40 h-40  " src={startsWithUploads.test(searchedUser.profilePicture) ? authState.backSiteURL + searchedUser.profilePicture : searchedUser.profilePicture} alt="Profile picture" />}
                     {showEditButton && (
                       <div className="cursor-pointer absolute top-3 right-3 text-white  rounded bg-blue-500">
                         <ProfilePicUploadButton setRefresh={setRefresh} />
@@ -101,10 +107,13 @@ function ProfilePage() {
             </div>
             {/* // INFOS */}
             <div className="container flex justify-center flex-col mt-5 mb-3.5">
-              <div className="name  flex items-center justify-center">
-                {!showEditName && <h1 className="text-center text-blue-500 font-bold text-3xl">{searchedUser.firstName + " " + searchedUser.lastName}</h1>}
-                {!showEditName && showEditButton ? <CiEdit onClick={() => SetShowEditName(true)} className="  cursor-pointer  w-6 h-6  text-blue-500" /> : ""}
-                {showEditName && showEditButton ? <NameUpdateForm SetShowEditName={SetShowEditName} setRefresh={setRefresh} /> : ""}
+              <div className="name mb-2 flex flex-col items-center lg:grid   lg:grid-cols-3 grid-flow-col">
+                <div className="col-start-2 col-end-3 flex justify-center items-center">
+                  {!showEditName && <h1 className="  text-center text-blue-500 font-bold text-3xl">{searchedUser.firstName + " " + searchedUser.lastName}</h1>}
+                  {!showEditName && showEditButton ? <CiEdit onClick={() => SetShowEditName(true)} className="  cursor-pointer  w-6 h-6  text-blue-500" /> : ""}
+                  {showEditName && showEditButton ? <NameUpdateForm SetShowEditName={SetShowEditName} setRefresh={setRefresh} /> : ""}
+                </div>
+                <FollowFriend showPendingfriend={showPendingfriend} showUnfriend={showUnfriend} showUnfollow={showUnfollow} setRefresh={setRefresh} fndNumber={"0"} flwNumber={searchedUser.followers && searchedUser.followers.length} personToFollow={searchedUser.username} />
               </div>
 
               <div className="bio flex items-center justify-center">
@@ -140,7 +149,7 @@ function ProfilePage() {
                   <div className="flex items-center justify-between px-4 py-2">
                     <div className="flex space-x-2 items-center">
                       <div className="relative">
-                        <img src="./images/profile_photo_cat.jpg" alt="Profile picture" className="w-10 h-10 rounded-full" />
+                        {searchedUser.profilePicture ? <img src={authState.backSiteURL + searchedUser.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}
                         <span className="bg-green-500 w-3 h-3 rounded-full absolute right-0 top-3/4 border-white border-2"></span>
                       </div>
                       <div>

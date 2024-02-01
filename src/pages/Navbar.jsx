@@ -16,6 +16,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const navigateTo = useNavigate();
+  const startsWithUploads = /^uploads/;
 
   const Logout = async () => {
     try {
@@ -53,23 +54,23 @@ const Navbar = () => {
       {/* END LEFT NAV */}
 
       {/* MAIN NAV */}
-      <ul className="  bg-gray-200 md:bg-white m-0 col-start-1 col-end-3 row-start-2 row-end-3 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2 flex w-full lg:w-max items-center justify-center list-none">
+      <ul className="main-nav  bg-gray-200 md:bg-white m-0 col-start-1 col-end-3 row-start-2 row-end-3 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2 flex w-full lg:w-max items-center justify-center list-none">
         <li className="w-1/5 md:w-max text-center  ">
-          <NavLink to="/" className=" text-3xl py-2 px-3 xl:px-12 cursor-pointer text-blue-500 border-solid border-t-0 border-x-0 border-b-4 border-blue-500 flex items-center justify-center ">
+          <NavLink to="/" className=" text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
             <MdHome />
           </NavLink>
         </li>
 
         <li className="w-1/5 md:w-max text-center">
-          <a href="#" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
+          <NavLink to="/allpeople" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
             <FaUserGroup />
-          </a>
+          </NavLink>
         </li>
         <li className="w-1/5 md:w-max text-center">
-          <a href="#" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
+          <NavLink to="/messenger" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center  ">
             <FaFacebookMessenger />
             <span className="text-xs absolute top-0 right-1/4 bg-red-500 text-white font-semibold rounded-full px-1 text-center">9+</span>
-          </a>
+          </NavLink>
         </li>
       </ul>
       {/* END MAIN NAV */}
@@ -78,7 +79,7 @@ const Navbar = () => {
       <ul className="m-0 col-start-2 col-end-3 row-start-1 row-end-2  md:col-start-3 md:col-end-4 md:row-start-1 md:row-end-2  flex mx-4 items-center justify-center">
         <NavLink to={`/user/${authState.user.username}`} className="text-black">
           <li className="h-full hidden md:flex">
-            <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-1 cursor-pointer hover:bg-gray-300 relative">{authState.user.profilePicture ? <img src={authState.backSiteURL + authState.user.profilePicture} alt="Profile picture" className="w-9 h-9 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}</div>
+            <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-1 cursor-pointer hover:bg-gray-300 relative">{authState.user.profilePicture ? <img src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" className="w-9 h-9 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}</div>
           </li>
         </NavLink>
 

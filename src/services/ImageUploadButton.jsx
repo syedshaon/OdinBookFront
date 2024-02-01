@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/authReducer";
 
 export const ProfilePicUploadButton = ({ setRefresh }) => {
+  const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
   const handleFileChange = async (e) => {
@@ -33,6 +35,7 @@ export const ProfilePicUploadButton = ({ setRefresh }) => {
       if (response.ok) {
         // console.log("Response from backend:", responseData.message);
         setRefresh((prev) => prev + 1);
+        dispatch(authActions.update({ user: responseData.user }));
         return;
       }
     } catch (err) {
@@ -86,6 +89,7 @@ export const CoverUploadButton = ({ setRefresh }) => {
       if (response.ok) {
         // console.log("Response from backend:", responseData.message);
         setRefresh((prev) => prev + 1);
+        dispatch(authActions.update({ user: responseData.user }));
         return;
       }
     } catch (err) {

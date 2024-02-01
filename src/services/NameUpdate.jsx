@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { BiSolidSave } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/authReducer";
 import { MdCancel } from "react-icons/md";
 
 export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
+  const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
   const sendDataToBackend = async (data) => {
@@ -16,7 +18,7 @@ export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
         },
         body: JSON.stringify(data),
       });
-
+      const responseData = await response.json();
       if (!response.ok) {
         console.log(response.json());
         return;
@@ -25,6 +27,7 @@ export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
       if (response.ok) {
         setRefresh((prev) => prev + 1);
         SetShowEditName(false);
+        dispatch(authActions.update({ user: responseData.user }));
         return;
       }
     } catch (err) {
@@ -83,6 +86,7 @@ export const BioUpdateForm = ({ setRefresh, SetShowEditBio }) => {
         body: JSON.stringify(data),
       });
 
+      const responseData = await response.json();
       if (!response.ok) {
         console.log(response.json());
         return;
@@ -91,6 +95,7 @@ export const BioUpdateForm = ({ setRefresh, SetShowEditBio }) => {
       if (response.ok) {
         setRefresh((prev) => prev + 1);
         SetShowEditBio(false);
+        dispatch(authActions.update({ user: responseData.user }));
         return;
       }
     } catch (err) {

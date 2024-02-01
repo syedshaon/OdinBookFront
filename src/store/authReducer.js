@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const apiUrl = import.meta.env.VITE_API_URL;
 const backUrl = import.meta.env.VITE_BACK_URL;
-const dUser = { username: "", firstName: "", lastName: "", bio: "", profilePicture: "", coverPicture: "" };
+const dUser = { id: "", username: "", firstName: "", lastName: "", bio: "", pendingFriends: [], friends: [], following: [], profilePicture: "", coverPicture: "" };
+
 const authSlice = createSlice({
   name: "auth",
   initialState: { isLoggedIn: false, user: dUser, token: localStorage.getItem("token"), expire: localStorage.getItem("expire"), backendURL: apiUrl, backSiteURL: backUrl },
@@ -22,6 +23,9 @@ const authSlice = createSlice({
       state.expire = null;
       //   localStorage.removeItem("token");
       //   clear cookie
+    },
+    update: (state, action) => {
+      state.user = action.payload.user;
     },
   },
 });

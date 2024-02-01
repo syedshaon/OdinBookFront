@@ -10,3 +10,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: #f2f4f7;
 }
+
+.main-nav a.active {
+  border-color: rgb(59, 130, 246);
+}

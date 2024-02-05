@@ -1,18 +1,20 @@
 import Router from "./Router";
 import { RouterProvider } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import validateLoginStatus from "./store/validateLoginStatus";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authReducer";
+import { userActions } from "./store/userReducer";
 
 function App() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  const [showLoading, setShowLoading] = useState(false);
 
   const validateLoginStatus = async () => {
-    // console.log("validation ran");
-    if (localStorage.getItem("token")) {
+    console.log("validation ran");
+    if (localStorage.getItem("token") && !authState.isLoggedIn) {
       try {
         const response = await fetch(authState.backendURL + "/validateLoginStatus", {
           method: "POST",
@@ -26,6 +28,7 @@ function App() {
         // console.log(responseData);
         if (responseData.user) {
           dispatch(authActions.login({ user: responseData.user, token: localStorage.getItem("token"), expire: localStorage.getItem("expire") }));
+          dispatch(userActions.setCurrentUser({ user: responseData.user }));
         } else {
           localStorage.removeItem("token");
           dispatch(authActions.logout());
@@ -36,7 +39,38 @@ function App() {
     }
   };
 
+  // const fetchAllUsers = async () => {
+  //   try {
+  //     const response = await fetch(authState.backendURL + "/peopleDetails", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         authorization: authState.token,
+  //       },
+  //     });
+
+  //     const responseData = await response.json();
+
+  //     if (!response.ok) {
+  //       console.log(responseData);
+  //       // Handle error if needed
+  //       return;
+  //     }
+  //     if (response.ok) {
+  //       dispatch(userActions.setAllUsers({ users: responseData }));
+  //     }
+
+  //     // Handle error if needed
+  //     return;
+  //   } catch (error) {
+  //     console.log(error);
+  //     // Handle error if needed
+  //   }
+  // };
+
   useEffect(() => {
+    // fetchAllUsers();
+
     validateLoginStatus();
   }, []);
 

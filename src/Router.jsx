@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Team from "./pages/Team";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
 import Verify_signup from "./pages/User/Verify_signup";
@@ -16,20 +15,61 @@ import Settings from "./pages/User/Settings";
 import ErrorPage from "./pages/ErrorPage";
 import Update from "./pages/Update";
 import Create_Post from "./pages/Create_Post";
-import { useSelector } from "react-redux";
+
 import Read_Post from "./pages/Read_Post";
 
 import Edit_Post from "./pages/Edit_Post";
 
 import PeopleDetails from "./pages/PeopleDetails";
 
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "./store/userReducer";
+
 const Router = () => {
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // console.log(isLoggedIn);
+
+  const fetchAllUsers = async () => {
+    try {
+      const response = await fetch(authState.backendURL + "/peopleDetails", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: authState.token,
+        },
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        console.log(responseData);
+        // Handle error if needed
+        return;
+      }
+      if (response.ok) {
+        dispatch(userActions.setAllUsers({ users: responseData }));
+      }
+
+      // Handle error if needed
+      return;
+    } catch (error) {
+      console.log(error);
+      // Handle error if needed
+    }
+  };
+
+  useEffect(() => {
+    isLoggedIn && fetchAllUsers();
+  }, [authState.backendURL, authState.token, dispatch, isLoggedIn]);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
-        <Route path="/team" element={<Team />} />
+
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:vtoken" element={<Verify_signup />} />

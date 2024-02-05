@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/authReducer";
+import { authActions } from "../../store/authReducer";
 
 export const ProfilePicUploadButton = ({ setRefresh }) => {
   const dispatch = useDispatch();

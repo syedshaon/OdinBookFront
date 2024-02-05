@@ -15,6 +15,7 @@ import { IoMdLogOut } from "react-icons/io";
 const Navbar = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  const usersState = useSelector((state) => state.users);
   const navigateTo = useNavigate();
   const startsWithUploads = /^uploads/;
 
@@ -34,6 +35,7 @@ const Navbar = () => {
       if (responseData.logout === true) {
         localStorage.removeItem("token");
         localStorage.removeItem("expire");
+        localStorage.removeItem("currentUser");
         dispatch(authActions.logout());
         navigateTo("/");
       } else {
@@ -64,6 +66,7 @@ const Navbar = () => {
         <li className="w-1/5 md:w-max text-center">
           <NavLink to="/allpeople" className="text-3xl py-2 px-3 xl:px-12 cursor-pointer    text-gray-600 relative border-solid border-x-0 border-b-4 border-t-0 border-transparent hover:bg-gray-100  hover:text-blue-500 hover:border-blue-500 flex items-center justify-center ">
             <FaUserGroup />
+            <span className="text-xs absolute top-0 right-1/4 bg-red-500 text-white font-semibold rounded-full px-1 text-center">{usersState.rcvdFrndRequest.length}+</span>
           </NavLink>
         </li>
         <li className="w-1/5 md:w-max text-center">

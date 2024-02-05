@@ -8,6 +8,7 @@ const usersSlice = createSlice({
       state.allUsers = action.payload.users;
       // Update myFriends using a selector
       state.myFriends = action.payload.users.filter((user) => user.friends.includes(state.currentUser.id));
+
       state.sentFrndRequest = action.payload.users.filter((user) => user.pendingFriends.includes(state.currentUser.id));
       state.rcvdFrndRequest = action.payload.users.filter((user) => state.currentUser.pendingFriends.includes(user._id));
       state.followingPeople = action.payload.users.filter((user) => user.followers.includes(state.currentUser.id));
@@ -27,21 +28,104 @@ const usersSlice = createSlice({
       const personToFollow = state.allUsers.filter((user) => user._id == personToFollowID);
       console.log(personToFollow);
 
-      state.currentUser.following.push(personToFollowID);
+      state.currentUser.following = [...state.currentUser.following, personToFollowID]; // Use this
 
-      state.followingPeople.push(personToFollow[0]);
+      state.followingPeople = [...state.followingPeople, personToFollow[0]];
+
+      // state.followingPeople.push(personToFollow[0]);
       state.ohterPeople = state.ohterPeople.filter((user) => user._id !== personToFollowID);
     },
     handleUnFollow: (state, action) => {
       const personToUnfollowID = action.payload.personToUnfollowID;
 
       const personToUnfollow = state.allUsers.filter((user) => user._id == personToUnfollowID);
-      console.log(personToUnfollow);
+      // console.log(personToUnfollow);
 
       state.currentUser.following = state.currentUser.following.filter((userId) => userId !== personToUnfollowID);
 
       state.followingPeople = state.followingPeople.filter((user) => user._id !== personToUnfollowID);
-      state.ohterPeople.push(personToUnfollow[0]);
+
+      // Check if the user already exists in the array
+      const userExists = state.ohterPeople.some((user) => user._id === personToUnfollowID);
+
+      // If the user doesn't exist, add them to the array
+      if (!userExists) {
+        state.ohterPeople.push(personToUnfollow[0]);
+      }
+    },
+    handleSendFriendRqst: (state, action) => {
+      const personToFriendID = action.payload.personToFriend;
+
+      const personToSendFriendRqst = state.allUsers.filter((user) => user._id == personToFriendID);
+
+      // state.currentUser.SendFriendRqsting.push(personToSendFriendRqstID);
+      state.sentFrndRequest = [...state.sentFrndRequest, personToSendFriendRqst[0]];
+      // state.sentFrndRequest.push(personToSendFriendRqst[0]);
+      state.ohterPeople = state.ohterPeople.filter((user) => user._id !== personToFriendID);
+    },
+    handleCancelFriendRequest: (state, action) => {
+      const cancelFrndRqstId = action.payload.cancelFrndRqstId;
+
+      const personToCancelFrndRqstOf = state.allUsers.filter((user) => user._id == cancelFrndRqstId);
+      // console.log(personToCancelFrndRqstOf);
+
+      state.sentFrndRequest = state.sentFrndRequest.filter((user) => user._id !== cancelFrndRqstId);
+
+      // Check if the user already exists in the array
+      const userExists = state.ohterPeople.some((user) => user._id === cancelFrndRqstId);
+
+      // If the user doesn't exist, add them to the array
+      if (!userExists) {
+        state.ohterPeople = [...state.ohterPeople, personToCancelFrndRqstOf[0]];
+        // state.ohterPeople.push(personToCancelFrndRqstOf[0]);
+      }
+    },
+    handleAcceptFriendRequest: (state, action) => {
+      const acceptFrndRqstId = action.payload.acceptFrndRqstId;
+
+      const personToAcceptFrndRqstOf = state.allUsers.filter((user) => user._id == acceptFrndRqstId);
+      // console.log(personToCancelFrndRqstOf);
+
+      state.ohterPeople = state.ohterPeople.filter((user) => user._id !== acceptFrndRqstId);
+
+      state.myFriends = [...state.myFriends, personToAcceptFrndRqstOf[0]];
+      // state.myFriends.push(personToAcceptFrndRqstOf[0]);
+
+      state.rcvdFrndRequest = state.rcvdFrndRequest.filter((user) => user._id !== acceptFrndRqstId);
+    },
+    handleRejectFriendRequest: (state, action) => {
+      const rejectFrndRqstId = action.payload.rejectFrndRqstId;
+
+      const personToRejectFrndRqstOf = state.allUsers.filter((user) => user._id == rejectFrndRqstId);
+      // console.log(personToCancelFrndRqstOf);
+
+      // Check if the user already exists in the array
+      const userExists = state.ohterPeople.some((user) => user._id === personToRejectFrndRqstOf);
+
+      // If the user doesn't exist, add them to the array
+      if (!userExists) {
+        state.ohterPeople = [...state.ohterPeople, personToRejectFrndRqstOf[0]];
+        // state.ohterPeople.push(personToRejectFrndRqstOf[0]);
+      }
+
+      state.rcvdFrndRequest = state.rcvdFrndRequest.filter((user) => user._id !== rejectFrndRqstId);
+    },
+    handleDeleteFriend: (state, action) => {
+      const deleteFrndRqstId = action.payload.deleteFrndRqstId;
+
+      const friendToDelete = state.allUsers.filter((user) => user._id == deleteFrndRqstId);
+      // console.log(personToCancelFrndRqstOf);
+
+      // Check if the user already exists in the array
+      const userExists = state.ohterPeople.some((user) => user._id === friendToDelete);
+
+      // If the user doesn't exist, add them to the array
+      if (!userExists) {
+        state.ohterPeople = [...state.ohterPeople, friendToDelete[0]];
+        // state.ohterPeople.push(friendToDelete[0]);
+      }
+
+      state.myFriends = state.myFriends.filter((user) => user._id !== deleteFrndRqstId);
     },
   },
 });

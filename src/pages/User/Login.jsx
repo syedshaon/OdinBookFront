@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authReducer";
 import { userActions } from "../../store/userReducer";
+import Loading from "../Loading";
 
 function Login() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
+  const [showLoading, setShowLoading] = useState(true);
 
   const navigateTo = useNavigate();
 
@@ -19,10 +21,23 @@ function Login() {
   useEffect(() => {
     // Check if the user is logged in
     if (authState.isLoggedIn) {
-      // Redirect to the homepage
-      navigateTo("/");
+      // Redirect to the previous page or a default page
+      const previousPage = navigateTo.location.state?.from || "/";
+
+      // Redirect to the previous page after 1500 milliseconds (1.5 seconds)
+      const timeoutId = setTimeout(() => {
+        // Use navigate from 'react-router-dom' instead of history.push
+        navigateTo(previousPage);
+      }, 1500);
+
+      // Cleanup the timeout on component unmount or if the redirect happens
+      return () => clearTimeout(timeoutId);
     }
-  }, [authState.isLoggedIn]);
+  }, [authState.isLoggedIn, navigateTo]);
+
+  setTimeout(() => {
+    setShowLoading(false);
+  }, 100);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -79,11 +94,15 @@ function Login() {
       dispatch(userActions.setCurrentUser({ user: responseData.user }));
 
       // Hide signup form
-      setResponseFromBackEnd("Logged In Successfully. Redirecting to homepage....");
+      setResponseFromBackEnd("Logged In Successfully. ....");
+
+      // Redirect to the previous page or a default page
+      const previousPage = navigateTo.location.state?.from || "/";
 
       // Redirect to "/home" after 1500 milliseconds (1.5 seconds)
       const timeoutId = setTimeout(() => {
-        navigateTo("/");
+        history.push(previousPage);
+        // navigateTo("/");
       }, 1500);
 
       // // Cleanup the timeout on component unmount or if the redirect happens
@@ -95,44 +114,74 @@ function Login() {
   };
 
   return (
-    !authState.isLoggedIn && (
-      <section className="text-gray-600 body-font bg-gray-100 h-screen flex items-center ">
-        <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center justify-center  ">
-          <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-bold lg:text-5xl text-6xl text-blue-600 text-center md:text-left ">Odinbook</h1>
-            <p className="leading-relaxed mt-4 lg:text-2xl text-xl lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
+    <>
+      {!showLoading ? (
+        <section className="text-gray-600 body-font bg-gray-100 h-screen flex items-center ">
+          <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center justify-center  ">
+            <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+              <h1 className="title-font font-bold lg:text-5xl text-6xl text-blue-600 text-center md:text-left ">Odinbook</h1>
+              <p className="leading-relaxed mt-4 lg:text-2xl text-xl lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
+            </div>
+            <div className="mt-10 lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8">
+              {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
+              <form onSubmit={handleSignInSubmit} className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+
+                <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+
+                <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-blue-600 ">Log In</button>
+
+                <hr className="my-3" />
+
+                <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-500 ">
+                  Sign Up
+                </button>
+
+                <hr className="my-3" />
+
+                <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600">
+                  Reset Password
+                </button>
+
+                <hr className="my-3" />
+
+                <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 ">
+                  Get Verification Email
+                </button>
+                <hr className="my-3" />
+
+                <button
+                  onClick={() =>
+                    sendDataToBackend({
+                      email: "syedshaon@yahoo.com",
+                      password: "AQ23fgw3234!@",
+                    })
+                  }
+                  className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-yellow-500 "
+                >
+                  Login as Demo 1
+                </button>
+                <hr className="my-3" />
+
+                <button
+                  onClick={() =>
+                    sendDataToBackend({
+                      email: "syedshaon99@gmail.com",
+                      password: "AQ23fgw3234!@",
+                    })
+                  }
+                  className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-orange-500 "
+                >
+                  Login as Demo 2
+                </button>
+              </form>
+            </div>
           </div>
-          <div className="mt-10 lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8">
-            {responseFromBackEnd && <h3 className="response text-orange-500 text-xl font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
-            <form onSubmit={handleSignInSubmit} className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-              <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-
-              <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-
-              <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-blue-600 ">Log In</button>
-
-              <hr className="my-3" />
-
-              <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-500 ">
-                Sign Up
-              </button>
-
-              <hr className="my-3" />
-
-              <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600">
-                Reset Password
-              </button>
-
-              <hr className="my-3" />
-
-              <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 ">
-                Get Verification Email
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-    )
+        </section>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }
 

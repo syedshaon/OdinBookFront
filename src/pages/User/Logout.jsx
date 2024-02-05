@@ -17,6 +17,7 @@ const Logout = async () => {
 
     if (responseData.Logout === "true") {
       localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
       dispatch(authActions.logout());
     }
   } catch (error) {

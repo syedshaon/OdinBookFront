@@ -148,6 +148,8 @@ function Login() {
                 <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 ">
                   Get Verification Email
                 </button>
+              </form>
+              <div className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
                 <hr className="my-3" />
 
                 <button
@@ -174,7 +176,7 @@ function Login() {
                 >
                   Login as Demo 2
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </section>

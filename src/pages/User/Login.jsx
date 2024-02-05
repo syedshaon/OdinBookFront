@@ -13,10 +13,10 @@ function Login() {
 
   const navigateTo = useNavigate();
 
-  // if (authState.isLoggedIn) {
-  //   navigateTo("/");
-  //   return;
-  // }
+  if (authState.isLoggedIn) {
+    navigateTo("/");
+    return;
+  }
 
   useEffect(() => {
     // Check if the user is logged in
@@ -153,8 +153,8 @@ function Login() {
                 <button
                   onClick={() =>
                     sendDataToBackend({
-                      email: "syedshaon@yahoo.com",
-                      password: "AQ23fgw3234!@",
+                      email: "Blake_Brekke91@gmail.com",
+                      password: "AQ222sdddfdg3234!@",
                     })
                   }
                   className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-yellow-500 "
@@ -166,8 +166,8 @@ function Login() {
                 <button
                   onClick={() =>
                     sendDataToBackend({
-                      email: "syedshaon99@gmail.com",
-                      password: "AQ23fgw3234!@",
+                      email: "Khalil_Stark16@gmail.com",
+                      password: "AQ222sdddfdg3234!@",
                     })
                   }
                   className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-orange-500 "

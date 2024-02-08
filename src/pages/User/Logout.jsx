@@ -8,7 +8,7 @@ const Logout = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: authState.token,
+        Authorization: `Bearer ${authState.token}`,
       },
     });
 
@@ -18,6 +18,7 @@ const Logout = async () => {
     if (responseData.Logout === "true") {
       localStorage.removeItem("token");
       localStorage.removeItem("currentUser");
+      localStorage.removeItem("followed_posts");
       dispatch(authActions.logout());
     }
   } catch (error) {

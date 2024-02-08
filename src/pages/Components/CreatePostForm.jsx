@@ -62,7 +62,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
         method: "POST",
         encType: "multipart/form-data",
         headers: {
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: postData,
       });

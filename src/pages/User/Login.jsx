@@ -10,6 +10,8 @@ function Login() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const [showLoading, setShowLoading] = useState(true);
+  const [showResetPW, setResetPW] = useState(false);
+  const [showVerify, setVerify] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -78,6 +80,12 @@ function Login() {
         const responseData = await response.json();
         // console.log("Response from backend:", responseData.message);
         setResponseFromBackEnd(responseData.message);
+        if (responseData.type === "verify") {
+          setVerify(true);
+        }
+        if (responseData.type === "wrongPW") {
+          setResetPW(true);
+        }
         // console.error("Error sending data to backend:", response);
         // throw new Error("Network response was not ok");
         return;
@@ -136,20 +144,37 @@ function Login() {
                 <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-500 ">
                   Sign Up
                 </button>
+                {showResetPW && (
+                  <>
+                    <hr className="my-3" />
 
-                <hr className="my-3" />
+                    <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600">
+                      Reset Password
+                    </button>
+                  </>
+                )}
 
-                <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600">
-                  Reset Password
-                </button>
+                {showVerify && (
+                  <>
+                    <hr className="my-3" />
 
-                <hr className="my-3" />
-
-                <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 ">
-                  Get Verification Email
-                </button>
+                    <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 ">
+                      Get Verification Email
+                    </button>
+                  </>
+                )}
               </form>
               <div className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+                <hr className="my-3" />
+
+                <a className="fb btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-600 flex justify-center" href={`${authState.backSiteURL}auth/facebook`}>
+                  <i className="fa fa-facebook fa-fw" /> Login with Facebook
+                </a>
+                <hr className="my-3" />
+                <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google`}>
+                  <i className="fa fa-google fa-fw" /> Login with Google
+                </a>
+
                 <hr className="my-3" />
 
                 <button

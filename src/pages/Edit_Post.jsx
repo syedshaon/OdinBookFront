@@ -83,7 +83,7 @@ function Edit_Post() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -138,7 +138,7 @@ function Edit_Post() {
         method: "PUT",
         encType: "multipart/form-data",
         headers: {
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: postData,
       });

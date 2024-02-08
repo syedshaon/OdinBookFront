@@ -26,7 +26,7 @@ const Navbar = () => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -36,6 +36,7 @@ const Navbar = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("expire");
         localStorage.removeItem("currentUser");
+        localStorage.removeItem("followed_posts");
         dispatch(authActions.logout());
         navigateTo("/");
       } else {

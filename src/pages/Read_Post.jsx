@@ -23,7 +23,7 @@ function Read_Post() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -62,7 +62,7 @@ function Read_Post() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            authorization: authState.token,
+            Authorization: `Bearer ${authState.token}`,
           },
         });
 

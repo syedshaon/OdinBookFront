@@ -21,7 +21,7 @@ export const ProfilePicUploadButton = ({ setRefresh }) => {
         method: "PUT",
         encType: "multipart/form-data",
         headers: {
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: postData,
       });
@@ -75,7 +75,7 @@ export const CoverUploadButton = ({ setRefresh }) => {
         method: "PUT",
         encType: "multipart/form-data",
         headers: {
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: postData,
       });

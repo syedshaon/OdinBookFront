@@ -44,7 +44,7 @@ function Update() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            authorization: authState.token,
+            Authorization: `Bearer ${authState.token}`,
           },
         });
         const responseData = await response.json();
@@ -77,7 +77,7 @@ function Update() {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -118,7 +118,7 @@ function Update() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: JSON.stringify(data),
       });

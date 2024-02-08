@@ -14,7 +14,7 @@ export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: JSON.stringify(data),
       });
@@ -81,7 +81,7 @@ export const BioUpdateForm = ({ setRefresh, SetShowEditBio }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: JSON.stringify(data),
       });

@@ -13,7 +13,7 @@ const validateLoginStatus = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 

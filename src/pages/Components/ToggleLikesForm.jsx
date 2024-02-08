@@ -10,7 +10,7 @@ const ToggleLikesForm = ({ postId, SetAllPosts, allPosts }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
       const responseData = await response.json();

@@ -61,7 +61,7 @@ function ProfilePage() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 

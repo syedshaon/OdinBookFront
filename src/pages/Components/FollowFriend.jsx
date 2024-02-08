@@ -20,7 +20,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -50,7 +50,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -84,7 +84,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -118,7 +118,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -152,7 +152,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -186,7 +186,7 @@ function FollowFriend({ fndNumber, setFrndNumber, flwNumber, setFlwNumber, perso
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 

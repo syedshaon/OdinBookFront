@@ -38,7 +38,7 @@ const Router = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -71,6 +71,7 @@ const Router = () => {
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
 
         <Route path="/signin" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:vtoken" element={<Verify_signup />} />
         <Route path="/get-verification-email" element={<GetVerificationEmail />} />

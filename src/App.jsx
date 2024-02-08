@@ -13,14 +13,14 @@ function App() {
   const [showLoading, setShowLoading] = useState(false);
 
   const validateLoginStatus = async () => {
-    console.log("validation ran");
+    console.log("validateLoginStatus ran");
     if (localStorage.getItem("token") && !authState.isLoggedIn) {
       try {
         const response = await fetch(authState.backendURL + "/validateLoginStatus", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
@@ -31,11 +31,35 @@ function App() {
           dispatch(userActions.setCurrentUser({ user: responseData.user }));
         } else {
           localStorage.removeItem("token");
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("followed_posts");
           dispatch(authActions.logout());
         }
       } catch (error) {
         // console.error("Error in validateLoginStatus:", error);
       }
+    }
+  };
+
+  const loadMe = async () => {
+    // loadMe ran
+    try {
+      const response = await fetch(authState.backendURL + "/loadme", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      const responseData = await response.json();
+      // console.log(responseData);
+      if (responseData.user) {
+        dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
+        dispatch(userActions.setCurrentUser({ user: responseData.user }));
+      }
+    } catch (error) {
+      // console.error("Error in validateLoginStatus:", error);
     }
   };
 
@@ -45,7 +69,7 @@ function App() {
   //       method: "GET",
   //       headers: {
   //         "Content-Type": "application/json",
-  //         authorization: authState.token,
+  //         "Authorization": `Bearer ${authState.token}`,
   //       },
   //     });
 
@@ -70,7 +94,7 @@ function App() {
 
   useEffect(() => {
     // fetchAllUsers();
-
+    loadMe();
     validateLoginStatus();
   }, []);
 

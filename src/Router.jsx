@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/User/Login";
+import AuthError from "./pages/User/AuthError";
 import Signup from "./pages/User/Signup";
 import Verify_signup from "./pages/User/Verify_signup";
 import GetVerificationEmail from "./pages/User/GetVerificationEmail";
@@ -69,9 +70,10 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
-
         <Route path="/signin" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login-auth-error" element={<AuthError />} />
+
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:vtoken" element={<Verify_signup />} />
         <Route path="/get-verification-email" element={<GetVerificationEmail />} />
@@ -80,7 +82,6 @@ const Router = () => {
         <Route path="/settings" element={isLoggedIn ? <Settings /> : <Login />} />
         <Route path="/user/:uid" element={isLoggedIn ? <ProfilePage /> : <Login />} />
         <Route path="/allpeople" element={isLoggedIn ? <PeopleDetails /> : <Login />} />
-
         <Route path="/update" element={isLoggedIn ? <Update /> : <Home />} />
         {/* <Route path="/logout" element={<Testimonials />} /> */}
         <Route path="/new_post" element={isLoggedIn ? <Create_Post /> : <Login />} />

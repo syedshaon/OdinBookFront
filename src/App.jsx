@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authReducer";
 import { userActions } from "./store/userReducer";
+import Cookies from "js-cookie";
 
 function App() {
   const dispatch = useDispatch();
@@ -92,9 +93,13 @@ function App() {
   //   }
   // };
 
+  // auth_cookie
+
   useEffect(() => {
     // fetchAllUsers();
-    loadMe();
+    if (Cookies.get("auth_cookie")) {
+      loadMe();
+    }
     validateLoginStatus();
   }, []);
 

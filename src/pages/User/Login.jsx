@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authReducer";
 import { userActions } from "../../store/userReducer";
+import { messengerActions } from "../../store/messenger_reducer";
 import Loading from "../Loading";
 
 function Login() {
@@ -100,6 +101,7 @@ function Login() {
 
       dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
       dispatch(userActions.setCurrentUser({ user: responseData.user }));
+      dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
 
       // Hide signup form
       setResponseFromBackEnd("Logged In Successfully. ....");
@@ -142,7 +144,7 @@ function Login() {
                 <hr className="my-3" />
 
                 <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-xl bg-green-500 ">
-                  Sign Up
+                  Create a New Account.
                 </button>
                 {showResetPW && (
                   <>

@@ -114,6 +114,7 @@ function AuthError() {
 
       dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
       dispatch(userActions.setCurrentUser({ user: responseData.user }));
+      dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
 
       // Hide signup form
       setResponseFromBackEnd("Logged In Successfully. ....");

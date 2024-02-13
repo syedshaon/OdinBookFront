@@ -17,83 +17,15 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      // Set loading to true while fetching data
-
-      if (localStorage.getItem("followed_posts")) {
-        const avlPost = JSON.parse(localStorage.getItem("followed_posts"));
-        const mostRecentPost = avlPost.reduce((mostRecent, post) => {
-          const postTimestamp = new Date(post.timestamp).getTime();
-          const mostRecentTimestamp = mostRecent ? new Date(mostRecent.timestamp).getTime() : 0;
-
-          return postTimestamp > mostRecentTimestamp ? post : mostRecent;
-        }, null);
-
-        const filterdate = mostRecentPost.timestamp;
-        console.log(filterdate);
-        const response = await fetch(authState.backendURL + "/posts/followedUsersPosts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authState.token}`,
-          },
-          body: JSON.stringify({ filterdate: filterdate }),
-        });
-        const responseData = await response.json();
-        console.log(responseData);
-        console.log(responseData.posts);
-        if (!response.ok) {
-          console.log(responseData);
-          // Handle error if needed
-          return;
-        }
-
-        SetAllPosts((pPosts) => {
-          return [...responseData.posts, ...pPosts];
-        });
-        // // console.log(responseData.posts);
-        // localStorage.setItem("followed_posts", JSON.stringify([...allPosts, responseData.posts]));
-      } else {
-        setLoading(true);
-        const response = await fetch(authState.backendURL + "/posts/followedUsersPosts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authState.token}`,
-          },
-          // filterdate: filterdate,
-        });
-        const responseData = await response.json();
-        // console.log(responseData.posts);
-        if (!response.ok) {
-          console.log(responseData);
-          // Handle error if needed
-          return;
-        }
-        // console.log(responseData);
-        SetAllPosts(responseData.posts);
-        // console.log(responseData.posts);
-        localStorage.setItem("followed_posts", JSON.stringify(responseData.posts));
-      }
-    } catch (error) {
-      console.log(error);
-      // Handle error if needed
-    } finally {
-      // Set loading to false after fetch, whether successful or not
-      setLoading(false);
-    }
-  };
-  const fetchFilteredData = async () => {
-    try {
-      // Set loading to true while fetching data
       setLoading(true);
       const response = await fetch(authState.backendURL + "/posts/followedUsersPosts", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authState.token}`,
         },
+        // filterdate: filterdate,
       });
-
       const responseData = await response.json();
       // console.log(responseData.posts);
       if (!response.ok) {
@@ -104,7 +36,8 @@ function Home() {
       // console.log(responseData);
       SetAllPosts(responseData.posts);
       // console.log(responseData.posts);
-      localStorage.setItem("followed_posts", JSON.stringify(responseData.posts));
+      //   localStorage.setItem("followed_posts", JSON.stringify(responseData.posts));
+      // }
     } catch (error) {
       console.log(error);
       // Handle error if needed
@@ -125,7 +58,7 @@ function Home() {
         <CreatePostForm />
       </div>
 
-      <div className=" min-h-[40vh]   container mx-auto">
+      <div className=" min-h-[70vh]   container mx-auto">
         {loading && <Loading />}
         {!loading && allPosts && (
           <div className="flex flex-col items-center w-full justify-center  ">

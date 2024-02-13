@@ -47,7 +47,7 @@ function ProfilePage() {
     setShowUnfriend(usersState.myFriends.some((user) => user.username === uid));
     setPendingfriend(usersState.sentFrndRequest.some((user) => user.username === uid));
     setAccedptFriend(usersState.rcvdFrndRequest.some((user) => user.username === uid));
-    // setSearchedUser(usersState.currentUser.username === uid ? usersState.currentUser : usersState.allUsers.find((user) => user.username === uid));
+    // setSearchedUser(usersState.currentUser.username === uid ? usersState.currentUser : usersState.availAbleUsers.find((user) => user.username === uid));
 
     // // Handle error if needed
     if (uid === usersState.currentUser.username) {

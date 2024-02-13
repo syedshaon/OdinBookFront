@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authReducer";
 import { userActions } from "./store/userReducer";
+import { messengerActions } from "./store/messenger_reducer";
 import Cookies from "js-cookie";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   const [showLoading, setShowLoading] = useState(false);
 
   const validateLoginStatus = async () => {
-    console.log("validateLoginStatus ran");
+    // console.log("token : ", localStorage.getItem("token"));
     if (localStorage.getItem("token") && !authState.isLoggedIn) {
       try {
         const response = await fetch(authState.backendURL + "/validateLoginStatus", {
@@ -25,11 +26,13 @@ function App() {
           },
         });
 
+        // console.log(response);
         const responseData = await response.json();
         // console.log(responseData);
         if (responseData.user) {
           dispatch(authActions.login({ user: responseData.user, token: localStorage.getItem("token"), expire: localStorage.getItem("expire") }));
           dispatch(userActions.setCurrentUser({ user: responseData.user }));
+          dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
         } else {
           localStorage.removeItem("token");
           localStorage.removeItem("currentUser");
@@ -58,6 +61,7 @@ function App() {
       if (responseData.user) {
         dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
         dispatch(userActions.setCurrentUser({ user: responseData.user }));
+        dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
       }
     } catch (error) {
       // console.error("Error in validateLoginStatus:", error);

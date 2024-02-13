@@ -18,14 +18,14 @@ import Update from "./pages/Update";
 import Create_Post from "./pages/Create_Post";
 
 import Read_Post from "./pages/Read_Post";
-
 import Edit_Post from "./pages/Edit_Post";
-
 import PeopleDetails from "./pages/PeopleDetails";
+import Messenger from "./pages/Messenger/Messenger";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userReducer";
+import { messengerActions } from "./store/messenger_reducer";
 
 const Router = () => {
   const authState = useSelector((state) => state.auth);
@@ -35,7 +35,7 @@ const Router = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch(authState.backendURL + "/peopleDetails", {
+      const response = await fetch(authState.backendURL + "/getAllUsers", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,6 +52,7 @@ const Router = () => {
       }
       if (response.ok) {
         dispatch(userActions.setAllUsers({ users: responseData }));
+        dispatch(messengerActions.setActiveReciepient(responseData[0]));
       }
 
       // Handle error if needed
@@ -87,7 +88,7 @@ const Router = () => {
         <Route path="/new_post" element={isLoggedIn ? <Create_Post /> : <Login />} />
         <Route path="/post/:postId" element={isLoggedIn ? <Read_Post /> : <Login />} />
         <Route path="/editpost/:postId" element={isLoggedIn ? <Edit_Post /> : <Login />} />
-        <Route path="/products/:productId" element={<Home />} />
+        <Route path="/messenger" element={isLoggedIn ? <Messenger /> : <Login />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

@@ -18,38 +18,6 @@ function People_Contacts() {
 
   const sortedUsers = SortedUsers();
 
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch(authState.backSiteURL + "msg/getAllConversations/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authState.token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        // setShowError(true);
-        // Handle error if needed
-        return;
-      }
-      if (response.ok) {
-        const responseData = await response.json();
-
-        dispatch(messengerActions.setAllConversations(responseData.conversations));
-        // console.log(responseData.conversations);
-      }
-    } catch (error) {
-      console.log(error);
-      // Handle error if needed
-    }
-  };
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
   return (
     <div className="contacts p-2 flex-1 overflow-y-scroll mb-32">
       {allUsers &&

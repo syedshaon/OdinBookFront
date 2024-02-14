@@ -2,9 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { IoPersonSharp } from "react-icons/io5";
 
+import { IKContext, IKUpload } from "imagekitio-react";
+import Authenticator from "../ImageKit/Authenticator";
+
 const CreatePostForm = ({ SetAllPosts }) => {
   const authState = useSelector((state) => state.auth);
   const [text, setText] = useState("");
+  const [imgKitImgUrl, setImgKitImgUrl] = useState("");
+
+  const [sendDisabled, setSendDisabled] = useState(false);
   const [thumbnail, setThumbnail] = useState(null);
   const [showError, setShowError] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
@@ -26,6 +32,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
   };
 
   const handleThumbnailChange = (e) => {
+    setSendDisabled(true);
     // Assuming you have a single file input for the thumbnail
     const file = e.target.files[0];
     if (file) {
@@ -36,11 +43,11 @@ const CreatePostForm = ({ SetAllPosts }) => {
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
-    if (!text && !thumbnail) {
+    if (!text && !imgKitImgUrl) {
       setShowError(true);
       return;
     }
-    if (text.replace(/\s/g, "").length == 0 && !thumbnail) {
+    if (text.replace(/\s/g, "").length == 0 && !imgKitImgUrl) {
       setShowError(true);
       return;
     }
@@ -48,23 +55,18 @@ const CreatePostForm = ({ SetAllPosts }) => {
     // console.log(formData);
 
     // Call a function to send data to the backend API
-    sendDataToBackend({ text: text, thumbnail: thumbnail });
+    sendDataToBackend({ text: text, thumbnail: imgKitImgUrl });
   };
 
   const sendDataToBackend = async (data) => {
-    const postData = new FormData();
-    // postData.append("file", file);
-    Object.entries(data).forEach(([key, value]) => {
-      postData.append(key, value);
-    });
     try {
       const response = await fetch(authState.backendURL + "/posts/create", {
         method: "POST",
-        encType: "multipart/form-data",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${authState.token}`,
         },
-        body: postData,
+        body: JSON.stringify(data),
       });
       const responseData = await response.json();
       console.log(responseData);
@@ -88,6 +90,24 @@ const CreatePostForm = ({ SetAllPosts }) => {
     }
   };
 
+  const validateFileFunction = (file) => {
+    console.log("validating");
+    if (file.size < 5000000) {
+      // Less than 1mb
+      console.log("less than 5mb");
+      return true;
+    }
+    console.log("more than 5mb");
+    alert("Images must be less than 5mb");
+    return false;
+  };
+
+  const onSuccess = (res) => {
+    setImgKitImgUrl(res.filePath);
+    setSendDisabled(false);
+    console.log("Success", res.filePath);
+  };
+
   return (
     <div className="bg-white p-4 my-4 rounded-md shadow-md container">
       <div className="flex">
@@ -101,12 +121,15 @@ const CreatePostForm = ({ SetAllPosts }) => {
       <div className="flex justify-between items-center">
         <label className="my-2 ml-12 flex items-center space-x-2">
           <span className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 cursor-pointer">Choose Image</span>
-          <input type="file" accept="image/*" onChange={handleThumbnailChange} className="hidden" />
+
+          <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
+            <IKUpload onChange={handleThumbnailChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
+          </IKContext>
         </label>
         {errorMessage && <p className="text-red-500 errorMessage">{errorMessage}</p>}
 
         <div className="relative  ">
-          <button onClick={handlePostSubmit} className="bg-blue-500 text-white px-8 py-2   rounded-md hover:bg-blue-600 focus:outline-none">
+          <button disabled={sendDisabled === true} onClick={handlePostSubmit} className="bg-blue-500 text-white px-8 py-2   rounded-md hover:bg-blue-600 focus:outline-none">
             Post
           </button>
           {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>}

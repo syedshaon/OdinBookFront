@@ -8,48 +8,9 @@ import UserList from "./Components/UserList";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-function PeopleDetails() {
+function People_All() {
   const usersState = useSelector((state) => state.users);
   const [activeList, setActiveList] = useState("pending");
-
-  // const authState = useSelector((state) => state.auth);
-  // const dispatch = useDispatch();
-
-  // const fetchAllUsers = async () => {
-  //   try {
-  //     const response = await fetch(authState.backendURL + "/peopleDetails", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": `Bearer ${authState.token}`,
-  //       },
-  //     });
-
-  //     const responseData = await response.json();
-
-  //     if (!response.ok) {
-  //       console.log(responseData);
-  //       // Handle error if needed
-  //       return;
-  //     }
-  //     if (response.ok) {
-  //       dispatch(userActions.setAllUsers({ users: responseData }));
-  //     }
-
-  //     // Handle error if needed
-  //     return;
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Handle error if needed
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchAllUsers();
-  // }, []);
-
-  // Received friend request, friends, friend request sent, people I am following, Other Users
-  // console.log(activeList);
 
   return (
     <div>
@@ -94,4 +55,4 @@ function PeopleDetails() {
   );
 }
 
-export default PeopleDetails;
+export default People_All;

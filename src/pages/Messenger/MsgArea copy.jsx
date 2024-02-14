@@ -1,6 +1,7 @@
 // Show all messages between users
 
 import { useDispatch, useSelector } from "react-redux";
+import { IKContext, IKUpload } from "imagekitio-react";
 
 import { GrGallery } from "react-icons/gr";
 import { FaThumbsDown } from "react-icons/fa";
@@ -10,6 +11,7 @@ import io from "socket.io-client";
 import RecieverHeading from "./RecieverHeading";
 import Conversations from "./Conversations";
 import { messengerActions } from "../../store/messenger_reducer";
+import Authenticator from "../ImageKit/Authenticator";
 
 function MsgArea() {
   const dispatch = useDispatch();

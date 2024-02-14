@@ -1,12 +1,48 @@
-import { useState, useEffect } from "react";
 import Navbar from "../Navbar";
-import Footer from "../Footer";
+
 import People from "./People";
 import MsgArea from "./MsgArea";
+import { messengerActions } from "../../store/messenger_reducer";
+
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 
 function Messenger() {
-  const [conversationId, setConversatioid] = useState("");
-  const [recievers, setRecievers] = useState("");
+  const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.users.availAbleUsers);
+  const authState = useSelector((state) => state.auth);
+
+  const fetchMessages = async () => {
+    console.log("fetch messages");
+    try {
+      const response = await fetch(authState.backSiteURL + "msg/getAllConversations/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authState.token}`,
+        },
+      });
+      const responseData = await response.json();
+
+      console.log(responseData);
+      if (!response.ok) {
+        console.log(responseData);
+        // setShowError(true);
+        // Handle error if needed
+        return;
+      }
+      if (response.ok) {
+        dispatch(messengerActions.setAllConversations(responseData.conversations));
+        // console.log(responseData.conversations);
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle error if needed
+    }
+  };
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   return (
     <>

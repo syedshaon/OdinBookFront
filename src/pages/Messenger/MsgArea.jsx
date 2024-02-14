@@ -1,6 +1,7 @@
 // Show all messages between users
 
 import { useDispatch, useSelector } from "react-redux";
+import { IKContext, IKUpload } from "imagekitio-react";
 
 import { GrGallery } from "react-icons/gr";
 import { BsFillSendFill } from "react-icons/bs";
@@ -10,10 +11,14 @@ import io from "socket.io-client";
 import RecieverHeading from "./RecieverHeading";
 import Conversations from "./Conversations";
 import { messengerActions } from "../../store/messenger_reducer";
-
+import Authenticator from "../ImageKit/Authenticator";
 function MsgArea() {
   const [imgUrl, setImgUrl] = useState(null);
   const [textDisabled, setTextDisabled] = useState(false);
+  const [sendDisabled, setSendDisabled] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [imgKitImgUrl, setImgKitImgUrl] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
@@ -54,26 +59,13 @@ function MsgArea() {
     };
   }, [authState]); // Empty dependency array ensures the effect runs only once on mount
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     if (imgUrl) {
       if (contactView === true) {
-        const file = document.getElementById("imageInput").files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const imageBase64 = e.target.result;
-          // socket.emit("image", imageBase64);
-          socket.emit("image", { text: imageBase64, recievers: [messengerState.activeReciepient._id], conId: messengerState.activeConversation ? messengerState.activeConversation._id : null });
-        };
-        reader.readAsDataURL(file);
+        socket.emit("image", { text: imgKitImgUrl, recievers: [messengerState.activeReciepient._id], conId: messengerState.activeConversation ? messengerState.activeConversation._id : null });
       } else {
-        const file = document.getElementById("imageInput").files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const imageBase64 = e.target.result;
-          // socket.emit("image", imageBase64);
-          socket.emit("groupImage", { text: imageBase64, recievers: messengerState.activeGroupReciepient, conId: messengerState.activeGroupConversation._id });
-        };
-        reader.readAsDataURL(file);
+        socket.emit("groupImage", { text: imgKitImgUrl, recievers: messengerState.activeGroupReciepient, conId: messengerState.activeGroupConversation._id });
       }
     } else {
       if (contactView === true) {
@@ -84,6 +76,7 @@ function MsgArea() {
       }
     }
 
+    setTextDisabled(false);
     setMessageInput("");
     setImgUrl(null);
   };
@@ -110,10 +103,41 @@ function MsgArea() {
     setTextDisabled(true);
   };
 
-  const handleClick = (e) => {
+  const handleIconClick = (e) => {
     // Trigger the file input
     e.stopPropagation();
     document.getElementById("imageInput").click();
+  };
+
+  const validateFileFunction = (file) => {
+    console.log("validating");
+    if (file.size < 5000000) {
+      // Less than 1mb
+      console.log("less than 5mb");
+      return true;
+    }
+    console.log("more than 5mb");
+    alert("Images must be less than 5mb");
+    return false;
+  };
+
+  const onUploadStart = (state) => {
+    setTextDisabled(true);
+    setSendDisabled(true);
+  };
+  const onUploadProgress = (progress) => {
+    console.log("Progress", progress);
+  };
+
+  const onError = (err) => {
+    setShowError(true);
+    console.log("Error", err);
+  };
+
+  const onSuccess = (res) => {
+    setImgKitImgUrl(res.filePath);
+    setSendDisabled(false);
+    console.log("Success", res.filePath);
   };
 
   return (
@@ -124,22 +148,21 @@ function MsgArea() {
       </>
 
       <div className="chat-footer w-full   flex-none">
-        <div className="flex flex-row items-center p-4">
-          {/* <button type="button" className="flex flex-shrink-0 focus:outline-none mx-2  text-blue-600 hover:text-blue-700 w-6 h-6">
-            <GrGallery className="text-xl" />
-          </button> */}
-          <div className="flex justify-center items-center">
-            <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleClick} />
-            <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" />
-            <div className={`w-20 h-16 bg-contain mr-6  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>
-          </div>
+        <form onSubmit={sendMessage} className="flex flex-row   p-4 justify-center items-center">
+          <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleIconClick} />
+          {/* <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" /> */}
+          <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
+            <IKUpload onUploadStart={onUploadStart} onChange={handleFileChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} onUploadProgress={onUploadProgress} fileName="msg.png" onError={onError} onSuccess={onSuccess} />
+          </IKContext>
+
+          <div className={`w-20 h-16 bg-contain mr-6 bg-no-repeat  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>
 
           <textarea disabled={textDisabled === true} value={messageInput} onChange={(e) => setMessageInput(e.target.value)} onKeyDown={handleKeyDown} className="  overflow-hidden resize-none  leading-3   rounded-lg py-5 pl-5 pr-10 w-full border border-gray-800 focus:border-gray-700   focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in" type="text" placeholder="Aa" />
 
-          <button onClick={sendMessage} type="button" className="flex justify-center items-center bg-blue-500  focus:outline-none mx-2   text-white hover:text-gray-200 w-40   h-14    py-8 rounded-lg ">
+          <button disabled={sendDisabled === true} type="submit" className="flex justify-center items-center bg-blue-500  focus:outline-none mx-2   text-white hover:text-gray-200 w-40   h-14    py-8 rounded-lg ">
             <BsFillSendFill className="text-xl " />
           </button>
-        </div>
+        </form>
       </div>
     </section>
   );

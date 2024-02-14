@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/User/Login";
@@ -14,15 +14,10 @@ import Settings from "./pages/User/Settings";
 
 // import Testimonials from "./pages/Testimonials";
 import ErrorPage from "./pages/ErrorPage";
-import Update from "./pages/Update";
-import Create_Post from "./pages/Create_Post";
 
-import Read_Post from "./pages/Read_Post";
-import Edit_Post from "./pages/Edit_Post";
-import PeopleDetails from "./pages/PeopleDetails";
+import People_All from "./pages/People_All";
 import Messenger from "./pages/Messenger/Messenger";
 
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userReducer";
 import { messengerActions } from "./store/messenger_reducer";
@@ -52,7 +47,7 @@ const Router = () => {
       }
       if (response.ok) {
         dispatch(userActions.setAllUsers({ users: responseData }));
-        dispatch(messengerActions.setActiveReciepient(responseData[0]));
+        dispatch(messengerActions.setInitialActiveReciepient({ users: responseData }));
       }
 
       // Handle error if needed
@@ -82,12 +77,10 @@ const Router = () => {
         <Route path="/reset-password/:vtoken" element={<Reset_pw />} />
         <Route path="/settings" element={isLoggedIn ? <Settings /> : <Login />} />
         <Route path="/user/:uid" element={isLoggedIn ? <ProfilePage /> : <Login />} />
-        <Route path="/allpeople" element={isLoggedIn ? <PeopleDetails /> : <Login />} />
-        <Route path="/update" element={isLoggedIn ? <Update /> : <Home />} />
+        <Route path="/allpeople" element={isLoggedIn ? <People_All /> : <Login />} />
+
         {/* <Route path="/logout" element={<Testimonials />} /> */}
-        <Route path="/new_post" element={isLoggedIn ? <Create_Post /> : <Login />} />
-        <Route path="/post/:postId" element={isLoggedIn ? <Read_Post /> : <Login />} />
-        <Route path="/editpost/:postId" element={isLoggedIn ? <Edit_Post /> : <Login />} />
+
         <Route path="/messenger" element={isLoggedIn ? <Messenger /> : <Login />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

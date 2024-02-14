@@ -1,7 +1,6 @@
 import Router from "./Router";
 import { RouterProvider } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import validateLoginStatus from "./store/validateLoginStatus";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authReducer";
@@ -19,7 +18,7 @@ function App() {
     if (localStorage.getItem("token") && !authState.isLoggedIn) {
       try {
         const response = await fetch(authState.backendURL + "/validateLoginStatus", {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,

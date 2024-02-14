@@ -55,7 +55,7 @@ function Home() {
     <>
       <Navbar />
       <div className="mt-[120px] md:mt-20  ">
-        <CreatePostForm />
+        <CreatePostForm SetAllPosts={SetAllPosts} />
       </div>
 
       <div className=" min-h-[70vh]   container mx-auto">

@@ -1,3 +1,9 @@
+//
+// Used to show Single post on any user's profile
+//
+// Post's that appear on the homepage uses FollowedSinglePost.jsx
+//
+
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";

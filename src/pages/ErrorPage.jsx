@@ -1,49 +1,49 @@
 import { NavLink } from "react-router-dom";
-import { IKImage, IKVideo, IKContext, IKUpload } from "imagekitio-react";
-import { useDispatch, useSelector } from "react-redux";
+// import { IKImage, IKVideo, IKContext, IKUpload } from "imagekitio-react";
+// import { useDispatch, useSelector } from "react-redux";
 
-import Authenticator from "./ImageKit/Authenticator";
+// import Authenticator from "./ImageKit/Authenticator";
 
 function ErrorPage() {
-  const authState = useSelector((state) => state.auth);
+  // const authState = useSelector((state) => state.auth);
 
-  const validateFileFunction = (file) => {
-    console.log("validating");
-    if (file.size < 5000000) {
-      // Less than 1mb
-      console.log("less than 5mb");
-      return true;
-    }
-    console.log("more than 5mb");
-    return false;
-  };
+  // const validateFileFunction = (file) => {
+  //   console.log("validating");
+  //   if (file.size < 5000000) {
+  //     // Less than 1mb
+  //     console.log("less than 5mb");
+  //     return true;
+  //   }
+  //   console.log("more than 5mb");
+  //   return false;
+  // };
 
-  const onUploadProgress = (progress) => {
-    console.log("Progress", progress);
-  };
+  // const onUploadProgress = (progress) => {
+  //   console.log("Progress", progress);
+  // };
 
-  const onError = (err) => {
-    console.log("Error", err);
-  };
+  // const onError = (err) => {
+  //   console.log("Error", err);
+  // };
 
-  const onSuccess = (res) => {
-    console.log("Success", res);
-  };
+  // const onSuccess = (res) => {
+  //   console.log("Success", res);
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <div className="teams container min-h-[800px] flex justify-center items-center px-2 md:px-7">
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
           <p>Upload an image</p>
           <IKUpload validateFile={validateFileFunction} onUploadProgress={onUploadProgress} fileName="test-upload.png" onError={onError} onSuccess={onSuccess} />
         </IKContext>
 
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
 
       {/* <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" transformationPosition="path" authenticationEndpoint={IMAGEKIT_AUTH_END}>
         <IKImage
@@ -69,7 +69,7 @@ function ErrorPage() {
         </div>
         <p className="mt-4 text-gray-600">
           Let's get you back{" "}
-          <NavLink to="/" className="text-emerald-500">
+          <NavLink to="/" className="text-emerald-500 font-bold">
             home
           </NavLink>
           .

@@ -18,23 +18,23 @@ function People_All() {
 
       <div className="container max-w-[95vw] mx-auto mt-[120px] md:mt-20 ">
         <div className="people   flex flex-wrap justify-center items-center gap-4">
-          <p className={`${activeList === "pending" ? "bg-green-500 cursor-pointer p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("pending")}>
+          <p className={`${activeList === "pending" ? "bg-green-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("pending")}>
             Received Friend Request
           </p>
 
-          <p className={`${activeList === "friends" ? "bg-green-500 cursor-pointer p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("friends")}>
+          <p className={`${activeList === "friends" ? "bg-green-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("friends")}>
             Friends
           </p>
 
-          <p className={`${activeList === "sent-fr" ? "bg-green-500 cursor-pointer p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("sent-fr")}>
+          <p className={`${activeList === "sent-fr" ? "bg-green-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("sent-fr")}>
             Sent Friend Request
           </p>
 
-          <p className={`${activeList === "follow" ? "bg-green-500 cursor-pointer p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("follow")}>
+          <p className={`${activeList === "follow" ? "bg-green-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("follow")}>
             People You Follow
           </p>
 
-          <p className={`${activeList === "other" ? "bg-green-500 cursor-pointer p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("other")}>
+          <p className={`${activeList === "other" ? "bg-green-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white" : "bg-blue-500 cursor-pointer py-1 px-2 md:p-3 mx-2 rounded text-white"}`} onClick={() => setActiveList("other")}>
             People You may Know
           </p>
         </div>

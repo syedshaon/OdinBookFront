@@ -21,6 +21,7 @@ const usersSlice = createSlice({
       // state.followingPeople = "";
       // state.ohterPeople = "";
     },
+
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload.user;
     },

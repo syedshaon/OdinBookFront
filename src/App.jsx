@@ -1,5 +1,4 @@
 import Router from "./Router";
-import { RouterProvider } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -11,8 +10,10 @@ import Cookies from "js-cookie";
 function App() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const [showLoading, setShowLoading] = useState(false);
 
+  ////////////////////////////////////////////////////////////////////////
+  // START: Used to verify user's login status when user reload the page.
+  ////////////////////////////////////////////////////////////////////////
   const validateLoginStatus = async () => {
     // console.log("token : ", localStorage.getItem("token"));
     if (localStorage.getItem("token") && !authState.isLoggedIn) {
@@ -43,7 +44,13 @@ function App() {
       }
     }
   };
+  ////////////////////////////////////////////////////////////////////////
+  // END: Used to verify user's login status when user reload the page.
+  ////////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////////
+  // Start: Used when user sign in OR sign up with Google/Facebook
+  ////////////////////////////////////////////////////////////////////////
   const loadMe = async () => {
     // loadMe ran
     try {
@@ -67,37 +74,6 @@ function App() {
     }
   };
 
-  // const fetchAllUsers = async () => {
-  //   try {
-  //     const response = await fetch(authState.backendURL + "/peopleDetails", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": `Bearer ${authState.token}`,
-  //       },
-  //     });
-
-  //     const responseData = await response.json();
-
-  //     if (!response.ok) {
-  //       console.log(responseData);
-  //       // Handle error if needed
-  //       return;
-  //     }
-  //     if (response.ok) {
-  //       dispatch(userActions.setAllUsers({ users: responseData }));
-  //     }
-
-  //     // Handle error if needed
-  //     return;
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Handle error if needed
-  //   }
-  // };
-
-  // auth_cookie
-
   useEffect(() => {
     // fetchAllUsers();
     if (Cookies.get("auth_cookie")) {
@@ -106,10 +82,14 @@ function App() {
     validateLoginStatus();
   }, []);
 
-  const RefreshJwtToken = async () => {
-    // console.log(new Date(Date.now() + 60 * 15 * 1000));
-    // console.log(new Date(Date.now() + 60 * 15 * 1000).toISOString());
+  ////////////////////////////////////////////////////////////////////////
+  // END: Used when user sign in OR sign up with Google/Facebook
+  ////////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////////
+  // Start: Check every minute and refersh JWT Token at the 9th minute
+  ////////////////////////////////////////////////////////////////////////
+  const RefreshJwtToken = async () => {
     let tokenExpires = new Date(authState.expire); // Convert the string to a Date object
 
     // Calculate the difference between tokenExpires and the current time
@@ -144,11 +124,6 @@ function App() {
   };
 
   useEffect(() => {
-    // Function to run the test
-    // const runTest = () => {
-    //   console.log("Running test...");
-    //   // Add your test logic here
-    // };
     console.log("CONSOLE LOGGING INTENTIONALLY :> ");
     RefreshJwtToken();
 
@@ -157,7 +132,11 @@ function App() {
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, [authState.expire, authState.isLoggedIn]); // Empty dependency array ensures the effect runs only once on mount
+  }, [authState.expire, authState.isLoggedIn]);
+
+  ////////////////////////////////////////////////////////////////////////
+  // END: Check every minute and refersh JWT Token at the 9th minute
+  ////////////////////////////////////////////////////////////////////////
 
   return (
     <>

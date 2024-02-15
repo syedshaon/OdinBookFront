@@ -29,16 +29,18 @@ function Conversations_Ppl() {
 
   const messagesContainerRef = useRef();
   const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-    }
+    messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
   };
   useEffect(() => {
-    scrollToBottom();
+    setTimeout(() => {
+      scrollToBottom();
+    }, 100);
 
     // Add event listener for orientation changes
     const handleOrientationChange = () => {
-      scrollToBottom();
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
     };
 
     window.addEventListener("orientationchange", handleOrientationChange);
@@ -62,7 +64,7 @@ function Conversations_Ppl() {
               <div key={message._id} className="flex flex-row justify-end  mb-3">
                 <div className="messages text-sm text-white grid grid-flow-row gap-2">
                   <div className="flex items-stretch flex-row-reverse group">
-                    {message.type === "text" ? <p className="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">{message.content}</p> : <IKImage className="max-h-[300px] max-w-[100%]" urlEndpoint="https://ik.imagekit.io/odinbook" path={message.content} />}
+                    {message.type === "text" ? <p className="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">{message.content}</p> : <IKImage className="max-h-[300px] max-w-[60%]  md:max-w-[70%]" urlEndpoint="https://ik.imagekit.io/odinbook" path={message.content} />}
                     <p className="p-4   text-center text-xs text-gray-500">{formattedDate}</p>
                   </div>
                 </div>
@@ -77,7 +79,7 @@ function Conversations_Ppl() {
                 </div>
                 <div className="messages text-sm text-white grid grid-flow-row gap-2">
                   <div className="flex items-stretch  group">
-                    {message.type === "text" ? <p className="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">{message.content}</p> : <IKImage className="max-h-[300px]  max-w-[100%]" urlEndpoint="https://ik.imagekit.io/odinbook" path={message.content} />}
+                    {message.type === "text" ? <p className="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">{message.content}</p> : <IKImage className="max-h-[300px] max-w-[60%]  md:max-w-[70%]" urlEndpoint="https://ik.imagekit.io/odinbook" path={message.content} />}
                     <p className="px-4 pt-6 text-center  text-xs text-gray-500">{formattedDate}</p>
                   </div>
                 </div>

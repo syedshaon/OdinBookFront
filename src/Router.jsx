@@ -1,32 +1,27 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/User/Login";
-import AuthError from "./pages/User/AuthError";
-import Signup from "./pages/User/Signup";
-import Verify_signup from "./pages/User/Verify_signup";
-import GetVerificationEmail from "./pages/User/GetVerificationEmail";
-import ProfilePage from "./pages/User/ProfilePage";
-
-import GetResetPw from "./pages/User/GetResetPw";
-import Reset_pw from "./pages/User/Reset_pw";
-import Settings from "./pages/User/Settings";
-
-// import Testimonials from "./pages/Testimonials";
-import ErrorPage from "./pages/ErrorPage";
-
-import People_All from "./pages/People_All";
-import Messenger from "./pages/Messenger/Messenger";
-
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/userReducer";
 import { messengerActions } from "./store/messenger_reducer";
+
+import Home from "./pages/Home";
+import Login from "./pages/People/Login";
+import AuthError from "./pages/People/AuthError";
+import Signup from "./pages/People/Signup";
+import Verify_signup from "./pages/People/Verify_signup";
+import GetVerificationEmail from "./pages/People/GetVerificationEmail";
+import GetResetPw from "./pages/People/GetResetPw";
+import Reset_pw from "./pages/People/Reset_pw";
+import Settings from "./pages/People/Settings";
+import People_Single from "./pages/People_Single";
+import People_All from "./pages/People_All";
+import Messenger from "./pages/Messenger";
+import ErrorPage from "./pages/ErrorPage";
 
 const Router = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  // console.log(isLoggedIn);
 
   const fetchAllUsers = async () => {
     try {
@@ -69,18 +64,14 @@ const Router = () => {
         <Route path="/signin" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login-auth-error" element={<AuthError />} />
-
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:vtoken" element={<Verify_signup />} />
         <Route path="/get-verification-email" element={<GetVerificationEmail />} />
         <Route path="/get-reset-password" element={<GetResetPw />} />
         <Route path="/reset-password/:vtoken" element={<Reset_pw />} />
         <Route path="/settings" element={isLoggedIn ? <Settings /> : <Login />} />
-        <Route path="/user/:uid" element={isLoggedIn ? <ProfilePage /> : <Login />} />
+        <Route path="/user/:uid" element={isLoggedIn ? <People_Single /> : <Login />} />
         <Route path="/allpeople" element={isLoggedIn ? <People_All /> : <Login />} />
-
-        {/* <Route path="/logout" element={<Testimonials />} /> */}
-
         <Route path="/messenger" element={isLoggedIn ? <Messenger /> : <Login />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

@@ -1,3 +1,9 @@
+//
+// Post's that appear on the homepage uses FollowedSinglePost.jsx
+//
+// SinglePost.jsx is Used to show Single post on any user's profile
+//
+
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import AddCommentForm from "./AddCommentForm";

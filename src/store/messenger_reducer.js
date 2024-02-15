@@ -2,8 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const messengerSlice = createSlice({
   name: "messenger",
-  initialState: { currentUser: JSON.parse(localStorage.getItem("currentUser")), allConversations: "", activeReciepient: "", activeConversation: "", allGroupConversations: "", activeGroupReciepient: "", activeGroupConversation: "", contactView: true },
+  initialState: { currentUser: JSON.parse(localStorage.getItem("currentUser")), allConversations: "", activeReciepient: "", activeConversation: "", allGroupConversations: "", activeGroupReciepient: "", activeGroupConversation: "", contactView: true, activeUsers: [] },
   reducers: {
+    setActiveUsers: (state, action) => {
+      state.activeUsers = action.payload;
+    },
     alterContactView: (state, action) => {
       state.contactView = action.payload;
     },

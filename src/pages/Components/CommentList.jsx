@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { IoPersonSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";

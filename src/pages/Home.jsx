@@ -68,7 +68,7 @@ function Home() {
             ) : (
               <div className="flex flex-col justify-center items-center min-h-[40vh]  w-full">
                 <MdOutlineContentPasteSearch className="text-red-500 bold text-7xl" />
-                <h3 className="text-blue-500 bold text-5xl">No Posts to check.!</h3>
+                <h3 className="text-blue-500 text-center bold text-xl">No Posts to check.!</h3>
               </div>
             )}
             {/* // END POST */}

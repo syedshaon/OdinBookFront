@@ -1,4 +1,9 @@
-import React from "react";
+//
+// Conditionally show and initiates friend, unfriend, cancel friend,
+//  follow, unfollow USED IN SINGLE PROFILE PAGE (People_Single.jsx)
+//
+//
+
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/userReducer";

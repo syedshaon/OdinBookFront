@@ -9,7 +9,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
   const authState = useSelector((state) => state.auth);
   const [text, setText] = useState("");
   const [imgKitImgUrl, setImgKitImgUrl] = useState("");
-
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [sendDisabled, setSendDisabled] = useState(false);
   const [thumbnail, setThumbnail] = useState(null);
   const [showError, setShowError] = useState(false);
@@ -21,8 +21,6 @@ const CreatePostForm = ({ SetAllPosts }) => {
     // Focus on the input element when the component mounts
     inputRef.current.focus();
   }, []); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
-
-  // {authState.user.profilePicture ? <img src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" className="w-9 h-9 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -102,6 +100,15 @@ const CreatePostForm = ({ SetAllPosts }) => {
     return false;
   };
 
+  const onUploadProgress = (progress) => {
+    const percentage = ((progress.loaded / progress.total) * 100).toFixed(0);
+    setUploadProgress(percentage);
+    // console.log("Progress", progress);
+  };
+
+  const onUploadStart = (state) => {
+    setSendDisabled(true);
+  };
   const onSuccess = (res) => {
     setImgKitImgUrl(res.filePath);
     setSendDisabled(false);
@@ -120,18 +127,25 @@ const CreatePostForm = ({ SetAllPosts }) => {
 
       <div className="flex justify-between items-center">
         <label className="my-2 ml-12 flex items-center space-x-2">
-          <span className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 cursor-pointer">Choose Image</span>
+          <span className="bg-blue-600 text-white text-md px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">Choose Image</span>
 
           <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
-            <IKUpload onChange={handleThumbnailChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
+            <IKUpload onChange={handleThumbnailChange} onUploadStart={onUploadStart} id="imageInput" style={{ display: "none" }} accept="image/*" onUploadProgress={onUploadProgress} validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
           </IKContext>
         </label>
         {errorMessage && <p className="text-red-500 errorMessage">{errorMessage}</p>}
 
-        <div className="relative  ">
-          <button disabled={sendDisabled === true} onClick={handlePostSubmit} className="bg-blue-500 text-white px-8 py-2   rounded-md hover:bg-blue-600 focus:outline-none">
+        <div className="relative   w-40  h-[40px]     ">
+          <button onClick={handlePostSubmit} disabled={sendDisabled === true} type="submit" className={`  absolute left-0 top-0 flex justify-center items-center   focus:outline-none z-20    text-white hover:text-gray-200 w-40 text-md  h-[40px] rounded-lg ${sendDisabled ? "bg-transparent" : "bg-blue-600"}`}>
             Post
           </button>
+          <div className={`flex justify-center items-center rounded-lg   z-10  w-40   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
+            <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-[40px]  text-xl rounded-l-lg"></div>
+            <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-[40px] text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg">
+              {uploadProgress}%
+            </div>
+          </div>
+
           {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>}
         </div>
       </div>

@@ -24,7 +24,7 @@ function Group_List() {
       {allGroupConversations &&
         allGroupConversations.map((conversation) => (
           <div onClick={() => dispatch(messengerActions.setActiveGroup(conversation))} key={conversation._id} className="mx-2  bg-gray-300 rounded-md mb-5 flex-col items-center  ">
-            <h3 className="text-center text-xl font-bold">{conversation.groupName}</h3>
+            <h3 className="text-center text-md font-bold">{conversation.groupName}</h3>
             <div className="overflow-hidden   flex justify-center">
               {conversation.participants.map((participantId) => {
                 const participant = allUsers.find((user) => user._id === participantId);

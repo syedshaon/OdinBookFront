@@ -1,4 +1,5 @@
 // Show all messages between users
+// CREATE NEW MESSAGE
 
 import { useDispatch, useSelector } from "react-redux";
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -12,8 +13,9 @@ import RecieverHeading from "./RecieverHeading";
 import Conversations from "./Conversations";
 import { messengerActions } from "../../store/messenger_reducer";
 import Authenticator from "../ImageKit/Authenticator";
-function MsgArea() {
-  const [imgUrl, setImgUrl] = useState(null);
+function MsgArea({ setShowContact }) {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [imgUrl, setImgUrl] = useState("");
   const [textDisabled, setTextDisabled] = useState(false);
   const [sendDisabled, setSendDisabled] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -31,7 +33,7 @@ function MsgArea() {
   // const socket = io("http://localhost:3000", { withCredentials: true, query: { id: authState.user.id } });
 
   useEffect(() => {
-    const newSocket = io(authState.backSiteURL, { withCredentials: true, query: { sender: authState.user.id } });
+    const newSocket = io(authState.backSiteURL, { withCredentials: true, query: { sender: authState.user.id, token: authState.token } });
     setSocket(newSocket);
     // Connect to Socket.IO server
     newSocket.connect();
@@ -46,10 +48,16 @@ function MsgArea() {
       // setMessages((prevMessages) => [...prevMessages, message]);
       dispatch(messengerActions.updateGroupConversations(message));
     };
+    const receiveActiveUsersHandler = (message) => {
+      // console.log(message.userIdsArray);
+      // setMessages((prevMessages) => [...prevMessages, message]);
+      dispatch(messengerActions.setActiveUsers(message.userIdsArray));
+    };
 
     // Listen for incoming messages
     newSocket.on("receiveMessage", receiveMessageHandler);
     newSocket.on("receiveGroupMessage", receiveGroupMessageHandler);
+    newSocket.on("activeUsers", receiveActiveUsersHandler);
 
     // Clean up socket connection and event listener on unmount
     return () => {
@@ -60,7 +68,7 @@ function MsgArea() {
   }, [authState]); // Empty dependency array ensures the effect runs only once on mount
 
   const sendMessage = (e) => {
-    e.preventDefault();
+    console.log("sendMessage called"); // Add this line
     if (imgUrl) {
       if (contactView === true) {
         socket.emit("image", { text: imgKitImgUrl, recievers: [messengerState.activeReciepient._id], conId: messengerState.activeConversation ? messengerState.activeConversation._id : null });
@@ -81,18 +89,14 @@ function MsgArea() {
     setImgUrl(null);
   };
   const handleKeyDown = (e) => {
-    if (imgUrl) {
-      return;
-    }
+    console.log("Key pressed: ", e.key); // Add this line
     if (e.key === "Enter" && !e.shiftKey) {
-      // console.log("works 1");
-      // console.log("works 2");
+      e.preventDefault(); // Prevent default behavior (new line)
+      sendMessage(); // Send the message
 
-      sendMessage();
-
-      // Clear the input field
+      // Clear the input field (you may need to call setMessageInput("") here)
     } else if (e.key === "Enter" && e.shiftKey) {
-      // console.log("works 3");
+      e.preventDefault(); // Prevent default behavior (new line)
       // Add a new line to the input area
       setMessageInput((prevValue) => prevValue + "\n");
     }
@@ -113,11 +117,13 @@ function MsgArea() {
     console.log("validating");
     if (file.size < 5000000) {
       // Less than 1mb
-      console.log("less than 5mb");
+      // console.log("less than 5mb");
+      setSendDisabled(false);
       return true;
     }
-    console.log("more than 5mb");
+    // console.log("more than 5mb");
     alert("Images must be less than 5mb");
+    setSendDisabled(true);
     return false;
   };
 
@@ -126,7 +132,9 @@ function MsgArea() {
     setSendDisabled(true);
   };
   const onUploadProgress = (progress) => {
-    console.log("Progress", progress);
+    const percentage = ((progress.loaded / progress.total) * 100).toFixed(0);
+    setUploadProgress(percentage);
+    // console.log("Progress", progress);
   };
 
   const onError = (err) => {
@@ -141,27 +149,34 @@ function MsgArea() {
   };
 
   return (
-    <section className="msgArea mt-[108px] md:mt-14   flex   w-full relative   flex-col flex-auto justify-between border-l border-gray-800">
+    <section className="msgArea mt-[108px] md:mt-14   flex   w-full relative   flex-col flex-auto justify-between md:border-l md:border-gray-800">
       <>
-        <RecieverHeading />
+        <RecieverHeading setShowContact={setShowContact} />
         <Conversations />
       </>
 
       <div className="chat-footer w-full   flex-none">
-        <form onSubmit={sendMessage} className="flex flex-row   p-4 justify-center items-center">
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-row   p-4 justify-center items-center">
           <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleIconClick} />
           {/* <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" /> */}
           <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
             <IKUpload onUploadStart={onUploadStart} onChange={handleFileChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} onUploadProgress={onUploadProgress} fileName="msg.png" onError={onError} onSuccess={onSuccess} />
           </IKContext>
 
-          <div className={`w-20 h-16 bg-contain mr-6 bg-no-repeat  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>
+          <div className={`w-20 hidden md:block h-16 bg-contain mr-6 bg-no-repeat  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>
 
-          <textarea disabled={textDisabled === true} value={messageInput} onChange={(e) => setMessageInput(e.target.value)} onKeyDown={handleKeyDown} className="  overflow-hidden resize-none  leading-3   rounded-lg py-5 pl-5 pr-10 w-full border border-gray-800 focus:border-gray-700   focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in" type="text" placeholder="Aa" />
-
-          <button disabled={sendDisabled === true} type="submit" className="flex justify-center items-center bg-blue-500  focus:outline-none mx-2   text-white hover:text-gray-200 w-40   h-14    py-8 rounded-lg ">
-            <BsFillSendFill className="text-xl " />
-          </button>
+          <textarea disabled={textDisabled === true} value={messageInput} onChange={(e) => setMessageInput(e.target.value)} onKeyDown={handleKeyDown} className="    resize-none     rounded-lg py-3 pl-5 pr-10 w-full border border-gray-300 focus:border-gray-400   focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in" type="text" placeholder="Aa" />
+          <div onClick={sendMessage} className="relative  w-20 md:w-24 h-10 mr-4 ml-2  md:mx-4">
+            <button disabled={sendDisabled === true} className={`  absolute left-0 top-0 flex justify-center items-center   focus:outline-none z-20    text-white hover:text-gray-200 w-20 md:w-24   h-10     rounded-lg ${sendDisabled ? "bg-transparent" : "bg-blue-600"}`}>
+              <BsFillSendFill className="text-xl " />
+            </button>
+            <div className={`flex justify-center items-center    z-10  w-20 md:w-24   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
+              <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-10  text-xl rounded-l-lg"></div>
+              <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-10  text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg">
+                {uploadProgress}%
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </section>

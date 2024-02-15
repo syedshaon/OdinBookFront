@@ -139,7 +139,7 @@ function Login() {
 
                 <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-                <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Log In</button>
+                <button className=" mt-3  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Log In</button>
 
                 <hr className="my-3" />
 
@@ -166,7 +166,7 @@ function Login() {
                   </>
                 )}
               </form>
-              <div className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+              <div className=" flex flex-col md:ml-auto w-full  ">
                 <hr className="my-3" />
 
                 <a className="fb btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 flex justify-center" href={`${authState.backSiteURL}auth/facebook_signin`}>

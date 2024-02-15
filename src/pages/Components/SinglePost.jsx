@@ -1,7 +1,14 @@
+//
+// Used to show Single post on any user's profile
+//
+// Post's that appear on the homepage uses FollowedSinglePost.jsx
+//
+
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import AddCommentForm from "./AddCommentForm";
+import { IKImage } from "imagekitio-react";
 
 import ToggleLikesForm from "./ToggleLikesForm";
 import { BiSolidCommentAdd } from "react-icons/bi";
@@ -37,7 +44,11 @@ function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
       </div>
       {/* END POST AUTHOR */}
       {/* POST CONTENT */}
-      <div className="text-justify  px-4 py-2">{post.thumbnail && <img src={`data:image/png;base64,${post.thumbnail}`} alt="Thumbnail Preview" className="max-w-full max-h-[500px] mx-auto h-auto rounded" />}</div>
+      <div className="text-justify  px-4 py-2">
+        {/* {post.thumbnail && <img src={`data:image/png;base64,${post.thumbnail}`} alt="Thumbnail Preview" className="max-w-full max-h-[500px] mx-auto h-auto rounded" />} */}
+
+        {post.thumbnail && <IKImage className="max-w-full max-h-[500px] mx-auto h-auto rounded" urlEndpoint="https://ik.imagekit.io/odinbook" alt="Thumbnail Preview" path={post.thumbnail} />}
+      </div>
       <div className="text-justify px-4 py-2">
         <p className="bold  mx-10">{post.text}</p>
       </div>

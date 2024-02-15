@@ -40,3 +40,13 @@ body {
 .fade-out {
   animation: fadeOut 0.5s ease-in-out;
 }
+
+.msgArea {
+  height: calc(100vh - 130px);
+}
+
+@media (min-width: 768px) {
+  .msgArea {
+    height: calc(100vh - 84px);
+  }
+}

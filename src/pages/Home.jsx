@@ -12,21 +12,20 @@ import Loading from "./Loading";
 
 function Home() {
   const authState = useSelector((state) => state.auth);
-  const [allPosts, SetAllPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [allPosts, SetAllPosts] = useState(JSON.parse(localStorage.getItem("followed_posts")));
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
-      // Set loading to true while fetching data
       setLoading(true);
       const response = await fetch(authState.backendURL + "/posts/followedUsersPosts", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
+        // filterdate: filterdate,
       });
-
       const responseData = await response.json();
       // console.log(responseData.posts);
       if (!response.ok) {
@@ -36,6 +35,9 @@ function Home() {
       }
       // console.log(responseData);
       SetAllPosts(responseData.posts);
+      // console.log(responseData.posts);
+      //   localStorage.setItem("followed_posts", JSON.stringify(responseData.posts));
+      // }
     } catch (error) {
       console.log(error);
       // Handle error if needed
@@ -44,6 +46,7 @@ function Home() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -52,12 +55,12 @@ function Home() {
     <>
       <Navbar />
       <div className="mt-[120px] md:mt-20  ">
-        <CreatePostForm />
+        <CreatePostForm SetAllPosts={SetAllPosts} />
       </div>
 
-      <div className=" min-h-[40vh]   container mx-auto">
+      <div className=" min-h-[70vh]   container mx-auto">
         {loading && <Loading />}
-        {!loading && (
+        {!loading && allPosts && (
           <div className="flex flex-col items-center w-full justify-center  ">
             {/* // POST */}
             {allPosts.length > 0 ? (
@@ -65,7 +68,7 @@ function Home() {
             ) : (
               <div className="flex flex-col justify-center items-center min-h-[40vh]  w-full">
                 <MdOutlineContentPasteSearch className="text-red-500 bold text-7xl" />
-                <h3 className="text-blue-500 bold text-5xl">No Posts to check.!</h3>
+                <h3 className="text-blue-500 text-center bold text-xl">No Posts to check.!</h3>
               </div>
             )}
             {/* // END POST */}

@@ -33,7 +33,7 @@ const AddCommentForm = ({ searchedUser, postId, SetAllPosts, allPosts }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
         body: JSON.stringify(data),
       });

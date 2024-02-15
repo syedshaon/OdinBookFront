@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+//
+// Like button feature on posts
+//
+
 import { useSelector } from "react-redux";
 import { FaRegThumbsUp } from "react-icons/fa";
 
@@ -10,7 +13,7 @@ const ToggleLikesForm = ({ postId, SetAllPosts, allPosts }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
       const responseData = await response.json();
@@ -26,14 +29,14 @@ const ToggleLikesForm = ({ postId, SetAllPosts, allPosts }) => {
       const updatedPosts = allPosts.map((p) => {
         if (p._id === postId) {
           // Check if the user has already liked the post
-          const isLiked = p.likes.some((like) => like.provider === authState.user._id);
+          const isLiked = p.likes.some((like) => like.provider === authState.user.id);
 
           if (isLiked) {
             // If liked, remove the like
-            p.likes = p.likes.filter((like) => like.provider !== authState.user._id);
+            p.likes = p.likes.filter((like) => like.provider !== authState.user.id);
           } else {
             // If not liked, add the like
-            p.likes.push({ provider: authState.user._id });
+            p.likes.push({ provider: authState.user.id });
           }
         }
         return p;

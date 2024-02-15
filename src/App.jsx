@@ -1,36 +1,42 @@
 import Router from "./Router";
-import { RouterProvider } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import validateLoginStatus from "./store/validateLoginStatus";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authReducer";
 import { userActions } from "./store/userReducer";
+import { messengerActions } from "./store/messenger_reducer";
+import Cookies from "js-cookie";
 
 function App() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const [showLoading, setShowLoading] = useState(false);
 
+  ////////////////////////////////////////////////////////////////////////
+  // START: Used to verify user's login status when user reload the page.
+  ////////////////////////////////////////////////////////////////////////
   const validateLoginStatus = async () => {
-    console.log("validation ran");
+    // console.log("token : ", localStorage.getItem("token"));
     if (localStorage.getItem("token") && !authState.isLoggedIn) {
       try {
         const response = await fetch(authState.backendURL + "/validateLoginStatus", {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
+        // console.log(response);
         const responseData = await response.json();
         // console.log(responseData);
         if (responseData.user) {
           dispatch(authActions.login({ user: responseData.user, token: localStorage.getItem("token"), expire: localStorage.getItem("expire") }));
           dispatch(userActions.setCurrentUser({ user: responseData.user }));
+          dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
         } else {
           localStorage.removeItem("token");
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("followed_posts");
           dispatch(authActions.logout());
         }
       } catch (error) {
@@ -38,46 +44,52 @@ function App() {
       }
     }
   };
+  ////////////////////////////////////////////////////////////////////////
+  // END: Used to verify user's login status when user reload the page.
+  ////////////////////////////////////////////////////////////////////////
 
-  // const fetchAllUsers = async () => {
-  //   try {
-  //     const response = await fetch(authState.backendURL + "/peopleDetails", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: authState.token,
-  //       },
-  //     });
+  ////////////////////////////////////////////////////////////////////////
+  // Start: Used when user sign in OR sign up with Google/Facebook
+  ////////////////////////////////////////////////////////////////////////
+  const loadMe = async () => {
+    // loadMe ran
+    try {
+      const response = await fetch(authState.backendURL + "/loadme", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
-  //     const responseData = await response.json();
-
-  //     if (!response.ok) {
-  //       console.log(responseData);
-  //       // Handle error if needed
-  //       return;
-  //     }
-  //     if (response.ok) {
-  //       dispatch(userActions.setAllUsers({ users: responseData }));
-  //     }
-
-  //     // Handle error if needed
-  //     return;
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Handle error if needed
-  //   }
-  // };
+      const responseData = await response.json();
+      // console.log(responseData);
+      if (responseData.user) {
+        dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));
+        dispatch(userActions.setCurrentUser({ user: responseData.user }));
+        dispatch(messengerActions.setCurrentUser({ user: responseData.user }));
+      }
+    } catch (error) {
+      // console.error("Error in validateLoginStatus:", error);
+    }
+  };
 
   useEffect(() => {
     // fetchAllUsers();
-
+    if (Cookies.get("auth_cookie")) {
+      loadMe();
+    }
     validateLoginStatus();
   }, []);
 
-  const RefreshJwtToken = async () => {
-    // console.log(new Date(Date.now() + 60 * 15 * 1000));
-    // console.log(new Date(Date.now() + 60 * 15 * 1000).toISOString());
+  ////////////////////////////////////////////////////////////////////////
+  // END: Used when user sign in OR sign up with Google/Facebook
+  ////////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////////
+  // Start: Check every minute and refersh JWT Token at the 9th minute
+  ////////////////////////////////////////////////////////////////////////
+  const RefreshJwtToken = async () => {
     let tokenExpires = new Date(authState.expire); // Convert the string to a Date object
 
     // Calculate the difference between tokenExpires and the current time
@@ -112,11 +124,6 @@ function App() {
   };
 
   useEffect(() => {
-    // Function to run the test
-    // const runTest = () => {
-    //   console.log("Running test...");
-    //   // Add your test logic here
-    // };
     console.log("CONSOLE LOGGING INTENTIONALLY :> ");
     RefreshJwtToken();
 
@@ -125,7 +132,11 @@ function App() {
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, [authState.expire, authState.isLoggedIn]); // Empty dependency array ensures the effect runs only once on mount
+  }, [authState.expire, authState.isLoggedIn]);
+
+  ////////////////////////////////////////////////////////////////////////
+  // END: Check every minute and refersh JWT Token at the 9th minute
+  ////////////////////////////////////////////////////////////////////////
 
   return (
     <>

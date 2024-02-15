@@ -1,4 +1,6 @@
-import React from "react";
+//
+// Used in People_All.jsx to create list of people of different categories
+//
 const startsWithUploads = /^uploads/;
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/userReducer";
@@ -17,7 +19,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -51,7 +53,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -81,7 +83,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -111,7 +113,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -141,7 +143,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -172,7 +174,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -202,7 +204,7 @@ const UserList = ({ users, listType }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: authState.token,
+          Authorization: `Bearer ${authState.token}`,
         },
       });
 
@@ -236,49 +238,49 @@ const UserList = ({ users, listType }) => {
             <div key={user._id} className="   bg-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center">
               <NavLink to={`../user/${user.username}`}>{user.profilePicture ? <img className="  w-40 h-40 object-cover rounded-full mb-4 " src={startsWithUploads.test(user.profilePicture) ? authState.backSiteURL + user.profilePicture : user.profilePicture} alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="w-40   h-40 rounded-full" />}</NavLink>
               <NavLink to={`../user/${user.username}`}>
-                <h2 className="text-xl text-blue-500 font-bold mb-2">{`${user.firstName} ${user.lastName}`}</h2>
+                <h2 className="text-md text-blue-500 font-bold mb-2">{`${user.firstName} ${user.lastName}`}</h2>
               </NavLink>
               {listType === "acceptfriend" && (
                 <div className="flex">
-                  <div onClick={() => acceptFriendRequest(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-blue-500">Accept Request</p>
+                  <div onClick={() => acceptFriendRequest(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-blue-500">Accept Request</p>
                   </div>
 
-                  <div onClick={() => rejectFriendRequest(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-red-500">Reject</p>
+                  <div onClick={() => rejectFriendRequest(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-red-500">Reject</p>
                   </div>
                 </div>
               )}
               {listType === "deletefriend" && (
                 <div className="flex">
-                  <div onClick={() => deleteFriend(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-blue-500">Unfriend</p>
+                  <div onClick={() => deleteFriend(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-blue-500">Unfriend</p>
                   </div>
                 </div>
               )}
               {listType === "deletefriendrequest" && (
                 <div onClick={() => cancelFriendRequest(user._id)} className="flex">
-                  <div className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-green-500">Cancel Request</p>
+                  <div className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-green-500">Cancel Request</p>
                   </div>
                 </div>
               )}
               {listType === "unfollow" && (
                 <div className="flex">
-                  <div onClick={() => handleUnFollow(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-red-500">Unfollow</p>
+                  <div onClick={() => handleUnFollow(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-red-500">Unfollow</p>
                   </div>
                 </div>
               )}
               {listType === "others" && (
                 <div className="flex">
-                  <div onClick={() => handleFollow(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-blue-500">Follow</p>
+                  <div onClick={() => handleFollow(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-blue-500">Follow</p>
                     <p className="py-1 px-3 bg-blue-400">{user.followers.length}</p>
                   </div>
 
-                  <div onClick={() => handleAddFriend(user._id)} className=" flex  cursor-pointer ml-5 text-white ">
-                    <p className="py-1 px-3 bg-green-500">Add Friend</p>
+                  <div onClick={() => handleAddFriend(user._id)} className=" flex  cursor-pointer ml-5 text-white text-sm ">
+                    <p className="py-1 px-3 rounded-sm bg-green-500">Add Friend</p>
                     <p className="py-1 px-3 bg-green-400">{user.friends.length} </p>
                   </div>
                 </div>
@@ -302,7 +304,7 @@ const UserList = ({ users, listType }) => {
       {users.length == 0 && (
         <div className="flex flex-col justify-center items-center min-h-[80vh]  w-full">
           <MdOutlinePersonSearch className="text-red-500 bold text-7xl" />
-          <h3 className="text-blue-500 bold text-5xl">No One here!</h3>
+          <h3 className="text-blue-500 bold text-xl">No One here!</h3>
         </div>
       )}
     </div>

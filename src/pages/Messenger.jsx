@@ -47,6 +47,8 @@ function Messenger() {
       // Update showContact based on window width
       if (window.innerWidth > 767 && window.innerHeight > 767) {
         setShowContact(true);
+      } else {
+        setShowContact(false);
       }
     };
 

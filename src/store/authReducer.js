@@ -8,10 +8,10 @@ const IMAGEKIT_THUMB = import.meta.env.VITE_IMAGEKIT_THUMB;
 
 const dUser = { id: "", username: "", firstName: "", lastName: "", bio: "", pendingFriends: [], friends: [], following: [], profilePicture: "", coverPicture: "" };
 const imgKit = {
-  IMAGEKIT_PUBLIC_KEY: IMAGEKIT_PUBLIC_KEY,
-  IMAGEKIT_URL_ENDPOINT: IMAGEKIT_URL_ENDPOINT,
+  IMAGEKIT_PUBLIC_KEY: "public_D3R2YXCqESRUwCNMgLufGCsa8GY=",
+  IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/odinbook",
   IMAGEKIT_AUTH_END: IMAGEKIT_AUTH_END,
-  IMAGEKIT_THUMB: IMAGEKIT_THUMB,
+  IMAGEKIT_THUMB: "tr:n-ik_ml_thumbnail",
 };
 
 const authSlice = createSlice({

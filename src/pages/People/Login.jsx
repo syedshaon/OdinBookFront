@@ -40,7 +40,7 @@ function Login() {
 
   setTimeout(() => {
     setShowLoading(false);
-  }, 100);
+  }, 1000);
 
   const [formData, setFormData] = useState({
     email: "",

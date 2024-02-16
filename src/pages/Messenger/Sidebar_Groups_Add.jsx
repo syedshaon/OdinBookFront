@@ -54,12 +54,17 @@ function Sidebar_Groups_Add({ setShowAddPop }) {
     setSelectedPeople((prevSelectedPeople) => (isSelected ? prevSelectedPeople.filter((selectedPersonId) => selectedPersonId !== personId) : [...prevSelectedPeople, personId]));
   };
 
+  const handleGroupNameAdd = (e) => {
+    setGroupName(e.target.value);
+  };
   return (
-    <section onClick={() => setShowAddPop(false)} className="mt-5 w-screen h-screen   flex justify-center items-center z-10 fixed top-0 left-0 ">
-      <div onClick={(e) => e.stopPropagation()} className="relative shadow-lg rounded-lg w-full border-2 border-gray-400 h-full   max-w-[700px] max-h-[400px]    lg:w-1/2   bg-white">
+    <>
+      <div onClick={() => setShowAddPop(false)} className=" mt-5 w-screen h-screen   flex justify-center items-center z-10 fixed top-0 left-0 "></div>
+
+      <div className="fixed  top-[25%] z-20 shadow-lg rounded-lg w-full border-2 border-gray-400 h-full     max-h-[400px] md:w-4/5 md:left-[10%]   lg:w-1/2 lg:left-[25%]  bg-white">
         <h2 className="text-center mt-5 text-2xl text-black">Create a Group</h2>
         <form className="  mt-8 w-full max-w-[95%] mx-auto flex flex-col items-center" onSubmit={handleCreateGroup}>
-          <input value={groupName} onChange={(e) => setGroupName(e.target.value)} maxLength="15" className="w-1/2 mb-4  bg-white rounded border border-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder="Group Name" required type="text" />
+          <input value={groupName} onChange={handleGroupNameAdd} maxLength="15" className="w-1/2 mb-4  bg-white rounded border border-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder="Group Name" required type="text" />
           <p className="text-md font-bold">Select People</p>
 
           <div className=" max-w-full contacts p-2 flex flex-1 overflow-x-scroll ">
@@ -86,13 +91,12 @@ function Sidebar_Groups_Add({ setShowAddPop }) {
         </form>
         <IoCloseCircleOutline
           onClick={(e) => {
-            e.stopPropagation();
             setShowAddPop(false);
           }}
           className="cursor-pointer text-3xl hover:text-blue-700   text-blue-500 absolute top-3 right-3"
         />
       </div>
-    </section>
+    </>
   );
 }
 

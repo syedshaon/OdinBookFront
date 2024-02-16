@@ -18,6 +18,7 @@ import People_Single from "./pages/People_Single";
 import People_All from "./pages/People_All";
 import Messenger from "./pages/Messenger";
 import ErrorPage from "./pages/ErrorPage";
+import PrivacyPolicy from "./pages/Privacy";
 
 const Router = () => {
   const authState = useSelector((state) => state.auth);
@@ -75,6 +76,8 @@ const Router = () => {
         <Route path="/user/:uid" element={isLoggedIn ? <People_Single /> : <Login />} />
         <Route path="/allpeople" element={isLoggedIn ? <People_All /> : <Login />} />
         <Route path="/messenger" element={isLoggedIn ? <Messenger /> : <Login />} />
+        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

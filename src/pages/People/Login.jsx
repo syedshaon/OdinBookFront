@@ -93,7 +93,7 @@ function Login() {
       }
       // Handle the successful response (if needed)
       const responseData = await response.json();
-      console.log("Response from backend:", responseData);
+      // console.log("Response from backend:", responseData);
 
       localStorage.setItem("token", responseData.token);
       localStorage.setItem("expire", responseData.expire);

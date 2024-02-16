@@ -31,6 +31,9 @@ function LoginAuthCallBack() {
       });
 
       const responseData = await response.json();
+      localStorage.setItem("token", responseData.token);
+      localStorage.setItem("expire", responseData.expire);
+      localStorage.setItem("currentUser", JSON.stringify(responseData.user));
       // console.log(responseData);
       if (responseData.user) {
         dispatch(authActions.login({ user: responseData.user, token: responseData.token, expire: responseData.expire }));

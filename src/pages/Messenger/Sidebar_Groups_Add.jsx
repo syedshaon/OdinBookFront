@@ -55,13 +55,14 @@ function Sidebar_Groups_Add({ setShowAddPop }) {
   };
 
   const handleGroupNameAdd = (e) => {
+    e.stopPropagation();
     setGroupName(e.target.value);
   };
   return (
     <>
       <div onClick={() => setShowAddPop(false)} className=" mt-5 w-screen h-screen   flex justify-center items-center z-10 fixed top-0 left-0 "></div>
 
-      <div className="fixed  top-[25%] z-20 shadow-lg rounded-lg w-full border-2 border-gray-400 h-full     max-h-[400px] md:w-4/5 md:left-[10%]   lg:w-1/2 lg:left-[25%]  bg-white">
+      <div className="fixed  bottom-[25%] z-20 shadow-lg rounded-lg w-full border-2 border-gray-400 h-full     max-h-[400px] md:w-4/5 md:left-[10%]   lg:w-1/2 lg:left-[25%]  bg-white">
         <h2 className="text-center mt-5 text-2xl text-black">Create a Group</h2>
         <form className="  mt-8 w-full max-w-[95%] mx-auto flex flex-col items-center" onSubmit={handleCreateGroup}>
           <input value={groupName} onChange={handleGroupNameAdd} maxLength="15" className="w-1/2 mb-4  bg-white rounded border border-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder="Group Name" required type="text" />

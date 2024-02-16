@@ -137,7 +137,7 @@ function Signup() {
             <p className="text-sm text-blue-500   text-center pt-4">Already have an Account?</p>
             <hr className="my-3" />
 
-            <button onClick={() => navigateTo("/signin")} className="w-full cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 ">
+            <button onClick={() => navigateTo("/signin")} className="w-full cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 ">
               Sign In
             </button>
           </form>

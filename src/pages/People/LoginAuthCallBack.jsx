@@ -193,7 +193,7 @@ function LoginAuthCallBack() {
 
                 <hr className="my-3" />
 
-                <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-500 ">
+                <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 ">
                   Sign Up
                 </button>
                 {showResetPW && (
@@ -217,11 +217,11 @@ function LoginAuthCallBack() {
                 )}
               </form>
               <div className=" flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-                <hr className="my-3" />
+                {/* <hr className="my-3" />
 
                 <a className="fb btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 flex justify-center" href={`${authState.backSiteURL}auth/facebook_signin`}>
                   <i className="fa fa-facebook fa-fw" /> Continue with Facebook
-                </a>
+                </a> */}
                 <hr className="my-3" />
                 <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
                   <i className="fa fa-google fa-fw" /> Continue with Google

@@ -19,7 +19,24 @@ const CreatePostForm = ({ SetAllPosts }) => {
 
   useEffect(() => {
     // Focus on the input element when the component mounts
-    inputRef.current.focus();
+
+    const handleResize = () => {
+      // Update showContact based on window width
+      if (window.innerWidth > 767) {
+        inputRef.current.focus();
+      }
+    };
+
+    // Initial check on component mount
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
   const handleTextChange = (e) => {
@@ -67,7 +84,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
         body: JSON.stringify(data),
       });
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       setThumbnail(null);
       setText("");
       if (!response.ok) {
@@ -112,7 +129,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
   const onSuccess = (res) => {
     setImgKitImgUrl(res.filePath);
     setSendDisabled(false);
-    console.log("Success", res.filePath);
+    // console.log("Success", res.filePath);
   };
 
   return (
@@ -141,9 +158,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
           </button>
           <div className={`flex justify-center items-center rounded-lg   z-10  w-40   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
             <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-[40px]  text-xl rounded-l-lg"></div>
-            <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-[40px] text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg">
-              {uploadProgress}%
-            </div>
+            <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-[40px] text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg"></div>
           </div>
 
           {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>}

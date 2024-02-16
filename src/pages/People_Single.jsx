@@ -109,7 +109,7 @@ function People_Single() {
 
       {!showErorr && !loading && (
         <div className="     ">
-          <div className="mt-[108px] md:mt-14     shadow bg-white  ">
+          <div className="mt-[96px] md:mt-14     shadow bg-white  ">
             {/* PROFILE HEADER */}
             <div className="   bg-slate-200 mb-3 pb-3">
               <div className=" w-full flex justify-center h-[348px] ">

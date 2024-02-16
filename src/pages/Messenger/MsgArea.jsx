@@ -149,14 +149,14 @@ function MsgArea({ setShowContact }) {
   };
 
   return (
-    <section className="msgArea mt-[108px] md:mt-14   flex   w-full relative   flex-col flex-auto justify-between md:border-l md:border-gray-800">
+    <section className="msgArea mt-[96px] md:mt-14   flex   w-full relative   flex-col flex-auto justify-between md:border-l md:border-gray-800">
       <>
         <RecieverHeading setShowContact={setShowContact} />
         <Conversations />
       </>
 
       <div className="chat-footer w-full   flex-none">
-        <form onSubmit={(e) => e.preventDefault()} className="flex flex-row   p-4 justify-center items-center">
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-row   px-4 pt-0 pb-5 justify-center items-center">
           <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleIconClick} />
           {/* <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" /> */}
           <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" authenticator={Authenticator}>
@@ -172,9 +172,7 @@ function MsgArea({ setShowContact }) {
             </button>
             <div className={`flex justify-center items-center    z-10  w-20 md:w-24   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
               <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-10  text-xl rounded-l-lg"></div>
-              <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-10  text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg">
-                {uploadProgress}%
-              </div>
+              <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-10  text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg"></div>
             </div>
           </div>
         </form>

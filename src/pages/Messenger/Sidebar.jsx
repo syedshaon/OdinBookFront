@@ -12,7 +12,7 @@ function Sidebar() {
   const dispatch = useDispatch();
 
   return (
-    <section className="relative  mt-[108px] md:mt-14  flex flex-col flex-none overflow-auto w-24   group lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
+    <section className="relative  mt-[96px] md:mt-14  flex flex-col flex-none overflow-auto w-24   group lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
       {/* Heading */}
       <div className="header p-4 flex flex-col  justify-center items-center  ">
         <p className="text-md font-bold  block group-hover:block">{contactView ? "Contacts" : "Groups"}</p>
@@ -24,7 +24,7 @@ function Sidebar() {
       {!contactView && <People_Groups />}
 
       {/* Change between Contacts and Groups */}
-      <div className="absolute bottom-0  w-full   flex gap-0 md:gap-2  flex-col md:flex-row">
+      <div className="absolute bottom-14 md:bottom-0  w-full   flex gap-0 md:gap-2  flex-col md:flex-row">
         <div onClick={() => dispatch(messengerActions.alterContactView(true))} className={`w-full rounded md:w-1/2  py-3 px-3 flex justify-center font-bold  bg-blue-500 text-white text-sm  hover:bg-blue-800 ${!contactView && "cursor-pointer"}`}>
           Contacts
         </div>

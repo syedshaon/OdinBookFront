@@ -159,7 +159,7 @@ function MsgArea({ setShowContact }) {
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-row   p-4 justify-center items-center">
           <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleIconClick} />
           {/* <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" /> */}
-          <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
+          <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" authenticator={Authenticator}>
             <IKUpload onUploadStart={onUploadStart} onChange={handleFileChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} onUploadProgress={onUploadProgress} fileName="msg.png" onError={onError} onSuccess={onSuccess} />
           </IKContext>
 

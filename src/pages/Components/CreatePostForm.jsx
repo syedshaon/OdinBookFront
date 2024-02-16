@@ -129,7 +129,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
         <label className="my-2 ml-12 flex items-center space-x-2">
           <span className="bg-blue-600 text-white text-md px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">Choose Image</span>
 
-          <IKContext publicKey={authState.imgKit.IMAGEKIT_PUBLIC_KEY} urlEndpoint={authState.imgKit.IMAGEKIT_URL_ENDPOINT} authenticator={Authenticator}>
+          <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" authenticator={Authenticator}>
             <IKUpload onChange={handleThumbnailChange} onUploadStart={onUploadStart} id="imageInput" style={{ display: "none" }} accept="image/*" onUploadProgress={onUploadProgress} validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
           </IKContext>
         </label>

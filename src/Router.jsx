@@ -7,6 +7,7 @@ import { messengerActions } from "./store/messenger_reducer";
 import Home from "./pages/Home";
 import Login from "./pages/People/Login";
 import AuthError from "./pages/People/AuthError";
+import LoginAuthCallBack from "./pages/People/LoginAuthCallBack";
 import Signup from "./pages/People/Signup";
 import Verify_signup from "./pages/People/Verify_signup";
 import GetVerificationEmail from "./pages/People/GetVerificationEmail";
@@ -64,6 +65,7 @@ const Router = () => {
         <Route path="/signin" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login-auth-error" element={<AuthError />} />
+        <Route path="/login-auth-callback" element={<LoginAuthCallBack />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:vtoken" element={<Verify_signup />} />
         <Route path="/get-verification-email" element={<GetVerificationEmail />} />

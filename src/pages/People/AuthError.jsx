@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authReducer";
 import { userActions } from "../../store/userReducer";
+import { messengerActions } from "../../store/messenger_reducer";
 import Loading from "../Loading";
 
 function AuthError() {

@@ -89,7 +89,7 @@ function MsgArea({ setShowContact }) {
     setImgUrl(null);
   };
   const handleKeyDown = (e) => {
-    console.log("Key pressed: ", e.key); // Add this line
+    // console.log("Key pressed: ", e.key); // Add this line
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Prevent default behavior (new line)
       sendMessage(); // Send the message

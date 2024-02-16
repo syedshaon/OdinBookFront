@@ -2,7 +2,7 @@ const IMAGEKIT_AUTH_END = import.meta.env.VITE_IMAGEKIT_AUTH_END;
 
 const Authenticator = async () => {
   try {
-    const response = await fetch(IMAGEKIT_AUTH_END);
+    const response = await fetch("https://odinbookapi-production.up.railway.app/imagekit_auth");
 
     if (!response.ok) {
       const errorText = await response.text();

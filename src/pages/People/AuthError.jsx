@@ -153,7 +153,7 @@ function AuthError() {
   return (
     <>
       {!showLoading ? (
-        <section className="mt-10 md:mt-0 text-gray-600 body-font bg-gray-100 h-screen flex items-start md:items-center ">
+        <section className="mt-5 md:mt-0 text-gray-600 body-font bg-gray-100 h-screen flex items-start md:items-center ">
           <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center justify-center  ">
             <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
               <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
@@ -166,9 +166,9 @@ function AuthError() {
                 </h3>
               )}
               <form onSubmit={handleSignInSubmit} className=" flex flex-col md:ml-auto w-full  ">
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-                <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
                 <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Log In</button>
 

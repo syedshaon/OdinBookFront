@@ -152,11 +152,11 @@ const CreatePostForm = ({ SetAllPosts }) => {
         </label>
         {errorMessage && <p className="text-red-500 errorMessage">{errorMessage}</p>}
 
-        <div className="relative   w-40  h-[40px]     ">
-          <button onClick={handlePostSubmit} disabled={sendDisabled === true} type="submit" className={`  absolute left-0 top-0 flex justify-center items-center   focus:outline-none z-20    text-white hover:text-gray-200 w-40 text-md  h-[40px] rounded-lg ${sendDisabled ? "bg-transparent" : "bg-blue-600"}`}>
+        <div className="relative  w-24  md:w-40  h-[40px]     ">
+          <button onClick={handlePostSubmit} disabled={sendDisabled === true} type="submit" className={`  absolute left-0 top-0 flex justify-center items-center   focus:outline-none z-20    text-white hover:text-gray-200 w-24  md:w-40 text-md  h-[40px] rounded-lg ${sendDisabled ? "bg-transparent" : "bg-blue-600"}`}>
             Post
           </button>
-          <div className={`flex justify-center items-center rounded-lg   z-10  w-40   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
+          <div className={`flex justify-center items-center rounded-lg   z-10  w-24  md:w-40   absolute left-0 top-0 ${!sendDisabled && "hidden"} `}>
             <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-[40px]  text-xl rounded-l-lg"></div>
             <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-[40px] text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg"></div>
           </div>

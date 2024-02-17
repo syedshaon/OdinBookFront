@@ -7,6 +7,11 @@ import { userActions } from "../../store/userReducer";
 import { messengerActions } from "../../store/messenger_reducer";
 import Loading from "../Loading";
 
+const isFacebookApp = () => {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  return ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1;
+};
+
 function Login() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
@@ -19,7 +24,9 @@ function Login() {
   const [isWebView, setIsWebView] = useState(false);
 
   useEffect(() => {
-    setIsWebView(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    if (isFacebookApp() && !window.location.href.includes("redirect_fb")) {
+      setIsWebView(true);
+    }
   }, []);
 
   if (authState.isLoggedIn) {

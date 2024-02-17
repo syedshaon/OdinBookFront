@@ -55,13 +55,14 @@ function Messenger() {
     // Initial check on component mount
     handleResize();
 
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
+    // It causes issues when screen size changes on mobile devices
+    // // Add event listener for window resize
+    // window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    // // Cleanup event listener on component unmount
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, []);
 
   return (

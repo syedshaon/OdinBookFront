@@ -170,7 +170,7 @@ function AuthError() {
 
                 <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-                <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Log In</button>
+                <button className=" mt-4  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Sign In</button>
 
                 <hr className="my-3" />
 
@@ -223,7 +223,7 @@ function AuthError() {
                   }
                   className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 "
                 >
-                  Login as Guest 1
+                  Sign In as Guest 1
                 </button>
                 <hr className="my-3" />
 
@@ -236,7 +236,7 @@ function AuthError() {
                   }
                   className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-900 "
                 >
-                  Login as Guest 2
+                  Sign In as Guest 2
                 </button>
               </div>
             </div>

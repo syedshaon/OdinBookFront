@@ -75,11 +75,11 @@ function Reset_pw() {
 
   return (
     <>
-      <section className="text-gray-600 body-font bg-gray-100 h-screen flex items-center ">
+      <section className="text-gray-600 body-font bg-gray-100 h-screen mt-10 md:mt-0 flex items-start md:items-center ">
         <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center  ">
           <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-bold lg:text-5xl text-6xl text-blue-600 text-center md:text-left ">Odinbook</h1>
-            <p className="leading-relaxed mt-4 lg:text-2xl text-xl lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
+            <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
+            <p className="leading-relaxed mt-4 lg:text-2xl text-md lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
           </div>
           <form onSubmit={handleResetSubmit} className="lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8 flex flex-col items-center md:ml-auto w-full mt-10 md:mt-0">
             {responseFromBackEnd && <h3 className="response text-orange-500 text-md font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}

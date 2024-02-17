@@ -23,7 +23,7 @@ function AuthError() {
   const [isWebView, setIsWebView] = useState(false);
 
   useEffect(() => {
-    setIsWebView(/WebView|FBAN/.test(navigator.userAgent));
+    setIsWebView(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
   }, []);
 
   if (authState.isLoggedIn) {

@@ -13,6 +13,7 @@ import { IKImage } from "imagekitio-react";
 import ToggleLikesForm from "./ToggleLikesForm";
 import { BiSolidCommentAdd } from "react-icons/bi";
 import CommentList from "./CommentList";
+import { IoPersonSharp } from "react-icons/io5";
 
 function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
   const authState = useSelector((state) => state.auth);

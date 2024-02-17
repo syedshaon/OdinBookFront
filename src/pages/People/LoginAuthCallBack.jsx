@@ -20,6 +20,12 @@ function LoginAuthCallBack() {
 
   const navigateTo = useNavigate();
 
+  const [isWebView, setIsWebView] = useState(false);
+
+  useEffect(() => {
+    setIsWebView(/WebView|FBAN/.test(navigator.userAgent));
+  }, []);
+
   const loadMe = async () => {
     // loadMe ran
     try {
@@ -223,11 +229,15 @@ function LoginAuthCallBack() {
                   <i className="fa fa-facebook fa-fw" /> Continue with Facebook
                 </a> */}
                 <hr className="my-3" />
-                <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
-                  <i className="fa fa-google fa-fw" /> Continue with Google
-                </a>
+                {!isWebView && (
+                  <>
+                    <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
+                      <i className="fa fa-google fa-fw" /> Continue with Google
+                    </a>
 
-                <hr className="my-3" />
+                    <hr className="my-3" />
+                  </>
+                )}
 
                 <button
                   onClick={() =>

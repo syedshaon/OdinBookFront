@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 function Signup() {
   const navigateTo = useNavigate();
   const authState = useSelector((state) => state.auth);
-
+  const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     // Check if the user is logged in
     if (authState.isLoggedIn) {
@@ -33,6 +33,31 @@ function Signup() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handlePWChange = (e) => {
+    setFormData({
+      ...formData,
+      password: e.target.value,
+    });
+    e.target.value === formData.repeatPassword ? setPWError(false) : setPWError(true);
+    if (e.target.value.length < 8 || !/[A-Z]/.test(e.target.value) || !/[a-z]/.test(e.target.value) || !/[0-9]/.test(e.target.value)) {
+      setErrorMessage("Password must contain 8+ characters, one uppercase letter, one lowercase letter, and one number.");
+    } else {
+      setErrorMessage("");
+    }
+  };
+  const handleRptPWChange = (e) => {
+    setFormData({
+      ...formData,
+      repeatPassword: e.target.value,
+    });
+    e.target.value === formData.password ? setPWError(false) : setPWError(true);
+    if (e.target.value.length < 8 || !/[A-Z]/.test(e.target.value) || !/[a-z]/.test(e.target.value) || !/[0-9]/.test(e.target.value)) {
+      setErrorMessage("Password must contain 8+ characters, one uppercase letter, one lowercase letter, and one number.");
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const handleSignupSubmit = (e) => {
@@ -70,7 +95,7 @@ function Signup() {
       // Redirect to "/login" after 1500 milliseconds (1.5 seconds)
       const timeoutId = setTimeout(() => {
         navigateTo("/login");
-      }, 2500);
+      }, 4500);
 
       // Cleanup the timeout on component unmount or if the redirect happens
       return () => clearTimeout(timeoutId);
@@ -97,44 +122,14 @@ function Signup() {
             <input type="text" maxLength="50" name="username" value={formData.username} onChange={handleInputChange} placeholder="username" required className="  mb-4 w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
             <input type="email" maxLength="50" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className=" w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-            <input
-              type="password"
-              name="password"
-              maxLength="50"
-              value={formData.password}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  password: e.target.value,
-                });
-                e.target.value === formData.repeatPassword ? setPWError(false) : setPWError(true);
-              }}
-              placeholder="Password"
-              required
-              className={pwError ? "border-orange-500 border-2 w-full mb-4  bg-white rounded    focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" : "w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}
-            />
-            <input
-              type="password"
-              maxLength="50"
-              name="repeatPassword"
-              value={formData.repeatPassword}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  repeatPassword: e.target.value,
-                });
-                e.target.value === formData.password ? setPWError(false) : setPWError(true);
-              }}
-              placeholder="Repeat Password"
-              required
-              className={pwError ? "border-orange-500 border-2 w-full mb-4  bg-white rounded   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" : "w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}
-            />
-
+            <input type="password" name="password" maxLength="50" value={formData.password} onChange={handlePWChange} placeholder="Password" required className={pwError ? "border-orange-500 border-2 w-full mb-4  bg-white rounded    focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" : "w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"} />
+            <input type="password" maxLength="50" name="repeatPassword" value={formData.repeatPassword} onChange={handleRptPWChange} placeholder="Repeat Password" required className={pwError ? "border-orange-500 border-2 w-full mb-4  bg-white rounded   focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" : "w-full mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"} />
+            {errorMessage && <p className="text-sm text-orange-500 font-bold">{errorMessage}</p>}
             <button className=" w-full mt-4 cursor-pointer  text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Sign Up</button>
 
             <hr className="my-3" />
 
-            <p className="text-sm text-blue-500   text-center pt-4">Already have an Account?</p>
+            <p className="text-sm text-blue-500   text-center  ">Already have an Account?</p>
             <hr className="my-3" />
 
             <button onClick={() => navigateTo("/signin")} className="w-full cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 ">

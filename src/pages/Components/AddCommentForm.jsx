@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { IoPersonSharp } from "react-icons/io5";
 
 const AddCommentForm = ({ searchedUser, postId, SetAllPosts, allPosts }) => {
   const [commentText, setCommentText] = useState("");

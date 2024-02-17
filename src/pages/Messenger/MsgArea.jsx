@@ -163,7 +163,7 @@ function MsgArea({ setShowContact }) {
             <IKUpload onUploadStart={onUploadStart} onChange={handleFileChange} id="imageInput" style={{ display: "none" }} accept="image/*" validateFile={validateFileFunction} onUploadProgress={onUploadProgress} fileName="msg.png" onError={onError} onSuccess={onSuccess} />
           </IKContext>
 
-          <div className={`w-20 hidden md:block h-16 bg-contain mr-6 bg-no-repeat  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>
+          {imgUrl && <div className={`w-20 hidden md:block h-16 bg-contain mr-6 bg-no-repeat  ${!imgUrl && "hidden"}`} style={{ backgroundImage: `url(${imgUrl})` }}></div>}
 
           <textarea disabled={textDisabled === true} value={messageInput} onChange={(e) => setMessageInput(e.target.value)} onKeyDown={handleKeyDown} className="    resize-none     rounded-lg py-3 pl-5 pr-10 w-full border border-gray-300 focus:border-gray-400   focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in" type="text" placeholder="Aa" />
           <div onClick={sendMessage} className="relative  w-20 md:w-24 h-10 mr-4 ml-2  md:mx-4">

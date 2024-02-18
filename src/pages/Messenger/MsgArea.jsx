@@ -20,7 +20,7 @@ function MsgArea({ setShowContact }) {
   const [sendDisabled, setSendDisabled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imgKitImgUrl, setImgKitImgUrl] = useState("");
-  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
@@ -68,14 +68,20 @@ function MsgArea({ setShowContact }) {
   }, [authState]); // Empty dependency array ensures the effect runs only once on mount
 
   const sendMessage = (e) => {
-    console.log("sendMessage called"); // Add this line
+    // console.log("sendMessage called"); // Add this line
     if (imgUrl) {
+      setErrorMessage("");
       if (contactView === true) {
         socket.emit("image", { text: imgKitImgUrl, recievers: [messengerState.activeReciepient._id], conId: messengerState.activeConversation ? messengerState.activeConversation._id : null });
       } else {
         socket.emit("groupImage", { text: imgKitImgUrl, recievers: messengerState.activeGroupReciepient, conId: messengerState.activeGroupConversation._id });
       }
     } else {
+      if (messageInput.replace(/\s/g, "").length == 0) {
+        setErrorMessage("Text/Image Required!");
+        return;
+      }
+      setErrorMessage("");
       if (contactView === true) {
         // Emit a message to the server
         socket.emit("sendMessage", { text: messageInput, recievers: [messengerState.activeReciepient._id], conId: messengerState.activeConversation ? messengerState.activeConversation._id : null });
@@ -138,7 +144,7 @@ function MsgArea({ setShowContact }) {
   };
 
   const onError = (err) => {
-    setShowError(true);
+    // setShowError(true);
     console.log("Error", err);
   };
 
@@ -156,6 +162,7 @@ function MsgArea({ setShowContact }) {
       </>
 
       <div className="chat-footer w-full   flex-none">
+        {errorMessage && <p className="text-center font-bold text-orange-600">{errorMessage}</p>}
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-row   px-4 pt-0 pb-5 justify-center items-center">
           <GrGallery className="mx-2 cursor-pointer text-blue-600 hover:text-blue-700 w-6 h-6 " onClick={handleIconClick} />
           {/* <input type="file" id="imageInput" style={{ display: "none" }} onChange={handleFileChange} accept="image/*" /> */}

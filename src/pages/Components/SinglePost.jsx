@@ -5,7 +5,7 @@
 //
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import AddCommentForm from "./AddCommentForm";
 import { IKImage } from "imagekitio-react";
@@ -14,12 +14,15 @@ import ToggleLikesForm from "./ToggleLikesForm";
 import { BiSolidCommentAdd } from "react-icons/bi";
 import CommentList from "./CommentList";
 import { IoPersonSharp } from "react-icons/io5";
+import PopupImg from "./PopupImg";
+import { authActions } from "../../store/authReducer";
 
 function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
   const authState = useSelector((state) => state.auth);
   const [showAddComment, setShowAddComment] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const startsWithUploads = /^uploads/;
+  const dispatch = useDispatch();
   const options = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
   return (
     <div className="w-full bg-white p-4 my-4 mt-10 rounded-md shadow-lg  ">
@@ -46,9 +49,8 @@ function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
       {/* END POST AUTHOR */}
       {/* POST CONTENT */}
       <div className="text-justify  px-4 py-2">
-        {/* {post.thumbnail && <img src={`data:image/png;base64,${post.thumbnail}`} alt="Thumbnail Preview" className="max-w-full max-h-[500px] mx-auto h-auto rounded" />} */}
-
-        {post.thumbnail && <IKImage className="max-w-full max-h-[500px] mx-auto h-auto rounded" urlEndpoint="https://ik.imagekit.io/odinbook" alt="Thumbnail Preview" path={post.thumbnail} />}
+        {post.thumbnail && <IKImage onClick={() => dispatch(authActions.showPopup(post.thumbnail))} className="max-w-full cursor-pointer max-h-[500px] mx-auto h-auto rounded" urlEndpoint="https://ik.imagekit.io/odinbook" alt="Thumbnail Preview" path={post.thumbnail} />}
+        {post.thumbnail && <PopupImg />}
       </div>
       <div className="text-justify px-4 py-2">
         <p className="bold  mx-10">{post.text}</p>

@@ -12,6 +12,8 @@ const imgKit = {
   IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/odinbook",
   IMAGEKIT_AUTH_END: IMAGEKIT_AUTH_END,
   IMAGEKIT_THUMB: "tr:n-ik_ml_thumbnail",
+  Popup_show: false,
+  Popup_url: "",
 };
 
 const authSlice = createSlice({
@@ -37,6 +39,13 @@ const authSlice = createSlice({
     },
     update: (state, action) => {
       state.user = action.payload.user;
+    },
+    showPopup: (state, action) => {
+      state.imgKit.Popup_show = true;
+      state.imgKit.Popup_url = action.payload;
+    },
+    hidePopup: (state, action) => {
+      state.imgKit.Popup_show = false;
     },
   },
 });

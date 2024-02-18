@@ -14,7 +14,7 @@ import GetVerificationEmail from "./pages/People/GetVerificationEmail";
 import GetResetPw from "./pages/People/GetResetPw";
 import Reset_pw from "./pages/People/Reset_pw";
 import Settings from "./pages/People/Settings";
-import People_Single from "./pages/People_Single";
+import People_Profile from "./pages/People_Profile";
 import People_All from "./pages/People_All";
 import Messenger from "./pages/Messenger";
 import ErrorPage from "./pages/ErrorPage";
@@ -73,7 +73,7 @@ const Router = () => {
         <Route path="/get-reset-password" element={<GetResetPw />} />
         <Route path="/reset-password/:vtoken" element={<Reset_pw />} />
         <Route path="/settings" element={isLoggedIn ? <Settings /> : <Login />} />
-        <Route path="/user/:uid" element={isLoggedIn ? <People_Single /> : <Login />} />
+        <Route path="/user/:uid" element={isLoggedIn ? <People_Profile /> : <Login />} />
         <Route path="/allpeople" element={isLoggedIn ? <People_All /> : <Login />} />
         <Route path="/messenger" element={isLoggedIn ? <Messenger /> : <Login />} />
         <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
@@ -85,3 +85,5 @@ const Router = () => {
 };
 
 export default Router;
+
+// authState

@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authReducer";
 
-export const ProfilePicUploadButton = ({ setRefresh }) => {
+export const ProfilePicUploadButton = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
@@ -26,7 +26,7 @@ export const ProfilePicUploadButton = ({ setRefresh }) => {
         body: postData,
       });
       const responseData = await response.json();
-      // console.log(responseData);
+      console.log(responseData);
       if (!response.ok) {
         // console.log("Response from backend:", responseData.message);
         console.log(responseData);
@@ -35,8 +35,7 @@ export const ProfilePicUploadButton = ({ setRefresh }) => {
       }
 
       // console.log("Response from backend:", responseData.message);
-      dispatch(authActions.update({ user: responseData.user }));
-      setRefresh((prev) => prev + 1);
+      dispatch(authActions.updateProfilePic(responseData.profilePicture));
 
       return;
     } catch (err) {
@@ -59,7 +58,7 @@ export const ProfilePicUploadButton = ({ setRefresh }) => {
   );
 };
 
-export const CoverUploadButton = ({ setRefresh }) => {
+export const CoverUploadButton = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
@@ -90,8 +89,8 @@ export const CoverUploadButton = ({ setRefresh }) => {
         return;
       }
 
-      dispatch(authActions.update({ user: responseData.user }));
-      setRefresh((prev) => prev + 1);
+      dispatch(authActions.updateCoverPic(responseData.coverPicture));
+
       return;
     } catch (err) {
       // console.log("Error sending data to backend:", err.message);

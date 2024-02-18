@@ -6,7 +6,7 @@ const IMAGEKIT_URL_ENDPOINT = import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT;
 const IMAGEKIT_AUTH_END = import.meta.env.VITE_IMAGEKIT_AUTH_END;
 const IMAGEKIT_THUMB = import.meta.env.VITE_IMAGEKIT_THUMB;
 
-const dUser = { id: "", username: "", firstName: "", lastName: "", bio: "", pendingFriends: [], friends: [], following: [], profilePicture: "", coverPicture: "" };
+const dUser = { id: "", username: "", firstName: "", lastName: "", bio: "", pendingFriends: [], friends: [], following: [], followers: [], profilePicture: "", coverPicture: "", posts: [] };
 const imgKit = {
   IMAGEKIT_PUBLIC_KEY: "public_D3R2YXCqESRUwCNMgLufGCsa8GY=",
   IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/odinbook",
@@ -38,7 +38,15 @@ const authSlice = createSlice({
       //   clear cookie
     },
     update: (state, action) => {
-      state.user = action.payload.user;
+      state.user.firstName = action.payload.firstName;
+      state.user.lastName = action.payload.lastName;
+      state.user.bio = action.payload.bio;
+    },
+    updateProfilePic: (state, action) => {
+      state.user.profilePicture = action.payload;
+    },
+    updateCoverPic: (state, action) => {
+      state.user.coverPicture = action.payload;
     },
     showPopup: (state, action) => {
       state.imgKit.Popup_show = true;

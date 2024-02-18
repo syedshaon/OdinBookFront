@@ -17,7 +17,7 @@ const ToggleLikesForm = ({ postId, SetAllPosts, allPosts, nLikes }) => {
         },
       });
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
 
       if (!response.ok) {
         console.log("Response from backend:", responseData.message);

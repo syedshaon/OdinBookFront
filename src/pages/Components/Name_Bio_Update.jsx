@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authReducer";
 import { MdCancel } from "react-icons/md";
 
-export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
+export const NameUpdateForm = ({ SetShowEditName }) => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
@@ -26,9 +26,8 @@ export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
       }
 
       if (response.ok) {
-        setRefresh((prev) => prev + 1);
+        dispatch(authActions.update(responseData));
         SetShowEditName(false);
-        dispatch(authActions.update({ user: responseData.user }));
         return;
       }
     } catch (err) {
@@ -75,7 +74,7 @@ export const NameUpdateForm = ({ setRefresh, SetShowEditName }) => {
   );
 };
 
-export const BioUpdateForm = ({ setRefresh, SetShowEditBio }) => {
+export const BioUpdateForm = ({ SetShowEditBio }) => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -96,13 +95,10 @@ export const BioUpdateForm = ({ setRefresh, SetShowEditBio }) => {
         console.log(responseData.message);
         return;
       }
-
-      if (response.ok) {
-        setRefresh((prev) => prev + 1);
-        SetShowEditBio(false);
-        dispatch(authActions.update({ user: responseData.user }));
-        return;
-      }
+      // console.log(responseData);
+      SetShowEditBio(false);
+      dispatch(authActions.update(responseData));
+      return;
     } catch (err) {
       console.log("Error sending data to backend:", err.message);
       //setResponseFromBackEnd("Error sending data to backend: " + err.message);

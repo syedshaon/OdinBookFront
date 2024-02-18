@@ -16,14 +16,11 @@ import Loading from "./Loading";
 function People_Single() {
   const { uid } = useParams();
   const usersState = useSelector((state) => state.users);
-
   const authState = useSelector((state) => state.auth);
   const [searchedUser, setSearchedUser] = useState({});
-  const [showEditButton, setShowEditButton] = useState(false);
   const [refresh, setRefresh] = useState(0);
   // const [updateFrndFlw, setUpdateFrndFlw] = useState(false);
-  const [showEditName, SetShowEditName] = useState(false);
-  const [showEditBio, SetShowEditBio] = useState(false);
+
   const [showUnfollow, setShowUnfollow] = useState(false);
   const [showUnfriend, setShowUnfriend] = useState(false);
   const [showPendingfriend, setPendingfriend] = useState(false);
@@ -40,16 +37,10 @@ function People_Single() {
     // console.log(uid);
     // console.log(usersState.followingPeople.some((user) => user.username === uid));
     setShowUnfollow(usersState.followingPeople.some((user) => user.username === uid));
-
     setShowUnfriend(usersState.myFriends.some((user) => user.username === uid));
     setPendingfriend(usersState.sentFrndRequest.some((user) => user.username === uid));
     setAccedptFriend(usersState.rcvdFrndRequest.some((user) => user.username === uid));
     // setSearchedUser(usersState.currentUser.username === uid ? usersState.currentUser : usersState.availAbleUsers.find((user) => user.username === uid));
-
-    // // Handle error if needed
-    if (uid === usersState.currentUser.username) {
-      setShowEditButton(true);
-    }
   }, [uid, usersState]);
   const fetchProfileDetails = async () => {
     try {
@@ -115,21 +106,9 @@ function People_Single() {
               <div className=" w-full flex justify-center h-[348px] ">
                 <div className="flex flex-col container">
                   <div style={backgroundImageStyle} className="h-[348px] w-full   relative bg-gray-100 rounded-bl-lg rounded-br-lg                        bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400">
-                    {showEditButton && (
-                      <div className="cursor-pointer absolute top-1 right-1 text-white w-10 h-10 rounded bg-blue-500">
-                        <CoverUploadButton setRefresh={setRefresh} />
-                      </div>
-                    )}
-                    {/* // cover photo */}
-
                     <div className=" rounded-full absolute  top-48 inset-x-96 border-4 border-white bg-slate-500 w-40 h-40 flex justify-center items-center overflow-hidden" style={{ left: "calc(50% - 5rem)" }}>
                       {/* profile photo */}
                       {searchedUser.profilePicture && <img className="  w-40 h-40  " src={startsWithUploads.test(searchedUser.profilePicture) ? authState.backSiteURL + searchedUser.profilePicture : searchedUser.profilePicture} alt="Profile picture" />}
-                      {showEditButton && (
-                        <div className="cursor-pointer absolute top-3 right-3 text-white  rounded bg-blue-500">
-                          <ProfilePicUploadButton setRefresh={setRefresh} />
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -138,43 +117,22 @@ function People_Single() {
               <div className="container flex justify-center flex-col mt-5 mb-3.5">
                 <div className="name mb-2 flex flex-col items-center lg:grid   lg:grid-cols-3 grid-flow-col">
                   <div className="col-start-2 col-end-3 flex justify-center items-center">
-                    {!showEditName && <h1 className="  text-center text-blue-500 font-bold text-xl">{searchedUser.firstName + " " + searchedUser.lastName}</h1>}
-                    {!showEditName && showEditButton ? <CiEdit onClick={() => SetShowEditName(true)} className="  cursor-pointer    w-6 h-6  text-blue-700" /> : ""}
-                    {showEditName && showEditButton ? <NameUpdateForm SetShowEditName={SetShowEditName} setRefresh={setRefresh} /> : ""}
+                    <h1 className="  text-center text-blue-500 font-bold text-xl">{searchedUser.firstName + " " + searchedUser.lastName}</h1>
                   </div>
-                  {!showEditButton && <FollowFriend showAcceptFriend={showAcceptFriend} setAccedptFriend={setAccedptFriend} showPendingfriend={showPendingfriend} showUnfriend={showUnfriend} showUnfollow={showUnfollow} setRefresh={setRefresh} fndNumber={frndNumber} setFrndNumber={setFrndNumber} flwNumber={flwNumber} setFlwNumber={setFlwNumber} personToFollow={searchedUser._id} />}
+                  <FollowFriend showAcceptFriend={showAcceptFriend} setAccedptFriend={setAccedptFriend} showPendingfriend={showPendingfriend} showUnfriend={showUnfriend} showUnfollow={showUnfollow} setRefresh={setRefresh} fndNumber={frndNumber} setFrndNumber={setFrndNumber} flwNumber={flwNumber} setFlwNumber={setFlwNumber} personToFollow={searchedUser._id} />
                 </div>
 
                 <div className="bio flex items-center justify-center">
-                  {searchedUser.bio && <div className="flex   justify-center">{!showEditBio && <p className="w-2/3  text-center text-sm ">{searchedUser.bio}</p>}</div>}
-
-                  {searchedUser.bio && !showEditBio && showEditButton && (
-                    <div onClick={() => SetShowEditBio(true)} className="  cursor-pointer   mr-1    text-blue-700">
-                      <CiEdit className="w-8 h-8" />
+                  {searchedUser.bio && (
+                    <div className="flex   justify-center">
+                      {" "}
+                      <p className="w-2/3  text-center text-sm ">{searchedUser.bio}</p>
                     </div>
                   )}
-                  {showEditBio && showEditButton ? <BioUpdateForm SetShowEditBio={SetShowEditBio} setRefresh={setRefresh} /> : ""}
                 </div>
-
-                {/* When there is no bio and bio is editable(owner is visitor) */}
-                {!searchedUser.bio && showEditButton && !showEditBio ? (
-                  <div className="bio flex items-center justify-center">
-                    <p onClick={() => SetShowEditBio(true)} className="  cursor-pointer font-bold    text-gray-600">
-                      Add Bio?
-                    </p>
-                  </div>
-                ) : (
-                  ""
-                )}
               </div>
               {/* // END INFOS */}
             </div>
-            {/* END PROFILE HEADER */}
-            {/* Create Post Area */}
-            {showEditButton && <CreatePostForm SetAllPosts={SetAllPosts} />}
-            {/* Create Post Area Ends*/}
-
-            {/* // CONTENT */}
 
             <div className=" min-h-[40vh]  container mx-auto">
               <div className="flex flex-col items-center w-full justify-center  ">

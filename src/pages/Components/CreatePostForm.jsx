@@ -60,12 +60,17 @@ const CreatePostForm = ({ SetAllPosts }) => {
     e.preventDefault();
     if (!text && !imgKitImgUrl) {
       setShowError(true);
+      seterrorMessage("Text/Image Required!");
       return;
     }
+
     if (text.replace(/\s/g, "").length == 0 && !imgKitImgUrl) {
       setShowError(true);
+      seterrorMessage("Text/Image Required!");
       return;
     }
+    setShowError(false);
+    seterrorMessage("");
 
     // console.log(formData);
 
@@ -142,17 +147,18 @@ const CreatePostForm = ({ SetAllPosts }) => {
 
       {thumbnail && <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail Preview" className="my-2 rounded-md mx-auto shadow-md max-h-40" />}
 
-      <div className="flex justify-between items-center">
-        <label className="my-2 ml-12 flex items-center space-x-2">
+      <div className={`grid grid-cols-3   ml-12 justify-between content-between items-center ${errorMessage && "grid-rows-2 md:grid-rows-1"}`}>
+        <div className="col-start-1 col-end-3 md:col-end-2 row-start-1 row-end-2 my-2  flex items-center space-x-2">
           <span className="bg-blue-600 text-white text-md px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">Choose Image</span>
 
           <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" authenticator={Authenticator}>
             <IKUpload onChange={handleThumbnailChange} onUploadStart={onUploadStart} id="imageInput" style={{ display: "none" }} accept="image/*" onUploadProgress={onUploadProgress} validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
           </IKContext>
-        </label>
-        {errorMessage && <p className="text-red-500 errorMessage">{errorMessage}</p>}
+        </div>
+        {errorMessage && <p className=" col-start-1 md:col-start-2 md:col-end-3 col-end-4 text-center md:row-start-1 md:row-end-2 row-start-2 row-end-3 text-red-500 font-bold errorMessage">{errorMessage}</p>}
+        {/* {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>} */}
 
-        <div className="relative  w-24  md:w-40  h-[40px]     ">
+        <div className=" ml-auto col-start-3 col-end-4 row-start-1 row-end-2 relative  w-24  md:w-40  h-[40px]     ">
           <button onClick={handlePostSubmit} disabled={sendDisabled === true} type="submit" className={`  absolute left-0 top-0 flex justify-center items-center   focus:outline-none z-20    text-white hover:text-gray-200 w-24  md:w-40 text-md  h-[40px] rounded-lg ${sendDisabled ? "bg-transparent" : "bg-blue-600"}`}>
             Post
           </button>
@@ -160,8 +166,6 @@ const CreatePostForm = ({ SetAllPosts }) => {
             <div style={{ width: `${uploadProgress}%` }} className="bg-blue-600 flex-none h-[40px]  text-xl rounded-l-lg"></div>
             <div style={{ width: `${100 - uploadProgress}%` }} className="bg-gray-400 flex-none h-[40px] text-right flex items-center justify-end text-xl  pr-2 rounded-r-lg"></div>
           </div>
-
-          {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>}
         </div>
       </div>
     </div>

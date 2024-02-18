@@ -13,6 +13,20 @@ function RecieverHeading({ setShowContact }) {
   const allGroupConversations = useSelector((state) => state.messenger.allGroupConversations);
   const activeGroupConversation = useSelector((state) => state.messenger.activeGroupConversation);
 
+  const src = startsWithUploads.test(activeReciepient.profilePicture) ? authState.backSiteURL + activeReciepient.profilePicture : activeReciepient.profilePicture;
+
+  const IMG = (participant) => {
+    if (participant.profilePicture) {
+      if (startsWithUploads.test(participant.profilePicture)) {
+        return <img className=" shadow-md rounded-full w-full h-full object-cover " src={authState.backSiteURL + participant.profilePicture} />;
+      } else {
+        return <img className=" shadow-md rounded-full w-full h-full object-cover " src={participant.profilePicture} />;
+      }
+    } else {
+      return <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />;
+    }
+  };
+
   return (
     <>
       {/* Contacts View */}
@@ -22,9 +36,7 @@ function RecieverHeading({ setShowContact }) {
             <FaAddressBook className="text-white" />
           </div>
           <div className="flex items-center mr-auto ml-4">
-            <div className="w-12 h-12 mr-4 relative flex flex-shrink-0">
-              <img className="border border-gray-500 shadow-md rounded-full w-full h-full object-cover" src={startsWithUploads.test(activeReciepient.profilePicture) ? authState.backSiteURL + activeReciepient.profilePicture : activeReciepient.profilePicture} alt={`Profile of ${activeReciepient.username}`} />
-            </div>
+            <div className="w-12 h-12 mr-4 relative flex flex-shrink-0">{IMG(activeReciepient)}</div>
             <div className="text-sm">
               <NavLink to={`../user/${activeReciepient.username}`}>
                 <p className="font-bold text-sm">
@@ -52,9 +64,9 @@ function RecieverHeading({ setShowContact }) {
                 if (participant) {
                   return (
                     <div className="w-12 h-12 relative flex flex-shrink-0" key={participant._id}>
-                      {/* <img src={participant.profilePicture} alt={participant.username} /> */}
+                      {IMG(participant)}
 
-                      {participant.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(participant.profilePicture) ? authState.backSiteURL + participant.profilePicture : participant.profilePicture} alt={`Profile of ${participant.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}
+                      {/* {participant.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(participant.profilePicture) ? authState.backSiteURL + participant.profilePicture : participant.profilePicture} alt={`Profile of ${participant.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />} */}
                     </div>
                   );
                 }

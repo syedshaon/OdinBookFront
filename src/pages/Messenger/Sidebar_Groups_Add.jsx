@@ -1,6 +1,5 @@
 const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
-import SortedUsers from "./SortedUsers";
 
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { useState } from "react";
@@ -10,7 +9,9 @@ import { messengerActions } from "../../store/messenger_reducer";
 
 function Sidebar_Groups_Add({ setShowAddPop }) {
   const authState = useSelector((state) => state.auth);
-  const sortedUsers = SortedUsers();
+
+  const sortedUsers = useSelector((state) => state.messenger.sortedUsers);
+
   const dispatch = useDispatch();
 
   const [selectedPeople, setSelectedPeople] = useState([authState.user.id]);

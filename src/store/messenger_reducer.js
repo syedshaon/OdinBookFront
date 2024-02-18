@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const messengerSlice = createSlice({
   name: "messenger",
-  initialState: { currentUser: JSON.parse(localStorage.getItem("currentUser")), allConversations: "", activeReciepient: "", activeConversation: "", allGroupConversations: "", activeGroupReciepient: "", activeGroupConversation: "", contactView: true, activeUsers: [] },
+  initialState: { currentUser: JSON.parse(localStorage.getItem("currentUser")), allConversations: "", activeReciepient: "", activeConversation: "", allGroupConversations: "", activeGroupReciepient: "", activeGroupConversation: "", contactView: true, activeUsers: [], sortedUsers: [] },
   reducers: {
     setActiveUsers: (state, action) => {
       state.activeUsers = action.payload;
@@ -29,16 +29,50 @@ const messengerSlice = createSlice({
       });
     },
     setInitialActiveReciepient: (state, action) => {
-      // const allUsers = action.payload.users;
-      const availAbleUsers = action.payload.users.filter((user) => user._id !== state.currentUser.id);
+      const allUsers = [...action.payload.users];
+      const currentUser = state.currentUser;
+      const allConversations = state.allConversations;
+
+      // Extract unique user IDs from the participants array in allConversations
+      const participantUserIds =
+        allConversations &&
+        allConversations.reduce((userIds, conversation) => {
+          const participants = conversation.participants;
+          return userIds.concat(participants.filter((id) => !userIds.includes(id)));
+        }, []);
+
+      // Sort allUsers based on whether _id is in conversationUserIds
+      // Sort allUsers based on the order of appearance in participantUserIds
+      const sortedUsers =
+        allUsers &&
+        allUsers.sort((userA, userB) => {
+          const indexA = participantUserIds.indexOf(userA._id);
+          const indexB = participantUserIds.indexOf(userB._id);
+
+          // Users not found in the participants array should appear at the end
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+
+          return indexA - indexB;
+        });
+      const sortedUsersWithoutCurrentUser = sortedUsers && sortedUsers.filter((user) => user._id !== state.currentUser.id);
+
+      // const availAbleUsers = action.payload.users.filter((user) => user._id !== state.currentUser.id);
       //   console.log(action);
-      state.activeReciepient = availAbleUsers[0];
+      state.sortedUsers = sortedUsersWithoutCurrentUser;
+
+      state.activeReciepient = sortedUsersWithoutCurrentUser && sortedUsersWithoutCurrentUser[0];
 
       state.activeConversation =
         state.allConversations &&
+        sortedUsersWithoutCurrentUser &&
         state.allConversations.find((conversation) => {
-          return conversation.participants.some((participant) => participant === availAbleUsers[0]._id);
+          return conversation.participants.some((participant) => participant === sortedUsersWithoutCurrentUser[0]._id);
         });
+
+      // console.log("AllUsers", allUsers);
+      // console.log("allConversations", allConversations);
+      // console.log("sortedUsers", sortedUsers);
     },
 
     updateAllConversations: (state, action) => {

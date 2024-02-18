@@ -1,7 +1,6 @@
 import { messengerActions } from "../../store/messenger_reducer";
 const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
-import SortedUsers from "./SortedUsers";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useState, useEffect } from "react";
 
@@ -10,8 +9,7 @@ function Sidebar_Contacts() {
   const allUsers = useSelector((state) => state.users.availAbleUsers);
   const authState = useSelector((state) => state.auth);
   const Messenger = useSelector((state) => state.messenger);
-
-  const sortedUsers = SortedUsers();
+  const sortedUsers = useSelector((state) => state.messenger.sortedUsers);
 
   return (
     <div className="contacts p-2 flex-1 overflow-y-scroll mb-32">

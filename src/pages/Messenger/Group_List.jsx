@@ -1,7 +1,6 @@
 import { messengerActions } from "../../store/messenger_reducer";
 const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
-import SortedUsers from "./SortedUsers";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useState, useEffect } from "react";
 

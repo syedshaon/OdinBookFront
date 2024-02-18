@@ -60,12 +60,13 @@ function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
       <div className="py-2 px-4">
         <div className="border border-gray-200 border-l-0 border-r-0 py-1">
           <div className="flex justify-between items-center space-x-2">
-            <div className="w-1/3 flex space-x-2 justify-center items-center hover:bg-gray-100 text-xl py-2 rounded-lg cursor-pointer text-gray-500">
+            {/* <div className="w-1/3 flex space-x-2 justify-center items-center hover:bg-gray-100 text-xl py-2 rounded-lg cursor-pointer text-gray-500">
               <i className="bx bx-like"></i>
               <span className=" text-sm font-semibold   text-blue-500 flex items-center gap-3">
                 <ToggleLikesForm SetAllPosts={SetAllPosts} allPosts={allPosts} postId={post._id} /> {post.likes.length}
               </span>
-            </div>
+            </div> */}
+            <ToggleLikesForm SetAllPosts={SetAllPosts} allPosts={allPosts} postId={post._id} nLikes={post.likes.length} />
             <div onClick={() => setShowAddComment((prev) => !prev)} className="flex justify-center items-center w-1/3 hover:bg-gray-100   py-2 rounded-lg  cursor-pointer text-blue-500 font-semibold">
               <BiSolidCommentAdd />
             </div>

@@ -5,7 +5,7 @@
 import { useSelector } from "react-redux";
 import { FaRegThumbsUp } from "react-icons/fa";
 
-const ToggleLikesForm = ({ postId, SetAllPosts, allPosts }) => {
+const ToggleLikesForm = ({ postId, SetAllPosts, allPosts, nLikes }) => {
   const authState = useSelector((state) => state.auth);
   const handleToggleLike = async () => {
     try {
@@ -49,7 +49,21 @@ const ToggleLikesForm = ({ postId, SetAllPosts, allPosts }) => {
     }
   };
 
-  return <FaRegThumbsUp className="cursor-pointer" onClick={handleToggleLike} />;
+  // return <FaRegThumbsUp className="cursor-pointer" onClick={handleToggleLike} />;
+  return (
+    <div onClick={handleToggleLike} className="w-1/3 flex space-x-2 justify-center items-center hover:bg-gray-100 text-xl py-2 rounded-lg cursor-pointer text-gray-500">
+      <i className="bx bx-like"></i>
+      <span className=" text-sm font-semibold   text-blue-500 flex items-center gap-3">
+        <FaRegThumbsUp className="cursor-pointer" /> {nLikes}
+      </span>
+    </div>
+  );
 };
 
 export default ToggleLikesForm;
+
+{
+  /* <span className=" text-sm font-semibold   text-blue-500 flex items-center gap-3">
+  <ToggleLikesForm SetAllPosts={SetAllPosts} allPosts={allPosts} postId={post._id} /> {post.likes.length}
+</span>; */
+}

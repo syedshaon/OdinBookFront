@@ -148,13 +148,13 @@ const CreatePostForm = ({ SetAllPosts }) => {
       {thumbnail && <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail Preview" className="my-2 rounded-md mx-auto shadow-md max-h-40" />}
 
       <div className={`grid grid-cols-3   ml-12 justify-between content-between items-center ${errorMessage && "grid-rows-2 md:grid-rows-1"}`}>
-        <div className="col-start-1 col-end-3 md:col-end-2 row-start-1 row-end-2 my-2  flex items-center space-x-2">
+        <label className="col-start-1 col-end-3 md:col-end-2 row-start-1 row-end-2 my-2  flex items-center space-x-2">
           <span className="bg-blue-600 text-white text-md px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">Choose Image</span>
 
           <IKContext publicKey="public_D3R2YXCqESRUwCNMgLufGCsa8GY=" urlEndpoint="https://ik.imagekit.io/odinbook" authenticator={Authenticator}>
             <IKUpload onChange={handleThumbnailChange} onUploadStart={onUploadStart} id="imageInput" style={{ display: "none" }} accept="image/*" onUploadProgress={onUploadProgress} validateFile={validateFileFunction} fileName="post.png" onSuccess={onSuccess} />
           </IKContext>
-        </div>
+        </label>
         {errorMessage && <p className=" col-start-1 md:col-start-2 md:col-end-3 col-end-4 text-center md:row-start-1 md:row-end-2 row-start-2 row-end-3 text-red-500 font-bold errorMessage">{errorMessage}</p>}
         {/* {showError && <p className="absolute text-red-400 font-semibold top-3 w-[165px]  right-24">Text/Image Required!</p>} */}
 

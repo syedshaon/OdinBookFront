@@ -8,16 +8,15 @@ import { IoPersonSharp } from "react-icons/io5";
 import { MdHome } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import { FaFacebookMessenger } from "react-icons/fa";
-import { FaRegBell } from "react-icons/fa6";
 import { FaCog } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
+import { IKImage } from "imagekitio-react";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
   const usersState = useSelector((state) => state.users);
   const navigateTo = useNavigate();
-  const startsWithUploads = /^uploads/;
 
   const Logout = async () => {
     try {
@@ -82,7 +81,7 @@ const Navbar = () => {
       <ul className="  m-0 col-start-2 col-end-3 row-start-1 row-end-2  md:col-start-4 md:col-end-5 md:row-start-1 md:row-end-2  flex mx-4 items-center    justify-end">
         <NavLink to={`/user/${authState.user.username}`} className="text-black">
           <li className="h-full  flex">
-            <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-1 cursor-pointer hover:bg-gray-300 relative">{authState.user.profilePicture ? <img src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" className="w-9 h-9 rounded-full" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}</div>
+            <div className="text-xl flex items-center justify-center  bg-gray-200 rounded-full mx-1 p-1 cursor-pointer hover:bg-gray-300 relative">{authState.user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={authState.user.profilePicture} alt="Thumbnail Preview" className="max-w-full cursor-pointer max-h-[500px] mx-auto   w-9 h-9 rounded-full  " /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}</div>
           </li>
         </NavLink>
 

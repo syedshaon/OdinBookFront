@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import AddCommentForm from "./AddCommentForm";
-import { IKImage } from "imagekitio-react";
 
 import ToggleLikesForm from "./ToggleLikesForm";
 import { BiSolidCommentAdd } from "react-icons/bi";
@@ -16,6 +15,7 @@ import CommentList from "./CommentList";
 import { IoPersonSharp } from "react-icons/io5";
 import PopupImg from "./PopupImg";
 import { authActions } from "../../store/authReducer";
+import { IKImage } from "imagekitio-react";
 
 function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
   const authState = useSelector((state) => state.auth);
@@ -32,7 +32,7 @@ function SinglePost({ post, searchedUser, SetAllPosts, allPosts }) {
           <div className="relative">
             {/* Assuming you have a variable for the profile picture */}
 
-            {searchedUser.profilePicture ? <img src={startsWithUploads.test(searchedUser.profilePicture) ? authState.backSiteURL + searchedUser.profilePicture : searchedUser.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
+            {searchedUser.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={searchedUser.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
           </div>
           <div>
             <NavLink to={`../user/${searchedUser.username}`}>

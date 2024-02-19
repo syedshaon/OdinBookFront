@@ -3,6 +3,7 @@ const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useState, useEffect } from "react";
+import { IKImage } from "imagekitio-react";
 
 import { NavLink } from "react-router-dom";
 import Loading from "../Loading";
@@ -30,9 +31,7 @@ function Group_List() {
                 if (participant) {
                   return (
                     <div className="w-12 h-12 relative flex flex-shrink-0" key={participant._id}>
-                      {/* <img src={participant.profilePicture} alt={participant.username} /> */}
-
-                      {participant.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(participant.profilePicture) ? authState.backSiteURL + participant.profilePicture : participant.profilePicture} alt={`Profile of ${participant.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}
+                      {participant.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={participant.profilePicture} className=" shadow-md rounded-full w-full h-full object-cover " alt={`Profile of ${participant.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}
                     </div>
                   );
                 }

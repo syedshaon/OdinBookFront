@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { IoPersonSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { IKImage } from "imagekitio-react";
 
 const CommentList = ({ comments }) => {
   const authState = useSelector((state) => state.auth);
@@ -12,7 +13,7 @@ const CommentList = ({ comments }) => {
         .reverse()
         .map((comment) => (
           <div key={comment._id} className="flex items-start space-x-4">
-            {comment.provider.profilePicture ? <img src={startsWithUploads.test(comment.provider.profilePicture) ? authState.backSiteURL + comment.provider.profilePicture : comment.provider.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
+            {comment.provider.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={comment.provider.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
 
             <div className="flex-1">
               <div className="flex flex-col items-start mb-2 md:flex-row md:items-center md:space-x-2">

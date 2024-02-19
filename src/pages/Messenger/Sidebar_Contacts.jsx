@@ -3,6 +3,7 @@ const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useRef, useState, useEffect } from "react";
+import { IKImage } from "imagekitio-react";
 
 function Sidebar_Contacts() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Sidebar_Contacts() {
           return (
             <div onClick={() => dispatch(messengerActions.setActiveReciepient(user))} key={user._id} className=" cursor-pointer flex justify-between items-center p-3 hover:bg-gray-200 rounded-lg relative">
               <div className="w-16 h-16 relative flex flex-shrink-0">
-                {user.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(user.profilePicture) ? authState.backSiteURL + user.profilePicture : user.profilePicture} alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}
+                {user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={user.profilePicture} className=" shadow-md rounded-full w-full h-full object-cover " alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}
 
                 <div className="absolute bg-gray-200 p-1 rounded-full bottom-0 right-0">{Messenger.activeUsers.includes(user._id) ? <div className="bg-green-500 rounded-full w-3 h-3" /> : <div className="bg-gray-500 rounded-full w-3 h-3" />}</div>
               </div>

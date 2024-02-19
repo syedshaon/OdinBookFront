@@ -8,6 +8,7 @@ import { IoPersonSharp } from "react-icons/io5";
 import { MdOutlinePersonSearch } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Loading from "../Loading";
+import { IKImage } from "imagekitio-react";
 
 const UserList = ({ users, listType }) => {
   const dispatch = useDispatch();
@@ -236,7 +237,7 @@ const UserList = ({ users, listType }) => {
         <div className="  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {users.map((user) => (
             <div key={user._id} className="   bg-white p-4 rounded-lg shadow-md flex flex-col justify-center items-center">
-              <NavLink to={`../user/${user.username}`}>{user.profilePicture ? <img className="  w-40 h-40 object-cover rounded-full mb-4 " src={startsWithUploads.test(user.profilePicture) ? authState.backSiteURL + user.profilePicture : user.profilePicture} alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="w-40   h-40 rounded-full" />}</NavLink>
+              <NavLink to={`../user/${user.username}`}>{user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={user.profilePicture} className="  w-40 h-40 object-cover rounded-full mb-4 " alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="w-40   h-40 rounded-full" />}</NavLink>
               <NavLink to={`../user/${user.username}`}>
                 <h2 className="text-md text-blue-500 font-bold mb-2">{`${user.firstName} ${user.lastName}`}</h2>
               </NavLink>

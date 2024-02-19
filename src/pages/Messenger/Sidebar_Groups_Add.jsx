@@ -6,6 +6,7 @@ import { useState } from "react";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { messengerActions } from "../../store/messenger_reducer";
+import { IKImage } from "imagekitio-react";
 
 function Sidebar_Groups_Add({ setShowAddPop }) {
   const authState = useSelector((state) => state.auth);
@@ -78,7 +79,7 @@ function Sidebar_Groups_Add({ setShowAddPop }) {
                       {selectedPeople.some((id) => id === user._id) && <IoCheckmarkDoneSharp />}
                     </span>
 
-                    <div className="w-16 h-16 relative flex flex-shrink-0">{user.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(user.profilePicture) ? authState.backSiteURL + user.profilePicture : user.profilePicture} alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}</div>
+                    <div className="w-16 h-16 relative flex flex-shrink-0">{user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={user.profilePicture} className=" shadow-md rounded-full w-full h-full object-cover " alt={`Profile of ${user.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />}</div>
                     <div className="flex-auto min-w-0 ml-4 mr-6 block group-hover:block">
                       <p className="font-bold">{`${user.firstName} ${user.lastName}`}</p>
                     </div>

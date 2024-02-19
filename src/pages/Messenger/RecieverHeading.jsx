@@ -4,6 +4,7 @@ const startsWithUploads = /^uploads/;
 import { IoPersonSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { FaAddressBook } from "react-icons/fa";
+import { IKImage } from "imagekitio-react";
 
 function RecieverHeading({ setShowContact }) {
   const contactView = useSelector((state) => state.messenger.contactView);
@@ -13,15 +14,9 @@ function RecieverHeading({ setShowContact }) {
   const allGroupConversations = useSelector((state) => state.messenger.allGroupConversations);
   const activeGroupConversation = useSelector((state) => state.messenger.activeGroupConversation);
 
-  const src = startsWithUploads.test(activeReciepient.profilePicture) ? authState.backSiteURL + activeReciepient.profilePicture : activeReciepient.profilePicture;
-
   const IMG = (participant) => {
     if (participant.profilePicture) {
-      if (startsWithUploads.test(participant.profilePicture)) {
-        return <img className=" shadow-md rounded-full w-full h-full object-cover " src={authState.backSiteURL + participant.profilePicture} />;
-      } else {
-        return <img className=" shadow-md rounded-full w-full h-full object-cover " src={participant.profilePicture} />;
-      }
+      return <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={participant.profilePicture} className=" shadow-md rounded-full w-full h-full object-cover " src={participant.profilePicture} />;
     } else {
       return <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />;
     }
@@ -65,8 +60,6 @@ function RecieverHeading({ setShowContact }) {
                   return (
                     <div className="w-12 h-12 relative flex flex-shrink-0" key={participant._id}>
                       {IMG(participant)}
-
-                      {/* {participant.profilePicture ? <img className=" shadow-md rounded-full w-full h-full object-cover " src={startsWithUploads.test(participant.profilePicture) ? authState.backSiteURL + participant.profilePicture : participant.profilePicture} alt={`Profile of ${participant.username}`} /> : <IoPersonSharp className="shadow-md rounded-full w-full h-full object-cover" />} */}
                     </div>
                   );
                 }

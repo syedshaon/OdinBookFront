@@ -13,6 +13,9 @@ import { MdOutlineContentPasteSearch } from "react-icons/md";
 import ErrorPage from "./ErrorPage";
 import Loading from "./Loading";
 
+import { IKImage } from "imagekitio-react";
+import PopupImg from "./Components/PopupImg";
+
 function People_Single() {
   const { uid } = useParams();
   const usersState = useSelector((state) => state.users);
@@ -108,7 +111,8 @@ function People_Single() {
                   <div style={backgroundImageStyle} className="h-[348px] w-full   relative bg-gray-100 rounded-bl-lg rounded-br-lg                        bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400">
                     <div className=" rounded-full absolute  top-48 inset-x-96 border-4 border-white bg-slate-500 w-40 h-40 flex justify-center items-center overflow-hidden" style={{ left: "calc(50% - 5rem)" }}>
                       {/* profile photo */}
-                      {searchedUser.profilePicture && <img className="  w-40 h-40  " src={startsWithUploads.test(searchedUser.profilePicture) ? authState.backSiteURL + searchedUser.profilePicture : searchedUser.profilePicture} alt="Profile picture" />}
+                      {searchedUser.profilePicture ? <IKImage onClick={() => dispatch(authActions.showPopup(searchedUser.profilePicture))} className="max-w-full cursor-pointer max-h-[500px] mx-auto   rounded  w-40 h-40  " urlEndpoint="https://ik.imagekit.io/odinbook" alt="Thumbnail Preview" path={searchedUser.profilePicture} /> : <IoPersonSharp className="w-40 h-40 rounded-full" />}
+                      {searchedUser.profilePicture && <PopupImg />}
                     </div>
                   </div>
                 </div>

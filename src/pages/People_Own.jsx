@@ -9,6 +9,8 @@ import { NameUpdateForm, BioUpdateForm } from "./Components/Name_Bio_Update";
 import CreatePostForm from "./Components/CreatePostForm";
 import SinglePost from "./Components/SinglePost";
 import { MdOutlineContentPasteSearch } from "react-icons/md";
+import { IKImage } from "imagekitio-react";
+import PopupImg from "./Components/PopupImg";
 
 function People_Own() {
   const authState = useSelector((state) => state.auth);
@@ -56,7 +58,7 @@ function People_Own() {
   const startsWithUploads = /^uploads/;
   const backgroundImageStyle = authState.user.coverPicture
     ? {
-        backgroundImage: `url(${startsWithUploads.test(authState.user.coverPicture) ? authState.backSiteURL + authState.user.coverPicture.replace(/\\/g, "/") : authState.user.coverPicture})`,
+        backgroundImage: `url(${"https://ik.imagekit.io/odinbook" + authState.user.coverPicture})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }
@@ -81,7 +83,9 @@ function People_Own() {
 
                   <div className=" rounded-full absolute  top-48 inset-x-96 border-4 border-white bg-slate-500 w-40 h-40 flex justify-center items-center overflow-hidden" style={{ left: "calc(50% - 5rem)" }}>
                     {/* profile photo */}
-                    {authState.user.profilePicture && <img className="  w-40 h-40  " src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" />}
+
+                    {authState.user.profilePicture ? <IKImage className="max-w-full cursor-pointer max-h-[500px] mx-auto   rounded  w-40 h-40  " urlEndpoint="https://ik.imagekit.io/odinbook" alt="Thumbnail Preview" path={authState.user.profilePicture} /> : <IoPersonSharp className="w-40 h-40 rounded-full" />}
+                    {authState.user.profilePicture && <PopupImg />}
 
                     <div className="cursor-pointer absolute top-3 right-3 text-white  rounded bg-blue-500">
                       <ProfilePicUploadButton />

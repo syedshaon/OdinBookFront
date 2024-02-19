@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { IoPersonSharp } from "react-icons/io5";
 
-import { IKContext, IKUpload } from "imagekitio-react";
+import { IKContext, IKUpload, IKImage } from "imagekitio-react";
 import Authenticator from "../ImageKit/Authenticator";
 
 const CreatePostForm = ({ SetAllPosts }) => {
@@ -140,7 +140,7 @@ const CreatePostForm = ({ SetAllPosts }) => {
   return (
     <div className="bg-white p-4 my-4 rounded-md shadow-md container">
       <div className="flex">
-        {authState.user.profilePicture ? <img src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" className="rounded-full h-10 w-10 mr-2" /> : <IoPersonSharp className="rounded-full h-10 w-10 mr-2" />}
+        {authState.user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={authState.user.profilePicture} alt="Profile picture" className="rounded-full h-10 w-10 mr-2" /> : <IoPersonSharp className="rounded-full h-10 w-10 mr-2" />}
 
         <textarea ref={inputRef} maxLength="200" placeholder={`What's on your mind ${authState.user.firstName}?`} value={text} onChange={handleTextChange} className="bg-gray-300 text-black placeholder:text-black rounded-md flex-1 min-h-[90px] px-3 py-2 border  resize-none focus:outline-none" />
       </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { IoPersonSharp } from "react-icons/io5";
+import { IKImage } from "imagekitio-react";
 
 const AddCommentForm = ({ searchedUser, postId, SetAllPosts, allPosts }) => {
   const [commentText, setCommentText] = useState("");
@@ -88,8 +89,7 @@ const AddCommentForm = ({ searchedUser, postId, SetAllPosts, allPosts }) => {
       <div className="w-10 h-10 rounded-full overflow-hidden">
         {/* Add user profile picture here */}
 
-        {/* {authState.user.profilePicture ? <img src={authState.backSiteURL + authState.user.profilePicture} alt="Profile picture" className="w-full h-full object-cover" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />} */}
-        {authState.user.profilePicture ? <img src={startsWithUploads.test(authState.user.profilePicture) ? authState.backSiteURL + authState.user.profilePicture : authState.user.profilePicture} alt="Profile picture" className="w-full h-full object-cover" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}
+        {authState.user.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={authState.user.profilePicture} alt="Profile picture" className="w-full h-full object-cover" /> : <IoPersonSharp className="w-9 h-9 rounded-full" />}
       </div>
       <form onSubmit={handleAddComment} className="flex-grow ml-3 ">
         <input maxLength="100" type="text" required value={commentText} onChange={handleCommentChange} placeholder="Write a comment..." className={`${showError ? "w-full bg-gray-200 p-3   border border-red-500 focus:outline-2 outline-red-500 rounded-md" : "w-full rounded-md p-3 bg-gray-200 border-none focus:outline-none"}`} />

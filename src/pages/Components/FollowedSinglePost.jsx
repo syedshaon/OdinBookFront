@@ -33,7 +33,7 @@ function FollowedSinglePost({ post, allPosts, SetAllPosts }) {
           <div className="relative">
             {/* Assuming you have a variable for the profile picture */}
 
-            {post.author.profilePicture ? <img src={startsWithUploads.test(post.author.profilePicture) ? authState.backSiteURL + post.author.profilePicture : post.author.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
+            {post.author.profilePicture ? <IKImage urlEndpoint="https://ik.imagekit.io/odinbook" path={post.author.profilePicture} alt="Profile picture" className="w-10 h-10 rounded-full" /> : <IoPersonSharp className="w-10 h-10 rounded-full" />}
           </div>
           <div>
             <NavLink to={`../user/${post.author.username}`}>

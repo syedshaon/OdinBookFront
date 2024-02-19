@@ -11,6 +11,7 @@ import SinglePost from "./Components/SinglePost";
 import { MdOutlineContentPasteSearch } from "react-icons/md";
 import { IKImage } from "imagekitio-react";
 import PopupImg from "./Components/PopupImg";
+import { IoPersonSharp } from "react-icons/io5";
 
 function People_Own() {
   const authState = useSelector((state) => state.auth);

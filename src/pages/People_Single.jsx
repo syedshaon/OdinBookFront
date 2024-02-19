@@ -15,6 +15,7 @@ import Loading from "./Loading";
 
 import { IKImage } from "imagekitio-react";
 import PopupImg from "./Components/PopupImg";
+import { IoPersonSharp } from "react-icons/io5";
 
 function People_Single() {
   const { uid } = useParams();

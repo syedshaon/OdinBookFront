@@ -1,25 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { IKImage } from "imagekitio-react";
 import React, { useRef, useState, useEffect } from "react";
-const startsWithUploads = /^uploads/;
-const formatDate = (timestamp) => {
-  const date = new Date(timestamp);
-  // Get visitor's timezone offset in minutes
-  const visitorTimezoneOffset = new Date().getTimezoneOffset();
-  // Adjust the date to the visitor's timezone
-  date.setMinutes(date.getMinutes() - visitorTimezoneOffset);
+const options = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
 
-  // Format the date
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  }).format(date);
-  return formattedDate;
-};
 import PopupImg from "../Components/PopupImg";
 import { authActions } from "../../store/authReducer";
 
@@ -59,7 +42,6 @@ function Conversations_Ppl() {
     <div ref={messagesContainerRef} className=" max-h-[60vh] chat-body p-4 flex-1 overflow-y-scroll">
       {activeConversation &&
         activeConversation.messages.map((message, index) => {
-          const formattedDate = formatDate(message.timestamp);
           const lastMessage = activeConversation.messages.length - 1 === index;
 
           if (message.sender === currentUserId) {
@@ -75,7 +57,7 @@ function Conversations_Ppl() {
                         <PopupImg />
                       </>
                     )}
-                    <p className="p-4   text-center text-xs text-gray-500">{formattedDate}</p>
+                    <p className="p-4   text-center text-xs text-gray-500"> {new Date(message.timestamp).toLocaleDateString("en-US", options)}</p>
                   </div>
                 </div>
               </div>
@@ -96,7 +78,7 @@ function Conversations_Ppl() {
                       </>
                     )}
 
-                    <p className="px-4 pt-6 text-center  text-xs text-gray-500">{formattedDate}</p>
+                    <p className="px-4 pt-6 text-center  text-xs text-gray-500"> {new Date(message.timestamp).toLocaleDateString("en-US", options)}</p>
                   </div>
                 </div>
               </div>

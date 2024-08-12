@@ -5,6 +5,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+p {
+  word-break: break-all;
+}
 
 body {
   font-family: "Poppins", sans-serif;

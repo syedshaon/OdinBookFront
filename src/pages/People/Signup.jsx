@@ -117,6 +117,7 @@ function Signup() {
 
   return (
     <>
+      <p className=" p-5 font-bold text-red-500 text-center">The backend of the site is on free hosting. So it may take upto 1 minute to be interactive.</p>
       <section className="text-gray-600 mt-5 md:mt-0 body-font bg-gray-100 h-screen flex items-start md:items-center ">
         <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center  ">
           <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">

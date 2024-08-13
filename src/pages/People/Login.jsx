@@ -139,91 +139,94 @@ function Login() {
   return (
     <>
       {!showLoading ? (
-        <section className="mt-5 md:mt-0 text-gray-600 body-font bg-gray-100 h-screen flex items-start md:items-center ">
-          <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center justify-center  ">
-            <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-              <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
-              <p className="leading-relaxed mt-4 lg:text-2xl text-md lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
-            </div>
-            <div className="mt-4 lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8">
-              {responseFromBackEnd && <h3 className="response mb-3 text-orange-500 text-md font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
-              <form onSubmit={handleSignInSubmit} className=" flex flex-col md:ml-auto w-full   ">
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+        <>
+          <p className=" p-5 font-bold text-red-500 text-center">The backend of the site is on free hosting. So it may take upto 1 minute to be interactive.</p>
+          <section className="mt-5 md:mt-0 text-gray-600 body-font bg-gray-100 h-screen flex items-start md:items-center ">
+            <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center justify-center  ">
+              <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+                <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
+                <p className="leading-relaxed mt-4 lg:text-2xl text-md lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
+              </div>
+              <div className="mt-4 lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8">
+                {responseFromBackEnd && <h3 className="response mb-3 text-orange-500 text-md font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
+                <form onSubmit={handleSignInSubmit} className=" flex flex-col md:ml-auto w-full   ">
+                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-lg outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-                <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                  <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="Password" required className="  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  outline-none text-lg text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
 
-                <button className=" mt-3  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Sign In</button>
+                  <button className=" mt-3  cursor-pointer text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Sign In</button>
 
-                <hr className="my-3" />
+                  <hr className="my-3" />
 
-                <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 ">
-                  Sign Up
-                </button>
-                {showResetPW && (
-                  <>
-                    <hr className="my-3" />
+                  <button onClick={() => navigateTo("/signup")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 ">
+                    Sign Up
+                  </button>
+                  {showResetPW && (
+                    <>
+                      <hr className="my-3" />
 
-                    <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600">
-                      Reset Password
-                    </button>
-                  </>
-                )}
+                      <button onClick={() => navigateTo("/get-reset-password")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600">
+                        Reset Password
+                      </button>
+                    </>
+                  )}
 
-                {showVerify && (
-                  <>
-                    <hr className="my-3" />
+                  {showVerify && (
+                    <>
+                      <hr className="my-3" />
 
-                    <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 ">
-                      Get Verification Email
-                    </button>
-                  </>
-                )}
-              </form>
-              <div className=" flex flex-col md:ml-auto w-full  ">
-                {/* <hr className="my-3" />
+                      <button onClick={() => navigateTo("/get-verification-email")} className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 ">
+                        Get Verification Email
+                      </button>
+                    </>
+                  )}
+                </form>
+                <div className=" flex flex-col md:ml-auto w-full  ">
+                  {/* <hr className="my-3" />
 
                 <a className="fb btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-600 flex justify-center" href={`${authState.backSiteURL}auth/facebook_signin`}>
                   <i className="fa fa-facebook fa-fw" /> Continue with Facebook
                 </a> */}
-                <hr className="my-3" />
-                {!isWebView && (
-                  <>
-                    <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
-                      <i className="fa fa-google fa-fw" /> Continue with Google
-                    </a>
+                  <hr className="my-3" />
+                  {!isWebView && (
+                    <>
+                      <a className="google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
+                        <i className="fa fa-google fa-fw" /> Continue with Google
+                      </a>
 
-                    <hr className="my-3" />
-                  </>
-                )}
+                      <hr className="my-3" />
+                    </>
+                  )}
 
-                <button
-                  onClick={() =>
-                    sendDataToBackend({
-                      email: "Blake_Brekke91@gmail.com",
-                      password: "AQ222sdddfdg3234!@",
-                    })
-                  }
-                  className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 "
-                >
-                  Sign In as Guest 1
-                </button>
-                <hr className="my-3" />
+                  <button
+                    onClick={() =>
+                      sendDataToBackend({
+                        email: "Blake_Brekke91@gmail.com",
+                        password: "AQ222sdddfdg3234!@",
+                      })
+                    }
+                    className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 "
+                  >
+                    Sign In as Guest 1
+                  </button>
+                  <hr className="my-3" />
 
-                <button
-                  onClick={() =>
-                    sendDataToBackend({
-                      email: "Khalil_Stark16@gmail.com",
-                      password: "AQ222sdddfdg3234!@",
-                    })
-                  }
-                  className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-900 "
-                >
-                  Sign In as Guest 2
-                </button>
+                  <button
+                    onClick={() =>
+                      sendDataToBackend({
+                        email: "Khalil_Stark16@gmail.com",
+                        password: "AQ222sdddfdg3234!@",
+                      })
+                    }
+                    className="cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-900 "
+                  >
+                    Sign In as Guest 2
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </>
       ) : (
         <Loading />
       )}

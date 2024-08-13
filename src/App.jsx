@@ -6,6 +6,7 @@ import { authActions } from "./store/authReducer";
 import { userActions } from "./store/userReducer";
 import { messengerActions } from "./store/messenger_reducer";
 import Cookies from "js-cookie";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const dispatch = useDispatch();
@@ -141,6 +142,7 @@ function App() {
   return (
     <>
       <Router />
+      <Analytics />
     </>
   );
 }

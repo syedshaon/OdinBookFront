@@ -77,7 +77,7 @@ function GetResetPw() {
 
   return (
     <>
-      <section className="text-gray-600 body-font bg-gray-100 mt-10 md:mt-0 h-screen flex items-start md:items-center ">
+      <section className="text-gray-600 body-font bg-gray-100 mt-10 md:mt-0 h-screen flex pt-[20%] md:pt-0 items-start md:items-center ">
         <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center  ">
           <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
             <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
+import { FcGoogle } from "react-icons/fc";
 
 const isFacebookApp = () => {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -117,14 +118,13 @@ function Signup() {
 
   return (
     <>
-      <p className=" p-5 font-bold text-red-500 text-center">The backend of the site is on free hosting. So it may take upto 1 minute to be interactive.</p>
-      <section className="text-gray-600 mt-5 md:mt-0 body-font bg-gray-100 h-screen flex items-start md:items-center ">
+      <section className="text-gray-600 mt-5 md:mt-0 body-font bg-gray-100 h-screen flex pt-[20%] md:pt-0 items-start md:items-center ">
         <div className="container xl:px-32 px-5  mx-auto flex flex-wrap items-center  ">
           <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-bold lg:text-5xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
-            <p className="leading-relaxed mt-2 md:mt-4 lg:text-2xl text-md lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people in your life.</p>
+            <h1 className="title-font font-bold lg:text-4xl text-3xl text-blue-600 text-center md:text-left ">Odinbook</h1>
+            <p className="leading-relaxed mt-4 lg:text-xl text-md lg:max-w-xl font-medium  text-black text-center md:text-left ">Odinbook helps you connect and share with the people.</p>
           </div>
-          <form onSubmit={handleSignupSubmit} className="lg:w-2/6 md:w-1/2 bg-white shadow-lg rounded-lg p-8 flex flex-col items-center md:ml-auto w-full  mt-4 md:mt-0">
+          <form onSubmit={handleSignupSubmit} className="lg:w-2/6 md:w-1/2 bg-white shadow-xl rounded-lg p-8 flex flex-col items-center md:ml-auto w-full  mt-4 md:mt-0">
             {responseFromBackEnd && <h3 className="response text-orange-500 text-md font-bold container mx-auto text-center">{responseFromBackEnd}</h3>}
             <div className="flex gap-2">
               <input type="text" maxLength="10" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" required className=" w-1/2  mb-2 md:mb-4  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-md outline-none  text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
@@ -139,22 +139,23 @@ function Signup() {
             <button className=" w-full mt-4 cursor-pointer  text-white border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-600 ">Sign Up</button>
 
             <hr className="my-2" />
-            {!isWebView && (
-              <>
-                <a className="w-full google btn cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-blue-700 flex justify-center" href={`${authState.backSiteURL}auth/google_signin`}>
-                  <i className="fa fa-google fa-fw" /> Continue with Google
-                </a>
-
-                <hr className="my-2" />
-              </>
-            )}
-
             <p className="text-sm text-blue-500   text-center  ">Already have an Account?</p>
             <hr className="mb-1" />
+            <div className="flex w-full items-center justify-between    mb-3">
+              <button onClick={() => navigateTo("/signin")} className="w-1/2 cursor-pointer text-black  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-gray-200">
+                Sign In
+              </button>
 
-            <button onClick={() => navigateTo("/signin")} className="w-full cursor-pointer text-white  border-0 py-2 px-8 focus:outline-none font-medium  rounded text-md bg-green-800 ">
-              Sign In
-            </button>
+              {!isWebView && (
+                <>
+                  <a className="ml-2 flex items-center gap-2 w-1/2 cursor-pointer text-black  border-0 py-2 px-3 lg:px-8 focus:outline-none font-medium  rounded text-md bg-gray-200 " href={`${authState.backSiteURL}auth/google_signin`}>
+                    <FcGoogle /> Sign In
+                  </a>
+
+                  <hr className="my-3" />
+                </>
+              )}
+            </div>
           </form>
         </div>
       </section>
